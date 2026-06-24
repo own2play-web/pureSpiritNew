@@ -1,0 +1,126 @@
+---
+// Netlify Forms via name="contact" attribute
+---
+
+<form
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="contact-form"
+  action="/contact/bedankt/"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <p class="sr-only">
+    <label>Niet invullen als je een mens bent: <input name="bot-field" /></label>
+  </p>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="naam">Naam <span aria-hidden="true">*</span></label>
+      <input type="text" id="naam" name="naam" required autocomplete="name" placeholder="Jouw naam" />
+    </div>
+    <div class="form-group">
+      <label for="email">E-mailadres <span aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" required autocomplete="email" placeholder="jouw@email.nl" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="telefoon">Telefoonnummer</label>
+    <input type="tel" id="telefoon" name="telefoon" autocomplete="tel" placeholder="06 12 34 56 78" />
+  </div>
+
+  <div class="form-group">
+    <label for="onderwerp">Onderwerp <span aria-hidden="true">*</span></label>
+    <select id="onderwerp" name="onderwerp" required>
+      <option value="" disabled selected>Kies een onderwerp</option>
+      <option value="bachbloesemtherapie">Bachbloesemtherapie</option>
+      <option value="meditatie">Meditatie</option>
+      <option value="coaching">Coaching</option>
+      <option value="hsp">Begeleiding HSP</option>
+      <option value="persoonlijke-groei">Persoonlijke groei</option>
+      <option value="aanmelden">Aanmelden cursus / workshop</option>
+      <option value="overig">Overig</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="bericht">Bericht <span aria-hidden="true">*</span></label>
+    <textarea id="bericht" name="bericht" required rows="5" placeholder="Jouw bericht..."></textarea>
+  </div>
+
+  <p class="form-note">
+    <strong>Let op:</strong> e-mailreacties komen soms in de spamfolder terecht.
+    Controleer je spam als je binnen 3 werkdagen niets hebt ontvangen,
+    of bel ons op <a href="tel:0412692162">0412 69 21 62</a>.
+  </p>
+
+  <button type="submit" class="btn btn--primary">Verstuur bericht</button>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  label span { color: var(--color-primary); }
+
+  input,
+  select,
+  textarea {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    width: 100%;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(90,138,114,0.15);
+  }
+
+  textarea { resize: vertical; min-height: 120px; }
+
+  .form-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>

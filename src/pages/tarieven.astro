@@ -1,0 +1,117 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Tarieven"
+  heroTitle="Tarieven"
+  heroSubtitle="Transparante, eerlijke tarieven. Kosten zijn altijd goed te overzien."
+  description="Tarieven voor Bachbloesemtherapie, Meditatie, Coaching en HSP-begeleiding bij Pure Spirit Oss."
+>
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="notice">
+        <p>
+          <strong>Let op:</strong> Per 1 januari 2024 zijn de tarieven aangepast.
+          Neem contact op voor de actuele prijzen van consulten en activiteiten.
+        </p>
+      </div>
+
+      <h2>Consulten</h2>
+      <p>
+        De tarieven voor privéconsulten (Bachbloesemtherapie, Coaching, HSP-begeleiding)
+        zijn op aanvraag beschikbaar. Neem contact op via telefoon of e-mail voor de actuele prijzen.
+      </p>
+
+      <h2>Cursussen en workshops</h2>
+      <p>
+        De prijzen van cursussen en workshops zijn te vinden in het programma.
+        Hieronder een indicatie van losse lessen:
+      </p>
+
+      <div class="price-cards">
+        <div class="price-card">
+          <h3>Losse meditatieles</h3>
+          <p class="price-card__price">€ 22,50</p>
+          <p class="price-card__desc">Per losse les (bijv. tijdens de Summerschool)</p>
+        </div>
+        <div class="price-card">
+          <h3>Standaard Bachbloesemflesje (examenstress)</h3>
+          <p class="price-card__price">€ 35,–</p>
+          <p class="price-card__desc">Persoonlijk samengesteld flesje, bijv. voor examenstress</p>
+        </div>
+      </div>
+
+      <h2>Vergoeding zorgverzekering</h2>
+      <p>
+        Of de zorgverzekering de kosten vergoedt, hangt af van de voorwaarden van jouw eigen zorgverzekering.
+        De ervaring is dat de zorgverzekering het meestal niet vergoedt.
+      </p>
+      <p>
+        Gelukkig zijn de behandeltrajecten bij Pure Spirit <strong>kort</strong> en de kosten goed te overzien.
+        In de meeste situaties zijn 3 à 4 afspraken al voldoende.
+      </p>
+
+      <div style="text-align: center; margin-top: var(--space-12);">
+        <p style="color: var(--color-text-muted); margin-bottom: var(--space-6);">
+          Heb je vragen over de tarieven? Neem gerust contact op.
+        </p>
+        <a href="/contact/" class="btn btn--primary">Neem contact op</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .notice {
+    background-color: var(--color-primary-light);
+    border-left: 3px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  .notice p { margin: 0; font-size: var(--text-sm); }
+
+  h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .price-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-block: var(--space-8);
+  }
+
+  .price-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .price-card h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .price-card__price {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .price-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .price-cards { grid-template-columns: 1fr; }
+  }
+</style>

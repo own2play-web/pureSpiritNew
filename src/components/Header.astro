@@ -1,0 +1,255 @@
+---
+const navLinks = [
+  { label: 'Home',              href: '/' },
+  { label: 'Diensten',          href: '/diensten/',
+    children: [
+      { label: 'Bachbloesemtherapie', href: '/bachbloesemtherapie/' },
+      { label: 'Meditatie',           href: '/meditatie/' },
+      { label: 'Coaching',            href: '/coaching/' },
+      { label: 'Begeleiding HSP',     href: '/begeleiding-hsp/' },
+      { label: 'Persoonlijke groei',  href: '/persoonlijke-groei/' },
+    ]
+  },
+  { label: 'Tarieven',   href: '/tarieven/' },
+  { label: 'Nieuws',     href: '/nieuws/' },
+  { label: 'Ervaringen', href: '/ervaringen/' },
+  { label: 'Contact',    href: '/contact/' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo" aria-label="Pure Spirit – naar homepagina">
+      <span class="logo-text">Pure Spirit</span>
+      <span class="logo-sub">Oss</span>
+    </a>
+
+    <button class="header__toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Menu openen">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="main-nav" class="header__nav" aria-label="Hoofdnavigatie">
+      <ul class="nav-list">
+        {navLinks.map(link => (
+          <li class:list={['nav-item', link.children && 'nav-item--has-children']}>
+            <a
+              href={link.href}
+              class:list={['nav-link', currentPath === link.href && 'nav-link--active']}
+            >
+              {link.label}
+              {link.children && <span class="nav-arrow" aria-hidden="true">▾</span>}
+            </a>
+            {link.children && (
+              <ul class="nav-dropdown">
+                {link.children.map(child => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class:list={['nav-dropdown__link', currentPath === child.href && 'nav-link--active']}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+      <a href="/contact/" class="btn btn--primary header__cta">Aanmelden</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector('.header__toggle') as HTMLButtonElement;
+  const nav    = document.querySelector('#main-nav') as HTMLElement;
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    nav.classList.toggle('header__nav--open', !open);
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .header__logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1.1;
+  }
+
+  .logo-text {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+
+  .logo-sub {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: var(--space-1);
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background-color var(--transition);
+  }
+
+  .nav-link:hover,
+  .nav-link--active {
+    color: var(--color-primary);
+    background-color: var(--color-primary-light);
+  }
+
+  .nav-arrow {
+    font-size: 0.65em;
+    transition: transform var(--transition);
+  }
+
+  .nav-item--has-children:hover .nav-arrow {
+    transform: rotate(180deg);
+  }
+
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 220px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    list-style: none;
+    padding: var(--space-2) 0;
+    margin: 0;
+    z-index: 10;
+  }
+
+  .nav-item--has-children:hover .nav-dropdown {
+    display: block;
+  }
+
+  .nav-dropdown__link {
+    display: block;
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition), color var(--transition);
+  }
+
+  .nav-dropdown__link:hover,
+  .nav-dropdown__link.nav-link--active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .header__toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+
+  .header__toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+
+  @media (max-width: 900px) {
+    .header__toggle { display: flex; }
+    .header__cta    { display: none; }
+
+    .header__nav {
+      display: none;
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background-color: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-4) var(--space-6);
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header__nav--open { display: flex; }
+
+    .nav-list {
+      flex-direction: column;
+      width: 100%;
+      gap: 0;
+    }
+
+    .nav-link {
+      padding: var(--space-3) var(--space-2);
+      font-size: var(--text-base);
+      width: 100%;
+    }
+
+    .nav-dropdown {
+      display: none !important;
+    }
+  }
+</style>

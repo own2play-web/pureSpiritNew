@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('nieuws');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formatted = new Date(post.data.datum).toLocaleDateString('nl-NL', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={post.data.titel} description={post.data.samenvatting}>
+  <article class="news-article">
+    <header class="news-article__header">
+      <div class="container container--narrow">
+        <div class="news-article__meta">
+          {post.data.categorie && <span class="cat">{post.data.categorie}</span>}
+          <time datetime={post.data.datum}>{formatted}</time>
+        </div>
+        <h1>{post.data.titel}</h1>
+        <p class="lead">{post.data.samenvatting}</p>
+      </div>
+    </header>
+
+    <div class="section">
+      <div class="container container--narrow prose">
+        <Content />
+      </div>
+    </div>
+
+    <div class="news-article__footer">
+      <div class="container container--narrow">
+        <a href="/nieuws/" class="btn btn--outline">← Terug naar nieuws</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .news-article__header {
+    background-color: var(--color-primary-light);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-article__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .cat {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px var(--space-3);
+    border-radius: var(--radius-full);
+  }
+
+  .news-article__meta time {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .news-article__header h1 {
+    margin-bottom: var(--space-4);
+    color: var(--color-primary-dark);
+  }
+
+  .news-article__footer {
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-8);
+  }
+</style>

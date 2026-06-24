@@ -1,0 +1,44 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  hero?: boolean;
+  heroTitle?: string;
+  heroSubtitle?: string;
+}
+
+const { title, description, hero = true, heroTitle, heroSubtitle } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  {hero && (
+    <section class="page-hero">
+      <div class="container">
+        <h1>{heroTitle || title}</h1>
+        {heroSubtitle && <p class="lead">{heroSubtitle}</p>}
+        <hr class="divider" style="margin: var(--space-4) 0;" />
+      </div>
+    </section>
+  )}
+  <slot />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background-color: var(--color-primary-light);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-hero h1 {
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-3);
+  }
+
+  .page-hero .lead {
+    max-width: 600px;
+    color: var(--color-text-muted);
+  }
+</style>

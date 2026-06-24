@@ -1,0 +1,123 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Coaching"
+  heroTitle="Coaching"
+  heroSubtitle="Steun van iemand die geen familie of vriend is. Praktisch, vertrouwelijk en op maat."
+  description="Coaching bij Pure Spirit Oss — voor privé en zakelijk. Persoonlijke trajecten op maat voor volwassenen en werknemers."
+>
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Coaching bij Pure Spirit</h2>
+          <p>
+            PURE SPIRIT verzorgt coachingstrajecten op maat — zowel coaching voor privé
+            als zakelijke trajecten.
+          </p>
+
+          <h2>Privécoaching</h2>
+          <p>
+            Soms zijn er periodes in je leven dat je even wat steun kunt gebruiken van
+            iemand die geen familie of vriend is. Iemand die onbevooroordeeld naar je
+            luistert en je helpt om dingen op een rij te zetten.
+          </p>
+          <p>
+            Bij Pure Spirit kun je terecht voor heel persoonlijke dingen waar je al langer
+            tegenaan loopt — op het gebied van relaties, gezin, werk of de toekomst.
+            Je krijgt altijd praktische handvatten die je meteen kunt toepassen.
+          </p>
+          <p>
+            Veel mensen komen ook voor hun hooggevoeligheid bij Pure Spirit in een kort
+            of wat langer coachingstraject.
+          </p>
+
+          <h2>Zakelijke coaching</h2>
+          <p>
+            Pure Spirit biedt ook coaching aan voor werknemers. Soms loopt iemand vast
+            op het werk — door een lastige samenwerking, een verandering in de organisatie,
+            of door overprikkeling. Een vroegtijdige begeleiding van werknemers kan een
+            burn-out of ziekteverzuim helpen voorkomen.
+          </p>
+          <p>
+            We helpen medewerkers om beter te functioneren, fijner samen te werken en
+            met meer plezier naar hun werk te gaan.
+          </p>
+
+          <h2>Hoe verloopt een traject?</h2>
+          <p>
+            Een afspraak vindt — afhankelijk van jouw wens — plaats in de praktijk in Oss,
+            telefonisch of via Skype. Zo is er altijd een passende optie, ongeacht jouw situatie.
+          </p>
+          <p>
+            De lengte van een traject is altijd op maat en wordt in overleg vastgesteld.
+          </p>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card">
+            <h3>Afspraak maken</h3>
+            <p>Neem contact op voor een vrijblijvend gesprek of om een afspraak te maken.</p>
+            <a href="/contact/" class="btn btn--primary" style="width: 100%; text-align: center;">Contact opnemen</a>
+            <a href="tel:0412692162" class="btn btn--outline" style="width: 100%; text-align: center; margin-top: var(--space-3);">Bel 0412 69 21 62</a>
+          </div>
+          <div class="sidebar-card sidebar-card--light">
+            <h4>Praktische info</h4>
+            <dl>
+              <dt>Privé & zakelijk</dt>
+              <dd>Beide mogelijk</dd>
+              <dt>Locatie</dt>
+              <dd>Praktijk in Oss, telefoon of Skype</dd>
+              <dt>Duur traject</dt>
+              <dd>Op maat</dd>
+            </dl>
+            <p style="margin-top: var(--space-4);">
+              <a href="/tarieven/">Bekijk de tarieven →</a>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
+
+  .sidebar-card--light { background-color: var(--color-primary-light); border-color: transparent; }
+
+  dl { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-4); font-size: var(--text-sm); }
+  dt { font-weight: 700; }
+  dd { color: var(--color-text-muted); }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>

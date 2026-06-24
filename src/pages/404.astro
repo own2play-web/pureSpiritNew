@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Pagina niet gevonden" description="De pagina die je zoekt bestaat niet of is verplaatst.">
+  <section class="section" style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="container container--narrow" style="text-align: center;">
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1>Pagina niet gevonden</h1>
+      <p class="lead" style="margin-bottom: var(--space-8);">
+        De pagina die je zoekt bestaat niet of is verplaatst.
+        Misschien helpt een van de onderstaande links je verder.
+      </p>
+      <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn--primary">Naar de homepagina</a>
+        <a href="/contact/" class="btn btn--outline">Contact opnemen</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-code {
+    font-family: var(--font-heading);
+    font-size: 8rem;
+    font-weight: 700;
+    color: var(--color-primary-light);
+    line-height: 1;
+    margin-bottom: var(--space-4);
+  }
+</style>

@@ -1,0 +1,63 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Lokaal ontwikkelen: zet dit op true + draai `npx netlify-cms-proxy-server`
+local_backend: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: nl
+
+collections:
+  - name: nieuws
+    label: Nieuws
+    label_singular: Nieuwsbericht
+    folder: src/content/nieuws
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titel,        name: titel,        widget: string }
+      - { label: Datum,        name: datum,        widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
+      - { label: Categorie,    name: categorie,    widget: select, options: [Bachbloesem, Meditatie, Coaching, HSP, Cursus, Jongeren, Volwassenen, Summerschool], required: false }
+      - { label: Samenvatting, name: samenvatting, widget: text }
+      - { label: Auteur,       name: auteur,       widget: string, default: Sasja van Geel }
+      - { label: Inhoud,       name: body,         widget: markdown }
+
+  - name: paginas
+    label: Pagina's
+    label_singular: Pagina
+    files:
+      - label: Homepagina – actueel bericht
+        name: home_actueel
+        file: src/data/actueel.json
+        fields:
+          - { label: Actief,   name: actief,   widget: boolean, default: true }
+          - { label: Bericht,  name: bericht,  widget: string }
+          - { label: Link tekst, name: link_tekst, widget: string, required: false }
+          - { label: Link URL,   name: link_url,   widget: string, required: false }
+
+      - label: Tarieven
+        name: tarieven
+        file: src/data/tarieven.json
+        fields:
+          - label: Tarieven
+            name: items
+            widget: list
+            fields:
+              - { label: Dienst,        name: dienst,        widget: string }
+              - { label: Prijs,         name: prijs,         widget: string }
+              - { label: Omschrijving,  name: omschrijving,  widget: string, required: false }
+
+      - label: Ervaringen
+        name: ervaringen
+        file: src/data/ervaringen.json
+        fields:
+          - label: Ervaringen
+            name: items
+            widget: list
+            fields:
+              - { label: Citaat,  name: quote,   widget: text }
+              - { label: Naam,    name: author,  widget: string, required: false }
+              - { label: Dienst,  name: service, widget: string, required: false }

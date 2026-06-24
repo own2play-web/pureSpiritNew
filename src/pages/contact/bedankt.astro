@@ -1,0 +1,43 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Bericht verstuurd"
+  heroTitle="Bedankt voor je bericht!"
+  heroSubtitle="We hebben je bericht ontvangen en nemen zo snel mogelijk contact met je op."
+  description="Je bericht is verstuurd naar Pure Spirit Oss."
+>
+  <section class="section">
+    <div class="container container--narrow" style="text-align: center;">
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <h2>We nemen snel contact op</h2>
+      <p class="lead">
+        Doorgaans reageren we binnen 1–2 werkdagen. Controleer ook je spamfolder
+        voor het geval onze e-mail daar terecht komt.
+      </p>
+      <p style="color: var(--color-text-muted);">
+        Liever bellen? Dat kan ook: <a href="tel:0412692162">0412 69 21 62</a>
+      </p>
+      <div style="margin-top: var(--space-10); display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn--primary">Terug naar de homepagina</a>
+        <a href="/diensten/" class="btn btn--outline">Bekijk onze diensten</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: 2rem;
+    border-radius: 50%;
+    margin-bottom: var(--space-6);
+  }
+</style>

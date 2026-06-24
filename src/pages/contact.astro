@@ -1,0 +1,139 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<PageLayout
+  title="Contact"
+  heroTitle="Contact"
+  heroSubtitle="Neem gerust contact op. We denken graag met je mee."
+  description="Contact opnemen met Pure Spirit Oss. Bachbloesemtherapie, Meditatie, Coaching en HSP-begeleiding in Oss."
+>
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <h2>Stuur een bericht</h2>
+          <p class="lead">
+            Heb je een vraag, wil je je aanmelden voor een cursus, of wil je een afspraak maken?
+            Vul het formulier in en we nemen zo snel mogelijk contact met je op.
+          </p>
+          <ContactForm />
+        </div>
+
+        <aside class="contact-info">
+          <div class="info-card">
+            <h3>Contactgegevens</h3>
+            <dl>
+              <dt>Praktijk</dt>
+              <dd>Pure Spirit</dd>
+              <dt>Naam</dt>
+              <dd>Sasja van Geel</dd>
+              <dt>Adres</dt>
+              <dd>Beethovengaarde 90<br />5344 CK Oss</dd>
+              <dt>Telefoon</dt>
+              <dd><a href="tel:0412692162">0412 69 21 62</a></dd>
+              <dt>E-mail</dt>
+              <dd><a href="mailto:info@purespirit-oss.nl">info@purespirit-oss.nl</a></dd>
+              <dt>KVK</dt>
+              <dd>53415000</dd>
+            </dl>
+          </div>
+
+          <div class="info-card info-card--light">
+            <h4>Openingstijden</h4>
+            <dl>
+              <dt>Maandag – vrijdag</dt>
+              <dd>9:00 – 21:30</dd>
+              <dt>Zaterdag</dt>
+              <dd>Gesloten</dd>
+              <dt>Zondag</dt>
+              <dd>Gesloten</dd>
+            </dl>
+            <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-muted);">
+              <em>Geopend op afspraak</em>
+            </p>
+          </div>
+
+          <div class="info-card info-card--warning">
+            <h4>Let op: spam</h4>
+            <p>
+              E-mailreacties komen soms in de spamfolder terecht.
+              Controleer je spam als je binnen 3 werkdagen niets hebt ontvangen,
+              of bel ons op <a href="tel:0412692162">0412 69 21 62</a>.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .contact-grid h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .contact-grid .lead {
+    margin-bottom: var(--space-8);
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    position: sticky;
+    top: 100px;
+  }
+
+  .info-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .info-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-5); }
+  .info-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+
+  .info-card--light {
+    background-color: var(--color-primary-light);
+    border-color: transparent;
+  }
+
+  .info-card--warning {
+    background-color: #fffbf0;
+    border-color: var(--color-accent);
+  }
+
+  .info-card--warning h4 { color: var(--color-accent-dark); }
+  .info-card--warning p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-sm);
+  }
+
+  dt { font-weight: 700; color: var(--color-text); white-space: nowrap; }
+  dd { color: var(--color-text-muted); }
+  dd a { color: var(--color-primary); }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-info  { position: static; }
+  }
+</style>

@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "dienst": "Eerste consult Bachbloesemtherapie (± 1,5 uur)",
+      "prijs": "Op aanvraag",
+      "omschrijving": "Inclusief uitgebreid intakegesprek en persoonlijk flesje"
+    },
+    {
+      "dienst": "Vervolgconsult Bachbloesemtherapie",
+      "prijs": "Op aanvraag",
+      "omschrijving": ""
+    },
+    {
+      "dienst": "Standaard Bachbloesemflesje (bijv. examenstress)",
+      "prijs": "€ 35,–",
+      "omschrijving": "Persoonlijk samengesteld, direct beschikbaar"
+    },
+    {
+      "dienst": "Coaching (per sessie)",
+      "prijs": "Op aanvraag",
+      "omschrijving": "Zowel privé als zakelijk"
+    },
+    {
+      "dienst": "HSP-begeleiding (individueel)",
+      "prijs": "Op aanvraag",
+      "omschrijving": ""
+    },
+    {
+      "dienst": "Losse meditatieles (Summerschool)",
+      "prijs": "€ 22,50",
+      "omschrijving": "Per losse les, maximaal 6 personen"
+    },
+    {
+      "dienst": "Meditatiecursus (6 lessen)",
+      "prijs": "Op aanvraag",
+      "omschrijving": "Zie het programma voor actuele prijzen"
+    }
+  ]
+}

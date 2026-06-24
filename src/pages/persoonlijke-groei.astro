@@ -1,0 +1,107 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Persoonlijke groei"
+  heroTitle="Persoonlijke groei"
+  heroSubtitle="Workshops en cursussen om dichter bij jezelf te komen. Praktisch, direct toepasbaar en in een veilige kleine groep."
+  description="Cursussen en workshops persoonlijke ontwikkeling bij Pure Spirit Oss. Voor volwassenen, jongeren en kinderen."
+>
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Persoonlijke ontwikkeling bij Pure Spirit</h2>
+          <p>
+            Bij Pure Spirit vind je een uitgebreid aanbod aan cursussen en workshops gericht
+            op persoonlijke groei. Voor alle leeftijden — van kinderen tot volwassenen.
+          </p>
+          <p>
+            Alle activiteiten zijn praktisch ingesteld: je krijgt handvatten die je meteen
+            kunt toepassen in je dagelijks leven. En dat in een veilige, kleine groep van
+            maximaal 6 personen, zodat er ruimte is voor persoonlijke aandacht.
+          </p>
+
+          <h2>Wat kun je verwachten?</h2>
+          <p>
+            De cursussen en workshops zijn gericht op thema's zoals:
+          </p>
+          <ul>
+            <li>Beter omgaan met prikkels (voor HSP'ers)</li>
+            <li>Zelfvertrouwen opbouwen</li>
+            <li>Leren grenzen stellen</li>
+            <li>Omgaan met stress en spanning</li>
+            <li>Ontdekken wie je bent en wat je wilt</li>
+          </ul>
+          <p>
+            Het aanbod wisselt per seizoen. Bekijk het actuele programma of neem contact op
+            voor de mogelijkheden.
+          </p>
+
+          <h2>Op maat</h2>
+          <p>
+            Is er geen passend aanbod in het huidige programma, of wil je iets specifieeks?
+            We denken graag met je mee en kunnen ook een cursus op maat verzorgen.
+          </p>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card">
+            <h3>Meer informatie</h3>
+            <p>Benieuwd naar het actuele aanbod? Neem contact op of bekijk het programma.</p>
+            <a href="/contact/" class="btn btn--primary" style="width: 100%; text-align: center;">Contact opnemen</a>
+            <a href="tel:0412692162" class="btn btn--outline" style="width: 100%; text-align: center; margin-top: var(--space-3);">Bel 0412 69 21 62</a>
+          </div>
+          <div class="sidebar-card sidebar-card--light">
+            <h4>Kenmerken</h4>
+            <ul style="list-style: none; padding: 0; font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-2);">
+              <li>✓ Max. 6 personen per groep</li>
+              <li>✓ Praktisch & direct toepasbaar</li>
+              <li>✓ Voor alle leeftijden</li>
+              <li>✓ Ook op maat mogelijk</li>
+              <li>✓ Veilige, vertrouwde sfeer</li>
+            </ul>
+            <p style="margin-top: var(--space-4);">
+              <a href="/tarieven/">Bekijk de tarieven →</a>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
+  .sidebar-card--light { background-color: var(--color-primary-light); border-color: transparent; }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>

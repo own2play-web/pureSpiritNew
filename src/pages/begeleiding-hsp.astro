@@ -1,0 +1,134 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Begeleiding HSP"
+  heroTitle="Begeleiding HSP"
+  heroSubtitle="Hooggevoelig zijn is geen zwakte. Leer ermee omgaan en ontdek de kracht die erin zit."
+  description="HSP-begeleiding bij Pure Spirit Oss voor volwassenen, jongeren en kinderen. Individueel of in kleine groep, altijd op maat."
+>
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Wat is HSP?</h2>
+          <p>
+            Een HSP'er (Highly Sensitive Person) is meer dan gemiddeld gevoelig voor indrukken
+            en prikkels, en merkt meer signalen en details op dan anderen. Dit kan heel waardevol zijn,
+            maar ook uitputtend als je er niet mee weet om te gaan.
+          </p>
+          <p>
+            Hooggevoeligheid is geen ziekte of stoornis — het is een persoonskenmerk dat
+            zowel een last als een geschenk kan zijn.
+          </p>
+
+          <h2>HSP bij kinderen (HSK)</h2>
+          <p>
+            Hooggevoeligheid bij kinderen wordt ook wel HSK (HoogSensitief Kind) genoemd.
+            Herkenbare kenmerken zijn:
+          </p>
+          <ul>
+            <li>Angsten</li>
+            <li>Problemen met het zelfvertrouwen</li>
+            <li>De lat heel hoog leggen voor zichzelf</li>
+            <li>Een druk hoofd</li>
+            <li>Buikklachten</li>
+            <li>Moeilijk kunnen inslapen</li>
+            <li>Vermoeidheid</li>
+          </ul>
+          <p>
+            Je kind zien worstelen met het dagelijks leven doet pijn.
+            We gaan samen kijken hoe we deze worsteling kunnen verzachten of zelfs verhelpen.
+          </p>
+
+          <h2>HSP: een last of een geschenk?</h2>
+          <p>
+            Hooggevoeligheid brengt bijzondere kwaliteiten met zich mee: een groot empathisch vermogen,
+            creativiteit, oog voor detail en diepgang. Maar het vraagt ook meer van je.
+            Met de juiste begeleiding leer je hoe je jouw gevoeligheid als kracht kunt inzetten.
+          </p>
+
+          <h2>Hoe werkt de begeleiding?</h2>
+          <p>
+            Pure Spirit begeleidt volwassenen, jongeren en kinderen die hooggevoelig zijn.
+            Dit kan individueel of in groepsverband. De oefeningen helpen je om:
+          </p>
+          <ul>
+            <li>Jezelf beter af te schermen voor prikkels van buitenaf</li>
+            <li>Je energieniveau te bewaken</li>
+            <li>Grenzen te stellen</li>
+            <li>Je gevoeligheid te begrijpen en te omarmen</li>
+          </ul>
+          <p>
+            In groepsverband leer je ook van en met anderen die ook hooggevoelig zijn.
+            Dat geeft herkenning en verbinding.
+          </p>
+
+          <h2>Lezingen</h2>
+          <p>
+            Pure Spirit verzorgt ook lezingen over hooggevoeligheid — voor scholen, bedrijven
+            of andere organisaties. Neem contact op voor de mogelijkheden.
+          </p>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card">
+            <h3>Afspraak maken</h3>
+            <p>Herken je jezelf of je kind hierin? Neem vrijblijvend contact op.</p>
+            <a href="/contact/" class="btn btn--primary" style="width: 100%; text-align: center;">Contact opnemen</a>
+            <a href="tel:0412692162" class="btn btn--outline" style="width: 100%; text-align: center; margin-top: var(--space-3);">Bel 0412 69 21 62</a>
+          </div>
+          <div class="sidebar-card sidebar-card--light">
+            <h4>Doelgroepen</h4>
+            <ul style="list-style: none; padding: 0; font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-2);">
+              <li>✓ Kinderen (HSK)</li>
+              <li>✓ Jongeren</li>
+              <li>✓ Volwassenen</li>
+              <li>✓ Individueel of in groep</li>
+              <li>✓ Altijd op maat</li>
+            </ul>
+            <p style="margin-top: var(--space-4);">
+              <a href="/tarieven/">Bekijk de tarieven →</a>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
+
+  .sidebar-card--light { background-color: var(--color-primary-light); border-color: transparent; }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>
