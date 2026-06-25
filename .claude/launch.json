@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Pure Spirit Dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "4321"],
+      "name": "Pure Spirit",
+      "runtimeExecutable": "C:\\PROGRA~1\\nodejs\\npm.cmd",
+      "runtimeArgs": ["--prefix", "C:\\Users\\THIJSV~1\\CLAUDE~2\\PURESP~1", "run", "dev", "--", "--port", "4321"],
       "port": 4321
     }
   ]
