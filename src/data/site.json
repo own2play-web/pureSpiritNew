@@ -1,0 +1,18 @@
+{
+  "naam": "Pure Spirit",
+  "eigenaar": "Sasja van Geel",
+  "adres": "Beethovengaarde 90",
+  "postcode": "5344 CK",
+  "stad": "Oss",
+  "telefoon": "0412 69 21 62",
+  "email": "info@purespirit-oss.nl",
+  "kvk": "53415000",
+  "openingstijden": [
+    { "dag": "Maandag – vrijdag", "tijd": "9:00 – 21:30" },
+    { "dag": "Zaterdag", "tijd": "Gesloten" },
+    { "dag": "Zondag", "tijd": "Gesloten" }
+  ],
+  "openingstijden_opmerking": "Geopend op afspraak",
+  "facebook": "",
+  "instagram": ""
+}

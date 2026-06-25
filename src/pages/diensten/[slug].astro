@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const diensten = await getCollection('diensten');
+  return diensten.map(d => ({
+    params: { slug: d.slug },
+    props: { dienst: d },
+  }));
+}
+
+const { dienst } = Astro.props;
+const { Content } = await dienst.render();
+const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
+---
+
+<BaseLayout title={titel} description={meta_description || samenvatting}>
+  <section class="page-hero">
+    <div class="container">
+      <a href="/diensten/" class="back-link">← Alle diensten</a>
+      <h1>{titel}</h1>
+      <p class="lead">{samenvatting}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <Content />
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card">
+            <h3>Afspraak maken</h3>
+            <p>Neem contact op voor een vrijblijvend gesprek of om een afspraak te maken.</p>
+            <a href="/contact/" class="btn btn--primary" style="width:100%;text-align:center;">Contact opnemen</a>
+            <a href="tel:0412692162" class="btn btn--outline" style="width:100%;text-align:center;margin-top:var(--space-3);">Bel 0412 69 21 62</a>
+          </div>
+
+          {sidebar_items && sidebar_items.length > 0 && (
+            <div class="sidebar-card sidebar-card--light">
+              <h4>In één oogopslag</h4>
+              <dl>
+                {sidebar_items.map(item => (
+                  <>
+                    <dt>{item.label}</dt>
+                    <dd>{item.waarde}</dd>
+                  </>
+                ))}
+              </dl>
+              <p style="margin-top:var(--space-4);">
+                <a href="/tarieven/">Bekijk de tarieven →</a>
+              </p>
+            </div>
+          )}
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background-color: var(--color-primary-light);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-bottom: var(--space-4);
+    font-weight: 700;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+
+  .page-hero h1 { color: var(--color-primary-dark); margin-bottom: var(--space-3); }
+  .page-hero .lead { max-width: 600px; color: var(--color-text-muted); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
+  .sidebar-card--light { background: var(--color-primary-light); border-color: transparent; }
+
+  dl { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-4); font-size: var(--text-sm); }
+  dt { font-weight: 700; }
+  dd { color: var(--color-text-muted); }
+
+  /* Prose styling */
+  .prose :global(h2) { margin-top: var(--space-10); color: var(--color-primary-dark); }
+  .prose :global(h3) { margin-top: var(--space-8); }
+  .prose :global(ul) { padding-left: var(--space-6); }
+  .prose :global(strong) { color: var(--color-primary-dark); }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>

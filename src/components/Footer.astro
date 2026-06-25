@@ -1,4 +1,5 @@
 ---
+import site from '../data/site.json';
 const currentYear = new Date().getFullYear();
 ---
 
@@ -20,11 +21,11 @@ const currentYear = new Date().getFullYear();
     <div class="footer__col">
       <h4>Diensten</h4>
       <ul>
-        <li><a href="/bachbloesemtherapie/">Bachbloesemtherapie</a></li>
-        <li><a href="/meditatie/">Meditatie</a></li>
-        <li><a href="/coaching/">Coaching</a></li>
-        <li><a href="/begeleiding-hsp/">Begeleiding HSP</a></li>
-        <li><a href="/persoonlijke-groei/">Persoonlijke groei</a></li>
+        <li><a href="/diensten/bachbloesemtherapie/">Bachbloesemtherapie</a></li>
+        <li><a href="/diensten/meditatie/">Meditatie</a></li>
+        <li><a href="/diensten/coaching/">Coaching</a></li>
+        <li><a href="/diensten/begeleiding-hsp/">Begeleiding HSP</a></li>
+        <li><a href="/diensten/persoonlijke-groei/">Persoonlijke groei</a></li>
       </ul>
     </div>
 
@@ -42,22 +43,23 @@ const currentYear = new Date().getFullYear();
     <div class="footer__col">
       <h4>Contact</h4>
       <address>
-        <p>Beethovengaarde 90<br />5344 CK Oss</p>
-        <p><a href="tel:0412692162">0412 69 21 62</a></p>
-        <p><a href="mailto:info@purespirit-oss.nl">info@purespirit-oss.nl</a></p>
+        <p>{site.adres}<br />{site.postcode} {site.stad}</p>
+        <p><a href={`tel:${site.telefoon.replace(/\s/g,'')}`}>{site.telefoon}</a></p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
       </address>
       <p class="footer__hours">
         <strong>Openingstijden</strong><br />
-        Ma – Vr: 9:00 – 21:30<br />
-        Za – Zo: Gesloten<br />
-        <em>(op afspraak)</em>
+        {site.openingstijden.map(o => (
+          <>{o.dag}: {o.tijd}<br /></>
+        ))}
+        <em>({site.openingstijden_opmerking})</em>
       </p>
     </div>
   </div>
 
   <div class="footer__bottom">
     <div class="container footer__bottom-inner">
-      <p>&copy; {currentYear} Pure Spirit Oss &nbsp;·&nbsp; KVK: 53415000</p>
+      <p>&copy; {currentYear} {site.naam} {site.stad} &nbsp;·&nbsp; KVK: {site.kvk}</p>
       <p>
         <a href="/privacy/">Privacybeleid</a>
       </p>

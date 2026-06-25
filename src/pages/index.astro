@@ -6,100 +6,38 @@ import TestimonialCard from '../components/TestimonialCard.astro';
 import NewsCard from '../components/NewsCard.astro';
 import FAQ from '../components/FAQ.astro';
 import { getCollection } from 'astro:content';
+import homepage from '../data/homepage.json';
+import faqData from '../data/faq.json';
+import ervaringen from '../data/ervaringen.json';
 
+// Nieuws
 const allNieuws = await getCollection('nieuws');
 const latestNieuws = allNieuws
   .sort((a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime())
   .slice(0, 3);
 
-const services = [
-  {
-    title: 'Bachbloesemtherapie',
-    description: 'Een natuurlijke methode om weer balans te brengen. Zeer geschikt bij overprikkeling, vermoeidheid en emotionele klachten. Zonder bijwerkingen, goed te combineren met andere medicatie.',
-    href: '/bachbloesemtherapie/',
-    icon: '🌸',
-  },
-  {
-    title: 'Meditatie',
-    description: 'Mediteer in een kleine groep van maximaal 6 personen. Voor alle leeftijden en niveaus. Leer tot rust komen en meer bij jezelf te zijn.',
-    href: '/meditatie/',
-    icon: '🧘',
-  },
-  {
-    title: 'Coaching',
-    description: 'Zowel voor privé als voor zakelijke situaties. Een luisterend oor van iemand die geen familie of vriend is, en praktische handvatten om verder te komen.',
-    href: '/coaching/',
-    icon: '💬',
-  },
-  {
-    title: 'Begeleiding HSP',
-    description: 'Pure Spirit begeleidt volwassenen, jongeren en kinderen die hooggevoelig zijn. Individueel of in een kleine cursusgroep, altijd op maat.',
-    href: '/begeleiding-hsp/',
-    icon: '💛',
-  },
-  {
-    title: 'Persoonlijke groei',
-    description: 'Workshops en cursussen gericht op persoonlijke ontwikkeling. Praktisch, direct toepasbaar en in een veilige, kleine groep.',
-    href: '/persoonlijke-groei/',
-    icon: '🌱',
-  },
-  {
-    title: 'Privé consulten',
-    description: 'Een persoonlijk gesprek op maat. In de praktijk in Oss, telefonisch of via Skype. Jij bepaalt wat het beste voor jou werkt.',
-    href: '/contact/',
-    icon: '🤝',
-  },
-];
+// Diensten uit content collection
+const allDiensten = await getCollection('diensten');
+const services = allDiensten
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .map(d => ({
+    title: d.data.titel,
+    description: d.data.samenvatting,
+    href: `/diensten/${d.slug}/`,
+    icon: d.data.icon,
+  }));
 
-const testimonials = [
-  {
-    quote: 'Nooit verwacht maar wat ben ik blij met Pure Spirit. Mijn klachten zijn helemaal anders geworden. Ik voel me zoveel beter.',
-    service: 'Begeleiding HSP en Bachbloesemtherapie',
-  },
-  {
-    quote: 'Een hele prettige sfeer, fijne groep… Sasja is een prettige, sociale vrouw die heel goed kan uitleggen hoe alles werkt.',
-    service: 'Workshop Beter omgaan met prikkels',
-  },
-  {
-    quote: 'De cursus bij Sasja heeft ervoor gezorgd dat ik heb leren mediteren. Iets wat ik altijd al had willen leren maar nooit gelukt was.',
-    service: 'Meditatie voor iedereen',
-  },
-  {
-    quote: 'In mijn hoofd is het altijd heel druk, maar van de meditatie bij Sasja word ik rustiger. Ik kan me nu beter concentreren.',
-    service: 'Meditatie voor jongeren',
-  },
-  {
-    quote: 'Ik ben weer een stukje dichter bij mezelf gekomen. Dank je wel voor alle begeleiding en inzichten.',
-    service: 'Cursus Persoonlijke Ontwikkeling',
-  },
-  {
-    quote: 'Toen ik voor de eerste keer naar Sasja ging vond ik dat heel spannend, maar het was meteen vertrouwd. Ze begrijpt precies wat je bedoelt.',
-    service: 'Bachbloesemtherapie',
-  },
-];
+// FAQ uit JSON
+const faqItems = faqData.items.map(item => ({
+  question: item.vraag,
+  answer:   item.antwoord,
+}));
 
-const faqItems = [
-  {
-    question: 'Hoe weet ik of ik (of mijn kind) een hoogsensitief persoon ben?',
-    answer: 'Tijdens een individuele afspraak of in een workshop gaan we daar uitgebreid op in. We geven je ook praktische handvatten om beter om te gaan met dingen die je lastig vindt.',
-  },
-  {
-    question: 'Kan ik een cursus op maat krijgen?',
-    answer: 'Ja, dat is mogelijk. We denken graag met je mee en kijken wat het beste bij jouw situatie past.',
-  },
-  {
-    question: 'Vergoedt de verzekering de kosten?',
-    answer: 'Dat ligt aan de voorwaarden van jouw zorgverzekering. Ervaring leert dat de zorgverzekering het meestal niet vergoedt. Gelukkig zijn de behandeltrajecten bij Pure Spirit kort en de kosten goed te overzien.',
-  },
-  {
-    question: 'Hoe groot zijn de groepen?',
-    answer: 'De groepen bestaan bij Pure Spirit uit maximaal 6 cursisten. Zo is er voor iedereen tijd en persoonlijke aandacht.',
-  },
-  {
-    question: 'Is de begeleiding ook geschikt voor kinderen?',
-    answer: 'Ja, Pure Spirit begeleidt zowel kinderen, jongeren als volwassenen. De aanpak wordt altijd afgestemd op de leeftijd en de specifieke situatie.',
-  },
-];
+// Ervaringen uit JSON (eerste 6)
+const testimonials = ervaringen.items.slice(0, 6);
+
+// Homepage data
+const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
 ---
 
 <BaseLayout
@@ -108,50 +46,45 @@ const faqItems = [
 >
   <!-- Hero -->
   <Hero
-    title="Vind je eigen kracht"
-    subtitle="Bij Pure Spirit staat het (her)vinden van je eigen kracht centraal. Praktisch, niet-zweverig en altijd op maat — voor kinderen, jongeren en volwassenen in Oss."
-    cta={{ label: 'Bekijk het programma', href: '/diensten/' }}
-    ctaSecondary={{ label: 'Neem contact op', href: '/contact/' }}
+    title={homepage.hero_titel}
+    subtitle={homepage.hero_subtitel}
+    cta={{ label: homepage.hero_cta_label, href: homepage.hero_cta_url }}
+    ctaSecondary={{ label: homepage.hero_cta2_label, href: homepage.hero_cta2_url }}
     badge="Zuiverheid · Eenvoud · Kracht"
   />
 
   <!-- Actueel -->
-  <div class="actueel-bar">
-    <div class="container">
-      <span class="actueel-bar__label">Actueel</span>
-      <p>We hebben nog een plekje vrij in de Meditatie Extra groep op de maandagavond!
-        <a href="/contact/">Meld je aan →</a>
-      </p>
+  {homepage.actueel_actief && (
+    <div class="actueel-bar">
+      <div class="container">
+        <span class="actueel-bar__label">Actueel</span>
+        <p>
+          {homepage.actueel_bericht}
+          {homepage.actueel_link_url && (
+            <a href={homepage.actueel_link_url}>{homepage.actueel_link_tekst} →</a>
+          )}
+        </p>
+      </div>
     </div>
-  </div>
+  )}
 
   <!-- Over Sasja van Geel -->
   <section class="section">
     <div class="container">
       <div class="about-grid">
         <div class="about-photo">
-          <img src="/uploads/IMG-sasja-20190525.jpg" alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
+          <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
         </div>
         <div class="about-text">
           <span class="about-eyebrow">Wie ben ik?</span>
-          <h2>Over Sasja van Geel</h2>
+          <h2>{homepage.sasja_titel}</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
-          <p class="lead">
-            Al bijna 25 jaar ben ik op zoek gegaan naar ontbrekende puzzelstukjes
-            in mijn leven. Het ontdekken dat ik een hooggevoelig mens ben,
-            gaf al heel veel duidelijkheid.
-          </p>
-          <p>
-            Het begeleiden van mensen op een praktische manier en het overbrengen
-            van mijn kennis en ervaring doe ik met veel plezier in mijn praktijk
-            Pure Spirit.
-          </p>
-          <p>
-            Zuiverheid, eenvoud en kracht zijn de kernwoorden van PURE SPIRIT.
-            We werken op een niet-zweverige manier — je krijgt altijd praktische
-            handvatten die je meteen kunt toepassen.
-          </p>
-          <a href="/contact/" class="btn btn--primary" style="margin-top: var(--space-6);">Maak een afspraak</a>
+          {sasjaAlineas.map((alinea, i) => (
+            <p class={i === 0 ? 'lead' : ''}>{alinea}</p>
+          ))}
+          <a href={homepage.sasja_cta_url} class="btn btn--primary" style="margin-top: var(--space-6);">
+            {homepage.sasja_cta_label}
+          </a>
         </div>
       </div>
     </div>
@@ -192,7 +125,7 @@ const faqItems = [
             Herkenbare kenmerken zijn angsten, problemen met het zelfvertrouwen, een druk hoofd
             en moeilijk kunnen inslapen.
           </p>
-          <a href="/begeleiding-hsp/" class="btn btn--outline" style="margin-top: var(--space-4);">Meer over HSP-begeleiding</a>
+          <a href="/diensten/begeleiding-hsp/" class="btn btn--outline" style="margin-top: var(--space-4);">Meer over HSP-begeleiding</a>
         </div>
         <div class="hsp-quote">
           <blockquote>
@@ -214,7 +147,9 @@ const faqItems = [
         <p class="lead">Je bent in goede handen bij Pure Spirit.</p>
       </div>
       <div class="grid grid--3">
-        {testimonials.map(t => <TestimonialCard {...t} />)}
+        {testimonials.map(t => (
+          <TestimonialCard quote={t.quote} author={t.author} service={t.service} />
+        ))}
       </div>
       <div style="text-align: center; margin-top: var(--space-10);">
         <a href="/ervaringen/" class="btn btn--outline">Alle ervaringen</a>
