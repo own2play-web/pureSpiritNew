@@ -68,28 +68,6 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
     </div>
   )}
 
-  <!-- Over Sasja van Geel -->
-  <section class="section">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-photo">
-          <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
-        </div>
-        <div class="about-text">
-          <span class="about-eyebrow">Wie ben ik?</span>
-          <h2>{homepage.sasja_titel}</h2>
-          <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
-          {sasjaAlineas.map((alinea, i) => (
-            <p class={i === 0 ? 'lead' : ''}>{alinea}</p>
-          ))}
-          <a href={homepage.sasja_cta_url} class="btn btn--primary" style="margin-top: var(--space-6);">
-            {homepage.sasja_cta_label}
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Diensten -->
   <section class="section section--alt">
     <div class="container">
@@ -153,6 +131,28 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
       </div>
       <div style="text-align: center; margin-top: var(--space-10);">
         <a href="/ervaringen/" class="btn btn--outline">Alle ervaringen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Over Sasja van Geel -->
+  <section class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photo">
+          <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
+        </div>
+        <div class="about-text">
+          <span class="about-eyebrow">Wie ben ik?</span>
+          <h2>{homepage.sasja_titel}</h2>
+          <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
+          {sasjaAlineas.map((alinea, i) => (
+            <p class={i === 0 ? 'lead' : ''}>{alinea}</p>
+          ))}
+          <a href={homepage.sasja_cta_url} class="btn btn--primary" style="margin-top: var(--space-6);">
+            {homepage.sasja_cta_label}
+          </a>
+        </div>
       </div>
     </div>
   </section>
