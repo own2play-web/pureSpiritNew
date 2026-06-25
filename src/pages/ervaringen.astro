@@ -1,41 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
+import { getCollection } from 'astro:content';
 
-const testimonials = [
-  {
-    quote: 'Nooit verwacht maar wat ben ik blij met Pure Spirit. Mijn klachten zijn helemaal anders geworden. Ik voel me zoveel beter en heb eindelijk het gevoel dat ik grip heb op mijn eigen leven.',
-    service: 'Begeleiding HSP en Bachbloesemtherapie',
-  },
-  {
-    quote: 'Een hele prettige sfeer, fijne groep… Sasja is een prettige, sociale vrouw die heel goed kan uitleggen hoe alles werkt en die je altijd het gevoel geeft dat je erbij hoort.',
-    service: 'Workshop Beter omgaan met prikkels',
-  },
-  {
-    quote: 'De cursus bij Sasja heeft ervoor gezorgd dat ik heb leren mediteren. Iets wat ik altijd al had willen leren maar nooit gelukt was. Nu doe ik het elke dag en voel ik het verschil.',
-    service: 'Meditatie voor iedereen',
-  },
-  {
-    quote: 'Bedankt voor alles, de fijne gesprekken en de coaching, tips en simpele oefeningen. Ik heb er echt veel aan gehad en ga er zeker mee door.',
-    service: 'Begeleiding HSP, Coaching en Bachbloesemtherapie',
-  },
-  {
-    quote: 'In mijn hoofd is het altijd heel druk, maar van de meditatie bij Sasja word ik rustiger. Ik kan me nu beter concentreren op school en slaap ook beter.',
-    service: 'Meditatie voor jongeren',
-  },
-  {
-    quote: 'Ik ben weer een stukje dichter bij mezelf gekomen. Dank je wel voor alle begeleiding, de inzichten en het vertrouwen dat je me gaf.',
-    service: 'Cursus Persoonlijke Ontwikkeling',
-  },
-  {
-    quote: 'Nadat onze dochter 3 jaar geleden heel ziek is geweest, bleef ze angstig en onzeker. Dankzij alle begeleiding bij Pure Spirit bloeit ze weer op. We zijn zo dankbaar.',
-    service: 'Bachbloesemtherapie (moeder)',
-  },
-  {
-    quote: 'Toen ik voor de eerste keer naar Sasja ging, vond ik dat heel spannend. Maar het was meteen vertrouwd. Ze begrijpt precies wat je bedoelt en helpt je op een rustige manier.',
-    service: 'Bachbloesemtherapie (11-jarig kind)',
-  },
-];
+const alle = await getCollection('ervaringen');
+const sorted = alle.sort((a, b) => a.data.volgorde - b.data.volgorde);
 ---
 
 <PageLayout
@@ -47,7 +16,13 @@ const testimonials = [
   <section class="section">
     <div class="container">
       <div class="grid grid--2">
-        {testimonials.map(t => <TestimonialCard {...t} />)}
+        {sorted.map(e => (
+          <TestimonialCard
+            quote={e.data.quote}
+            author={e.data.auteur}
+            service={e.data.dienst}
+          />
+        ))}
       </div>
 
       <div style="text-align: center; margin-top: var(--space-16);">

@@ -27,4 +27,15 @@ const diensten = defineCollection({
   }),
 });
 
-export const collections = { nieuws, diensten };
+const ervaringen = defineCollection({
+  type: 'content',
+  schema: z.object({
+    quote:      z.string(),
+    auteur:     z.string().optional(),
+    dienst:     z.string().optional(),
+    uitgelicht: z.boolean().default(false),
+    volgorde:   z.number().default(99),
+  }),
+});
+
+export const collections = { nieuws, diensten, ervaringen };

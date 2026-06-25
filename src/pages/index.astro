@@ -8,7 +8,6 @@ import FAQ from '../components/FAQ.astro';
 import { getCollection } from 'astro:content';
 import homepage from '../data/homepage.json';
 import faqData from '../data/faq.json';
-import ervaringen from '../data/ervaringen.json';
 
 // Nieuws
 const allNieuws = await getCollection('nieuws');
@@ -33,8 +32,12 @@ const faqItems = faqData.items.map(item => ({
   answer:   item.antwoord,
 }));
 
-// Ervaringen uit JSON (eerste 6)
-const testimonials = ervaringen.items.slice(0, 6);
+// Ervaringen uit content collection — uitgelicht op homepage
+const allErvaringen = await getCollection('ervaringen');
+const testimonials = allErvaringen
+  .filter(e => e.data.uitgelicht)
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .slice(0, 6);
 
 // Homepage data
 const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
@@ -126,7 +129,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
       </div>
       <div class="grid grid--3">
         {testimonials.map(t => (
-          <TestimonialCard quote={t.quote} author={t.author} service={t.service} />
+          <TestimonialCard quote={t.data.quote} author={t.data.auteur} service={t.data.dienst} />
         ))}
       </div>
       <div style="text-align: center; margin-top: var(--space-10);">

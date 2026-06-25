@@ -50,6 +50,25 @@ collections:
       - { label: Afbeelding,   name: afbeelding,   widget: image, required: false }
       - { label: Inhoud,       name: body,         widget: markdown }
 
+  # ─── Ervaringen ────────────────────────────────────────────────────────────
+  - name: ervaringen
+    label: Ervaringen
+    label_singular: Ervaring
+    folder: src/content/ervaringen
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: ['volgorde', 'dienst', 'uitgelicht']
+    view_filters:
+      - label: Uitgelicht
+        field: uitgelicht
+        pattern: true
+    fields:
+      - { label: Citaat,                name: quote,      widget: text }
+      - { label: Naam,                  name: auteur,     widget: string,  required: false }
+      - { label: Dienst / cursus,       name: dienst,     widget: string,  required: false }
+      - { label: Uitgelicht op homepage, name: uitgelicht, widget: boolean, default: false }
+      - { label: Volgorde,              name: volgorde,   widget: number,  default: 99 }
+
   # ─── Diensten ──────────────────────────────────────────────────────────────
   - name: diensten
     label: Diensten
@@ -146,15 +165,3 @@ collections:
               - { label: Prijs,         name: prijs,         widget: string }
               - { label: Omschrijving,  name: omschrijving,  widget: string, required: false }
 
-      # Ervaringen
-      - label: Ervaringen
-        name: ervaringen
-        file: src/data/ervaringen.json
-        fields:
-          - label: Ervaringen
-            name: items
-            widget: list
-            fields:
-              - { label: Citaat,  name: quote,   widget: text }
-              - { label: Naam,    name: author,  widget: string, required: false }
-              - { label: Dienst,  name: service, widget: string, required: false }
