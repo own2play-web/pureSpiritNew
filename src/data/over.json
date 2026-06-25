@@ -1,0 +1,21 @@
+{
+  "werkwijze": [
+    {
+      "titel": "Praktisch en direct toepasbaar",
+      "tekst": "Geen vaag advies, maar concrete oefeningen en handvatten die je meteen kunt gebruiken in je dagelijks leven."
+    },
+    {
+      "titel": "Op maat voor jou",
+      "tekst": "Of je nu kind, jongere of volwassene bent, de begeleiding wordt altijd afgestemd op jouw situatie, leeftijd en wensen."
+    },
+    {
+      "titel": "Kleinschalig en persoonlijk",
+      "tekst": "Groepen bestaan uit maximaal 6 personen. Zo is er altijd tijd en aandacht voor jou persoonlijk."
+    }
+  ],
+  "waarden": [
+    { "woord": "Zuiverheid", "uitleg": "Eerlijk en transparant, zonder franje." },
+    { "woord": "Eenvoud",    "uitleg": "Helder en toegankelijk voor iedereen." },
+    { "woord": "Kracht",     "uitleg": "Jouw eigen kracht als vertrekpunt." }
+  ]
+}

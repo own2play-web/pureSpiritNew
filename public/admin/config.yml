@@ -166,6 +166,28 @@ collections:
               - { label: Label, name: label, widget: string }
               - { label: URL,   name: href,  widget: string }
 
+      # Over mij
+      - label: Over mij
+        name: over
+        file: src/data/over.json
+        fields:
+          - label: Werkwijze
+            name: werkwijze
+            widget: list
+            label_singular: Item
+            summary: "{{fields.titel}}"
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+          - label: Kernwaarden
+            name: waarden
+            widget: list
+            label_singular: Waarde
+            summary: "{{fields.woord}}"
+            fields:
+              - { label: Woord,  name: woord,  widget: string }
+              - { label: Uitleg, name: uitleg, widget: string }
+
       # FAQ
       - label: Veelgestelde vragen
         name: faq

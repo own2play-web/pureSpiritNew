@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import InschrijvenModal from '../components/InschrijvenModal.astro';
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 import site from '../data/site.json';
@@ -81,6 +82,7 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+    <InschrijvenModal />
   </body>
 </html>
 

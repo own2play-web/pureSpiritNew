@@ -9,6 +9,7 @@ const navLinks = [
       { label: 'Persoonlijke groei',  href: '/diensten/persoonlijke-groei/' },
     ]
   },
+  { label: 'Over mij',   href: '/over/' },
   { label: 'Tarieven',   href: '/tarieven/' },
   { label: 'Nieuws',     href: '/nieuws/' },
   { label: 'Agenda',     href: '/agenda/' },
@@ -57,8 +58,10 @@ const currentPath = Astro.url.pathname;
             )}
           </li>
         ))}
+        <li class="nav-item nav-item--cta">
+          <a href={nav.header_cta_url} class="btn btn--primary header__cta" data-open-modal="inschrijven">{nav.header_cta_label}</a>
+        </li>
       </ul>
-      <a href={nav.header_cta_url} class="btn btn--primary header__cta">{nav.header_cta_label}</a>
     </nav>
   </div>
 </header>
@@ -209,10 +212,15 @@ const currentPath = Astro.url.pathname;
     transition: transform var(--transition), opacity var(--transition);
   }
 
+  .nav-item--cta {
+    display: flex;
+    align-items: center;
+    padding-left: var(--space-4);
+  }
+
   .header__cta {
     font-size: var(--text-sm);
-    padding: var(--space-2) var(--space-5);
-    border-width: 0;
+    padding: calc(var(--space-2) - 2px) var(--space-5);
   }
 
   @media (max-width: 900px) {
