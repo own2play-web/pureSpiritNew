@@ -15,3 +15,29 @@
   from = "/admin"
   to = "/admin/"
   status = 301
+
+# Redirects: oude dienst-URLs → nieuwe /diensten/[slug]/ structuur
+[[redirects]]
+  from = "/bachbloesemtherapie/"
+  to = "/diensten/bachbloesemtherapie/"
+  status = 301
+
+[[redirects]]
+  from = "/meditatie/"
+  to = "/diensten/meditatie/"
+  status = 301
+
+[[redirects]]
+  from = "/coaching/"
+  to = "/diensten/coaching/"
+  status = 301
+
+[[redirects]]
+  from = "/begeleiding-hsp/"
+  to = "/diensten/begeleiding-hsp/"
+  status = 301
+
+[[redirects]]
+  from = "/persoonlijke-groei/"
+  to = "/diensten/persoonlijke-groei/"
+  status = 301

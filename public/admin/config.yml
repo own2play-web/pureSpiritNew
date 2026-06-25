@@ -11,6 +11,7 @@ public_folder: /uploads
 locale: nl
 
 collections:
+  # ─── Nieuws ────────────────────────────────────────────────────────────────
   - name: nieuws
     label: Nieuws
     label_singular: Nieuwsbericht
@@ -23,21 +24,93 @@ collections:
       - { label: Categorie,    name: categorie,    widget: select, options: [Bachbloesem, Meditatie, Coaching, HSP, Cursus, Jongeren, Volwassenen, Summerschool], required: false }
       - { label: Samenvatting, name: samenvatting, widget: text }
       - { label: Auteur,       name: auteur,       widget: string, default: Sasja van Geel }
+      - { label: Afbeelding,   name: afbeelding,   widget: image, required: false }
       - { label: Inhoud,       name: body,         widget: markdown }
 
-  - name: paginas
-    label: Pagina's
-    label_singular: Pagina
-    files:
-      - label: Homepagina – actueel bericht
-        name: home_actueel
-        file: src/data/actueel.json
+  # ─── Diensten ──────────────────────────────────────────────────────────────
+  - name: diensten
+    label: Diensten
+    label_singular: Dienst
+    folder: src/content/diensten
+    create: false
+    slug: "{{slug}}"
+    fields:
+      - { label: Titel,            name: titel,            widget: string }
+      - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
+      - { label: Icoon (emoji),    name: icon,             widget: string, required: false, hint: "Bijv. 🌸 of 🧘" }
+      - { label: Samenvatting,     name: samenvatting,     widget: text }
+      - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
+      - label: Sidebar – In één oogopslag
+        name: sidebar_items
+        widget: list
+        required: false
         fields:
-          - { label: Actief,   name: actief,   widget: boolean, default: true }
-          - { label: Bericht,  name: bericht,  widget: string }
-          - { label: Link tekst, name: link_tekst, widget: string, required: false }
-          - { label: Link URL,   name: link_url,   widget: string, required: false }
+          - { label: Label,  name: label,  widget: string }
+          - { label: Waarde, name: waarde, widget: string }
+      - { label: Inhoud, name: body, widget: markdown }
 
+  # ─── Instellingen ──────────────────────────────────────────────────────────
+  - name: instellingen
+    label: Instellingen
+    label_singular: Instelling
+    files:
+      # Homepagina
+      - label: Homepagina
+        name: homepagina
+        file: src/data/homepage.json
+        fields:
+          - { label: "Hero – Titel",         name: hero_titel,       widget: string }
+          - { label: "Hero – Subtitel",      name: hero_subtitel,    widget: text }
+          - { label: "Hero – Knop 1 tekst",  name: hero_cta_label,   widget: string }
+          - { label: "Hero – Knop 1 URL",    name: hero_cta_url,     widget: string }
+          - { label: "Hero – Knop 2 tekst",  name: hero_cta2_label,  widget: string, required: false }
+          - { label: "Hero – Knop 2 URL",    name: hero_cta2_url,    widget: string, required: false }
+          - { label: "Actueel – Tonen?",     name: actueel_actief,   widget: boolean, default: false }
+          - { label: "Actueel – Bericht",    name: actueel_bericht,  widget: string }
+          - { label: "Actueel – Link tekst", name: actueel_link_tekst, widget: string, required: false }
+          - { label: "Actueel – Link URL",   name: actueel_link_url,   widget: string, required: false }
+          - { label: "Sasja – Sectietitel",  name: sasja_titel,      widget: string }
+          - { label: "Sasja – Tekst",        name: sasja_tekst,      widget: text, hint: "Gebruik een lege regel tussen alinea's" }
+          - { label: "Sasja – Foto",         name: sasja_foto,       widget: image }
+          - { label: "Sasja – Knop tekst",   name: sasja_cta_label,  widget: string }
+          - { label: "Sasja – Knop URL",     name: sasja_cta_url,    widget: string }
+
+      # Sitewijde instellingen
+      - label: Sitewijde instellingen
+        name: site_instellingen
+        file: src/data/site.json
+        fields:
+          - { label: Sitenaam,         name: naam,      widget: string }
+          - { label: Eigenaar,         name: eigenaar,  widget: string }
+          - { label: Adres,            name: adres,     widget: string }
+          - { label: Postcode,         name: postcode,  widget: string }
+          - { label: Stad,             name: stad,      widget: string }
+          - { label: Telefoonnummer,   name: telefoon,  widget: string }
+          - { label: E-mailadres,      name: email,     widget: string }
+          - { label: KVK-nummer,       name: kvk,       widget: string }
+          - label: Openingstijden
+            name: openingstijden
+            widget: list
+            fields:
+              - { label: Dag,  name: dag,  widget: string }
+              - { label: Tijd, name: tijd, widget: string }
+          - { label: Opmerking openingstijden, name: openingstijden_opmerking, widget: string, required: false }
+          - { label: Facebook URL,   name: facebook,  widget: string, required: false }
+          - { label: Instagram URL,  name: instagram, widget: string, required: false }
+
+      # FAQ
+      - label: Veelgestelde vragen
+        name: faq
+        file: src/data/faq.json
+        fields:
+          - label: Vragen
+            name: items
+            widget: list
+            fields:
+              - { label: Vraag,    name: vraag,    widget: string }
+              - { label: Antwoord, name: antwoord, widget: text }
+
+      # Tarieven
       - label: Tarieven
         name: tarieven
         file: src/data/tarieven.json
@@ -50,6 +123,7 @@ collections:
               - { label: Prijs,         name: prijs,         widget: string }
               - { label: Omschrijving,  name: omschrijving,  widget: string, required: false }
 
+      # Ervaringen
       - label: Ervaringen
         name: ervaringen
         file: src/data/ervaringen.json

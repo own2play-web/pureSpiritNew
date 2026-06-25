@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import site from '../data/site.json';
 ---
 
 <PageLayout
@@ -26,33 +27,35 @@ import ContactForm from '../components/ContactForm.astro';
             <h3>Contactgegevens</h3>
             <dl>
               <dt>Praktijk</dt>
-              <dd>Pure Spirit</dd>
+              <dd>{site.naam}</dd>
               <dt>Naam</dt>
-              <dd>Sasja van Geel</dd>
+              <dd>{site.eigenaar}</dd>
               <dt>Adres</dt>
-              <dd>Beethovengaarde 90<br />5344 CK Oss</dd>
+              <dd>{site.adres}<br />{site.postcode} {site.stad}</dd>
               <dt>Telefoon</dt>
-              <dd><a href="tel:0412692162">0412 69 21 62</a></dd>
+              <dd><a href={`tel:${site.telefoon.replace(/\s/g,'')}`}>{site.telefoon}</a></dd>
               <dt>E-mail</dt>
-              <dd><a href="mailto:info@purespirit-oss.nl">info@purespirit-oss.nl</a></dd>
+              <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
               <dt>KVK</dt>
-              <dd>53415000</dd>
+              <dd>{site.kvk}</dd>
             </dl>
           </div>
 
           <div class="info-card info-card--light">
             <h4>Openingstijden</h4>
             <dl>
-              <dt>Maandag – vrijdag</dt>
-              <dd>9:00 – 21:30</dd>
-              <dt>Zaterdag</dt>
-              <dd>Gesloten</dd>
-              <dt>Zondag</dt>
-              <dd>Gesloten</dd>
+              {site.openingstijden.map(o => (
+                <>
+                  <dt>{o.dag}</dt>
+                  <dd>{o.tijd}</dd>
+                </>
+              ))}
             </dl>
-            <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-muted);">
-              <em>Geopend op afspraak</em>
-            </p>
+            {site.openingstijden_opmerking && (
+              <p style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-text-muted);">
+                <em>{site.openingstijden_opmerking}</em>
+              </p>
+            )}
           </div>
 
           <div class="info-card info-card--warning">
@@ -60,7 +63,7 @@ import ContactForm from '../components/ContactForm.astro';
             <p>
               E-mailreacties komen soms in de spamfolder terecht.
               Controleer je spam als je binnen 3 werkdagen niets hebt ontvangen,
-              of bel ons op <a href="tel:0412692162">0412 69 21 62</a>.
+              of bel ons op <a href={`tel:${site.telefoon.replace(/\s/g,'')}`}>{site.telefoon}</a>.
             </p>
           </div>
         </aside>
