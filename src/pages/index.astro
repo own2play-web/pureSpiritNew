@@ -129,6 +129,9 @@ const faqItems = [
   <section class="section">
     <div class="container">
       <div class="about-grid">
+        <div class="about-photo">
+          <img src="/uploads/sasja.jpg" alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
+        </div>
         <div class="about-text">
           <h2>Over Pure Spirit</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
@@ -329,9 +332,23 @@ const faqItems = [
 
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
+    grid-template-columns: 340px 1fr auto;
+    gap: var(--space-12);
     align-items: center;
+  }
+
+  .about-photo {
+    flex-shrink: 0;
+  }
+
+  .sasja-photo {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
 
   .about-highlights {
@@ -388,9 +405,14 @@ const faqItems = [
     margin: 0;
   }
 
-  @media (max-width: 900px) {
-    .about-grid,
+  @media (max-width: 1100px) {
+    .about-grid { grid-template-columns: 260px 1fr; }
+    .about-highlights { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+    .sasja-photo { max-width: 240px; aspect-ratio: 1/1; }
     .hsp-grid { grid-template-columns: 1fr; gap: var(--space-10); }
-    .about-highlights { order: -1; }
   }
 </style>
