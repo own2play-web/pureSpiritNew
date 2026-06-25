@@ -1,0 +1,190 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths({ paginate }) {
+  const allNieuws = await getCollection('nieuws');
+  const sorted = allNieuws.sort(
+    (a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime()
+  );
+  return paginate(sorted, { pageSize: 12 });
+}
+
+const { page } = Astro.props;
+
+// Bepaal welke paginanummers getoond worden (met ellipsis)
+type PageItem = { type: 'page'; num: number } | { type: 'ellipsis'; key: string };
+const pageItems: PageItem[] = [];
+for (let i = 1; i <= page.lastPage; i++) {
+  const isEdge = i === 1 || i === page.lastPage;
+  const isNear = Math.abs(i - page.currentPage) <= 2;
+  if (isEdge || isNear) {
+    pageItems.push({ type: 'page', num: i });
+  } else if (pageItems[pageItems.length - 1]?.type !== 'ellipsis') {
+    pageItems.push({ type: 'ellipsis', key: `ellipsis-${i}` });
+  }
+}
+---
+
+<PageLayout
+  title={page.currentPage === 1 ? 'Nieuws' : `Nieuws – pagina ${page.currentPage}`}
+  heroTitle="Nieuws"
+  heroSubtitle="Het laatste nieuws van Pure Spirit — cursussen, tips en activiteiten."
+  description="Nieuws en updates van Pure Spirit Oss over meditatiecursussen, Bachbloesemtherapie en persoonlijke ontwikkeling."
+>
+  <section class="section">
+    <div class="container">
+
+      <div class="grid grid--3">
+        {page.data.map(post => (
+          <NewsCard
+            title={post.data.titel}
+            date={post.data.datum}
+            excerpt={post.data.samenvatting}
+            href={`/nieuws/${post.slug}/`}
+            category={post.data.categorie}
+          />
+        ))}
+      </div>
+
+      <!-- Paginering -->
+      <nav class="pagination" aria-label="Paginering">
+        <div class="pagination__info">
+          Pagina {page.currentPage} van {page.lastPage}
+          <span class="pagination__count">({page.total} berichten)</span>
+        </div>
+
+        <div class="pagination__controls">
+          {page.url.prev ? (
+            <a href={page.url.prev} class="pagination__btn">← Vorige</a>
+          ) : (
+            <span class="pagination__btn pagination__btn--disabled">← Vorige</span>
+          )}
+
+          <div class="pagination__pages">
+            {pageItems.map(item =>
+              item.type === 'ellipsis' ? (
+                <span class="pagination__ellipsis" key={item.key}>…</span>
+              ) : (
+                <a
+                  href={item.num === 1 ? '/nieuws/' : `/nieuws/${item.num}/`}
+                  class={`pagination__page${item.num === page.currentPage ? ' pagination__page--active' : ''}`}
+                  aria-current={item.num === page.currentPage ? 'page' : undefined}
+                >
+                  {item.num}
+                </a>
+              )
+            )}
+          </div>
+
+          {page.url.next ? (
+            <a href={page.url.next} class="pagination__btn">Volgende →</a>
+          ) : (
+            <span class="pagination__btn pagination__btn--disabled">Volgende →</span>
+          )}
+        </div>
+      </nav>
+
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .pagination {
+    margin-top: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .pagination__info {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .pagination__count {
+    margin-left: var(--space-1);
+  }
+
+  .pagination__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pagination__btn {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: background-color var(--transition), border-color var(--transition);
+  }
+
+  .pagination__btn:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+  }
+
+  .pagination__btn--disabled {
+    color: var(--color-text-muted);
+    pointer-events: none;
+    border-color: var(--color-border);
+  }
+
+  .pagination__pages {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .pagination__page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+  }
+
+  .pagination__page:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+  }
+
+  .pagination__page--active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .pagination__page--active:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: #fff;
+  }
+
+  .pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>
