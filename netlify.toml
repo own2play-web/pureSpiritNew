@@ -5,11 +5,20 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Beveiligingsheaders voor alle pagina's
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Extra beveiliging voor het CMS-admin panel
 [[headers]]
   for = "/admin/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
   from = "/admin"

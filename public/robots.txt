@@ -1,0 +1,4 @@
+# Pre-release: zoekrobots worden volledig geblokkeerd.
+# Verwijder of vervang dit bestand bij de publieke lancering.
+User-agent: *
+Disallow: /

@@ -343,20 +343,6 @@ declare module 'astro:content' {
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
 } & { render(): Render[".md"] };
-"examenstress-bachbloesems-2025.md": {
-	id: "examenstress-bachbloesems-2025.md";
-  slug: "examenstress-bachbloesems-2025";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"examenstress-bachbloesems-2026.md": {
-	id: "examenstress-bachbloesems-2026.md";
-  slug: "examenstress-bachbloesems-2026";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
 "examenstress-bachbloesems-helpen-op-natuurlijke-wijze.md": {
 	id: "examenstress-bachbloesems-helpen-op-natuurlijke-wijze.md";
   slug: "examenstress-bachbloesems-helpen-op-natuurlijke-wijze";
@@ -630,13 +616,6 @@ declare module 'astro:content' {
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
 } & { render(): Render[".md"] };
-"kind-wennen-school-2024.md": {
-	id: "kind-wennen-school-2024.md";
-  slug: "kind-wennen-school-2024";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
 "kindercursussen-2013.md": {
 	id: "kindercursussen-2013.md";
   slug: "kindercursussen-2013";
@@ -826,20 +805,6 @@ declare module 'astro:content' {
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
 } & { render(): Render[".md"] };
-"meditatie-extra-start-2024-november.md": {
-	id: "meditatie-extra-start-2024-november.md";
-  slug: "meditatie-extra-start-2024-november";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"meditatie-extra-start-2025-januari.md": {
-	id: "meditatie-extra-start-2025-januari.md";
-  slug: "meditatie-extra-start-2025-januari";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
 "meditatie-extra-wer-van-start-in-oss.md": {
 	id: "meditatie-extra-wer-van-start-in-oss.md";
   slug: "meditatie-extra-wer-van-start-in-oss";
@@ -850,13 +815,6 @@ declare module 'astro:content' {
 "meditatie-geeft-rust-in-je-hoofd-voor-jongeren-met-hsp-heel-geschikt.md": {
 	id: "meditatie-geeft-rust-in-je-hoofd-voor-jongeren-met-hsp-heel-geschikt.md";
   slug: "meditatie-geeft-rust-in-je-hoofd-voor-jongeren-met-hsp-heel-geschikt";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"meditatie-jongeren-2024-oktober.md": {
-	id: "meditatie-jongeren-2024-oktober.md";
-  slug: "meditatie-jongeren-2024-oktober";
   body: string;
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
@@ -969,13 +927,6 @@ declare module 'astro:content' {
 "meditatie.md": {
 	id: "meditatie.md";
   slug: "meditatie";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"meditatiecursus-jong-volwassenen-2025.md": {
-	id: "meditatiecursus-jong-volwassenen-2025.md";
-  slug: "meditatiecursus-jong-volwassenen-2025";
   body: string;
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
@@ -1267,20 +1218,6 @@ declare module 'astro:content' {
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
 } & { render(): Render[".md"] };
-"summerschool-meditatie-2024.md": {
-	id: "summerschool-meditatie-2024.md";
-  slug: "summerschool-meditatie-2024";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"summerschool-meditatie-2025.md": {
-	id: "summerschool-meditatie-2025.md";
-  slug: "summerschool-meditatie-2025";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
 "summerschool-meditatie-3.md": {
 	id: "summerschool-meditatie-3.md";
   slug: "summerschool-meditatie-3";
@@ -1354,13 +1291,6 @@ declare module 'astro:content' {
 "we-gaan-weer-van-start.md": {
 	id: "we-gaan-weer-van-start.md";
   slug: "we-gaan-weer-van-start";
-  body: string;
-  collection: "nieuws";
-  data: InferEntrySchema<"nieuws">
-} & { render(): Render[".md"] };
-"weer-naar-school-bachbloesems-2025.md": {
-	id: "weer-naar-school-bachbloesems-2025.md";
-  slug: "weer-naar-school-bachbloesems-2025";
   body: string;
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">

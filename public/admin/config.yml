@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: dev
 
 # Lokaal ontwikkelen: zet dit op true + draai `npx netlify-cms-proxy-server`
 local_backend: true

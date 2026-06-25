@@ -13,6 +13,14 @@ export async function getStaticPaths({ paginate }) {
 
 const { page } = Astro.props;
 
+// Unieke categorieën voor filterbalk
+const alleNieuwsVoorFilter = await getCollection('nieuws');
+const categorieen = [...new Set(
+  alleNieuwsVoorFilter
+    .map(p => p.data.categorie)
+    .filter(Boolean)
+)].sort() as string[];
+
 // Bepaal welke paginanummers getoond worden (met ellipsis)
 type PageItem = { type: 'page'; num: number } | { type: 'ellipsis'; key: string };
 const pageItems: PageItem[] = [];
@@ -35,6 +43,19 @@ for (let i = 1; i <= page.lastPage; i++) {
 >
   <section class="section">
     <div class="container">
+
+      <!-- Categorie filter -->
+      <div class="cat-filter">
+        <a href="/nieuws/" class="cat-filter__btn cat-filter__btn--active">Alle</a>
+        {categorieen.map(cat => (
+          <a
+            href={`/nieuws/categorie/${cat.toLowerCase().replace(/\s+/g, '-')}/`}
+            class="cat-filter__btn"
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
 
       <div class="grid grid--3">
         {page.data.map(post => (
@@ -91,6 +112,33 @@ for (let i = 1; i <= page.lastPage; i++) {
 </PageLayout>
 
 <style>
+  .cat-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-10);
+  }
+
+  .cat-filter__btn {
+    display: inline-block;
+    padding: var(--space-1) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+  }
+
+  .cat-filter__btn:hover,
+  .cat-filter__btn--active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+
   .pagination {
     margin-top: var(--space-16);
     display: flex;
