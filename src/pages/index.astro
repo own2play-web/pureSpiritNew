@@ -125,7 +125,7 @@ const faqItems = [
     </div>
   </div>
 
-  <!-- Over Pure Spirit -->
+  <!-- Over Sasja van Geel -->
   <section class="section">
     <div class="container">
       <div class="about-grid">
@@ -133,42 +133,25 @@ const faqItems = [
           <img src="/uploads/IMG-sasja-20190525.jpg" alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
         </div>
         <div class="about-text">
-          <h2>Over Pure Spirit</h2>
+          <span class="about-eyebrow">Wie ben ik?</span>
+          <h2>Over Sasja van Geel</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
           <p class="lead">
-            Bij PURE SPIRIT staat het (her)vinden van je eigen kracht centraal,
-            welke cursus, workshop of activiteit je ook kiest.
+            Al bijna 25 jaar ben ik op zoek gegaan naar ontbrekende puzzelstukjes
+            in mijn leven. Het ontdekken dat ik een hooggevoelig mens ben,
+            gaf al heel veel duidelijkheid.
+          </p>
+          <p>
+            Het begeleiden van mensen op een praktische manier en het overbrengen
+            van mijn kennis en ervaring doe ik met veel plezier in mijn praktijk
+            Pure Spirit.
           </p>
           <p>
             Zuiverheid, eenvoud en kracht zijn de kernwoorden van PURE SPIRIT.
-            We zijn en werken op een niet-zweverige manier. Je krijgt altijd
-            praktische handvatten die je meteen kunt gaan toepassen.
+            We werken op een niet-zweverige manier — je krijgt altijd praktische
+            handvatten die je meteen kunt toepassen.
           </p>
-          <p>
-            Pure Spirit wordt geleid door <strong>Sasja van Geel</strong>, die al bijna 25 jaar
-            mensen begeleidt op een praktische manier. Het ontdekken van haar eigen
-            hooggevoeligheid was voor haar een keerpunt — die kennis en ervaring
-            deelt ze nu met veel plezier in haar praktijk.
-          </p>
-          <a href="/contact/" class="btn btn--primary" style="margin-top: var(--space-4);">Maak een afspraak</a>
-        </div>
-        <div class="about-highlights">
-          <div class="highlight-card">
-            <span class="highlight-card__number">25</span>
-            <span class="highlight-card__label">jaar ervaring</span>
-          </div>
-          <div class="highlight-card">
-            <span class="highlight-card__number">max. 6</span>
-            <span class="highlight-card__label">personen per groep</span>
-          </div>
-          <div class="highlight-card">
-            <span class="highlight-card__number">op maat</span>
-            <span class="highlight-card__label">altijd persoonlijk</span>
-          </div>
-          <div class="highlight-card">
-            <span class="highlight-card__number">niet</span>
-            <span class="highlight-card__label">zweverig</span>
-          </div>
+          <a href="/contact/" class="btn btn--primary" style="margin-top: var(--space-6);">Maak een afspraak</a>
         </div>
       </div>
     </div>
@@ -332,53 +315,33 @@ const faqItems = [
 
   .about-grid {
     display: grid;
-    grid-template-columns: 340px 1fr auto;
-    gap: var(--space-12);
+    grid-template-columns: 360px 1fr;
+    gap: var(--space-16);
     align-items: center;
   }
 
   .about-photo {
-    flex-shrink: 0;
+    position: relative;
   }
 
   .sasja-photo {
     width: 100%;
-    max-width: 340px;
-    aspect-ratio: 3/4;
+    aspect-ratio: 4/5;
     object-fit: cover;
     object-position: center top;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
+    display: block;
   }
 
-  .about-highlights {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
-  }
-
-  .highlight-card {
-    background-color: var(--color-primary-light);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    text-align: center;
-  }
-
-  .highlight-card__number {
-    font-family: var(--font-heading);
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    color: var(--color-primary-dark);
-  }
-
-  .highlight-card__label {
+  .about-eyebrow {
+    display: inline-block;
     font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
   }
 
   .hsp-grid {
@@ -405,14 +368,15 @@ const faqItems = [
     margin: 0;
   }
 
-  @media (max-width: 1100px) {
-    .about-grid { grid-template-columns: 260px 1fr; }
-    .about-highlights { display: none; }
-  }
-
-  @media (max-width: 768px) {
-    .about-grid { grid-template-columns: 1fr; gap: var(--space-8); }
-    .sasja-photo { max-width: 240px; aspect-ratio: 1/1; }
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .sasja-photo {
+      aspect-ratio: 3/2;
+      object-position: center 20%;
+    }
     .hsp-grid { grid-template-columns: 1fr; gap: var(--space-10); }
   }
 </style>
