@@ -1,0 +1,413 @@
+---
+interface Cursus {
+  titel: string;
+  type?: string;
+  status: string;
+  data: string[];
+}
+
+interface Props {
+  cursussen: Cursus[];
+}
+
+const { cursussen } = Astro.props;
+
+function slugify(s: string) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+type DagInfo = { titel: string; type?: string; isStart: boolean; cursusId: string };
+
+const dagMap: Record<string, DagInfo[]> = {};
+for (const cursus of cursussen) {
+  for (let i = 0; i < cursus.data.length; i++) {
+    const datum = cursus.data[i];
+    if (!dagMap[datum]) dagMap[datum] = [];
+    dagMap[datum].push({
+      titel:    cursus.titel,
+      type:     cursus.type,
+      isStart:  i === 0,
+      cursusId: `cursus-${slugify(cursus.titel)}`,
+    });
+  }
+}
+
+const nu = new Date();
+nu.setHours(0, 0, 0, 0);
+
+const maandSet = new Set<string>();
+for (const datum of Object.keys(dagMap)) {
+  if (new Date(datum) >= nu) {
+    const d = new Date(datum);
+    maandSet.add(`${d.getFullYear()}-${d.getMonth()}`);
+  }
+}
+maandSet.add(`${nu.getFullYear()}-${nu.getMonth()}`);
+
+const kalenderMaanden = Array.from(maandSet)
+  .map(s => { const [y, m] = s.split('-'); return { jaar: +y, maand: +m }; })
+  .sort((a, b) => a.jaar !== b.jaar ? a.jaar - b.jaar : a.maand - b.maand);
+
+const maandNamen = ['Januari','Februari','Maart','April','Mei','Juni',
+                    'Juli','Augustus','September','Oktober','November','December'];
+const dagKort    = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+
+const typeKleur: Record<string, string> = {
+  'Meditatie': '#00695c',
+  'Jongeren':  '#e65100',
+  'Coaching':  '#512da8',
+  'HSP':       '#c62828',
+  'Workshop':  '#2e7d32',
+};
+const typeBg: Record<string, string> = {
+  'Meditatie': '#e0f2f1',
+  'Jongeren':  '#fff3e0',
+  'Coaching':  '#ede7f6',
+  'HSP':       '#fce4ec',
+  'Workshop':  '#e8f5e9',
+};
+
+function buildCellen(jaar: number, maand: number): (number | null)[] {
+  const eersteDag   = new Date(jaar, maand, 1);
+  const aantaldagen = new Date(jaar, maand + 1, 0).getDate();
+  let startKolom    = eersteDag.getDay() - 1;
+  if (startKolom < 0) startKolom = 6;
+  const cellen: (number | null)[] = Array(startKolom).fill(null);
+  for (let d = 1; d <= aantaldagen; d++) cellen.push(d);
+  while (cellen.length % 7 !== 0) cellen.push(null);
+  return cellen;
+}
+
+function datumSleutel(jaar: number, maand: number, dag: number) {
+  return `${jaar}-${String(maand + 1).padStart(2,'0')}-${String(dag).padStart(2,'0')}`;
+}
+
+const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate());
+
+const legendaTypes = Array.from(
+  new Set(cursussen.map(c => c.type).filter(Boolean) as string[])
+);
+---
+
+<div class="kalender-wrapper">
+  <div class="kalender-grid">
+    {kalenderMaanden.map(({ jaar, maand }) => {
+      const cellen = buildCellen(jaar, maand);
+      return (
+        <div class="kalender-maand">
+          <h3 class="kalender-maand__titel">{maandNamen[maand]} {jaar}</h3>
+          <div class="kalender-dag-namen">
+            {dagKort.map(d => <span>{d}</span>)}
+          </div>
+          <div class="kalender-cellen">
+            {cellen.map(dag => {
+              if (!dag) return <span class="cel cel--leeg" />;
+
+              const sleutel    = datumSleutel(jaar, maand, dag);
+              const items      = dagMap[sleutel] ?? [];
+              const isVandaag  = sleutel === vandaagSleutel;
+              const heeftStart = items.some(d => d.isStart);
+              const eersteType = items[0]?.type;
+              const cursusId   = items[0]?.cursusId ?? '';
+
+              const tooltip = items
+                .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
+                .join('\n');
+
+              return items.length > 0 ? (
+                <button
+                  class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg']}
+                  style={eersteType ? `--cel-bg:${typeBg[eersteType]};--cel-kleur:${typeKleur[eersteType]}` : ''}
+                  data-tooltip={tooltip}
+                  data-cursus-id={cursusId}
+                  type="button"
+                >
+                  {dag}
+                </button>
+              ) : (
+                <span class:list={['cel', isVandaag && 'cel--vandaag']}>{dag}</span>
+              );
+            })}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <div class="kalender-legenda-rij">
+    {legendaTypes.length > 0 && (
+      <ul class="kalender-legenda">
+        {legendaTypes.map(type => (
+          <li>
+            <span class="legenda-kleur" style={`background-color:${typeBg[type]};color:${typeKleur[type]}`}>{type.slice(0,1)}</span>
+            {type}
+          </li>
+        ))}
+      </ul>
+    )}
+    <ul class="kalender-legenda">
+      <li><span class="legenda-start">9</span> Startdatum</li>
+      <li><span class="legenda-vervolg">9</span> Vervolgles</li>
+    </ul>
+  </div>
+</div>
+
+<div id="kal-tooltip" class="kal-tooltip" role="tooltip"></div>
+
+<script>
+  const tooltip  = document.getElementById('kal-tooltip') as HTMLDivElement;
+  let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function toon(knop: HTMLButtonElement) {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+
+    const info = knop.dataset.tooltip ?? '';
+    tooltip.innerHTML = info
+      .split('\n')
+      .map(r => `<span>${r}</span>`)
+      .join('');
+    tooltip.classList.add('kal-tooltip--zichtbaar');
+
+    // Positioneer onder de knop
+    const r  = knop.getBoundingClientRect();
+    const tw = tooltip.offsetWidth;
+    let left = r.left + window.scrollX + r.width / 2 - tw / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+    tooltip.style.top  = `${r.bottom + window.scrollY + 6}px`;
+    tooltip.style.left = `${left}px`;
+  }
+
+  function verberg(vertraging = 0) {
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      tooltip.classList.remove('kal-tooltip--zichtbaar');
+    }, vertraging);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-cursus-id]').forEach(knop => {
+    knop.addEventListener('mouseenter', () => toon(knop));
+    knop.addEventListener('mouseleave', () => verberg(120));
+
+    knop.addEventListener('click', () => {
+      verberg(0);
+      const id = knop.dataset.cursusId;
+      if (!id) return;
+      const kaart = document.getElementById(id);
+      if (!kaart) return;
+      kaart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      kaart.classList.add('cursus-kaart--highlight');
+      setTimeout(() => kaart.classList.remove('cursus-kaart--highlight'), 1400);
+    });
+  });
+
+  tooltip.addEventListener('mouseenter', () => {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+  });
+  tooltip.addEventListener('mouseleave', () => verberg(80));
+</script>
+
+<style>
+  .kalender-wrapper {
+    margin-bottom: var(--space-12);
+  }
+
+  .kalender-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .kalender-maand {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+
+  .kalender-maand__titel {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .kalender-dag-namen {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--space-1);
+  }
+
+  .kalender-dag-namen span {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-align: center;
+    padding-block: var(--space-1);
+  }
+
+  .kalender-cellen {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .cel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    font-weight: 400;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default;
+  }
+
+  .cel--leeg { visibility: hidden; }
+
+  .cel--vandaag {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+    font-weight: 700;
+  }
+
+  /* Startdatum: gevulde gekleurde achtergrond */
+  .cel--start {
+    background-color: var(--cel-bg);
+    color: var(--cel-kleur);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .cel--start:hover {
+    filter: brightness(0.93);
+  }
+
+  /* Vervolgles: stippeltje onder het getal */
+  .cel--vervolg {
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .cel--vervolg:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .cel--vervolg::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--cel-kleur, var(--color-primary));
+  }
+
+  /* Tooltip */
+  .kal-tooltip {
+    position: absolute;
+    z-index: 200;
+    background-color: var(--color-text);
+    color: var(--color-text-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    line-height: 1.8;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 240px;
+    box-shadow: var(--shadow-md);
+    pointer-events: none;
+  }
+
+  .kal-tooltip--zichtbaar {
+    display: flex;
+    pointer-events: auto;
+  }
+
+  /* Legenda */
+  .kalender-legenda-rij {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .kalender-legenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .kalender-legenda li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .legenda-kleur {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .legenda-start {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+  }
+
+  .legenda-vervolg {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: var(--text-xs);
+    color: var(--color-text);
+  }
+
+  .legenda-vervolg::after {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
+</style>

@@ -29,11 +29,11 @@ Heerlijk even tijd voor jezelf!
 
 ## Meditatie voor jong volwassenen (±20–27 jaar)
 
-Speciaal voor mensen van ongeveer 20 tot 27 jaar. De cursus omvat zes lessen, één keer per maand van 19:30 tot 20:45 uur. Rust in je hoofd — dat is het doel.
+Speciaal voor mensen van ongeveer 20 tot 27 jaar. De cursus omvat zes lessen, één keer per maand van 19:30 tot 20:45 uur. Rust in je hoofd: dat is het doel.
 
 ## Meditatie voor jongeren (15–19 jaar)
 
-Een meditatiecursus speciaal voor jongeren van 15 tot 19 jaar. Zes maandelijkse lessen van 19:30 tot 20:30 uur. In je hoofd is het vaak heel druk — meditatie helpt je om rustiger te worden en je beter te kunnen concentreren.
+Een meditatiecursus speciaal voor jongeren van 15 tot 19 jaar. Zes maandelijkse lessen van 19:30 tot 20:30 uur. In je hoofd is het vaak heel druk. Meditatie helpt je om rustiger te worden en je beter te kunnen concentreren.
 
 ## Summerschool meditatie
 

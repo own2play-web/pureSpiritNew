@@ -12,7 +12,8 @@ const { quote, author, service } = Astro.props;
   <svg class="testimonial__quote-icon" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="32" height="24">
     <path d="M0 24V14.4C0 10.56 0.96 7.28 2.88 4.56 4.8 1.84 7.6 0.24 11.28 0L12 1.92C9.76 2.48 7.96 3.6 6.6 5.28 5.24 6.96 4.56 8.64 4.56 10.32H8.4V24H0ZM19.6 24V14.4C19.6 10.56 20.56 7.28 22.48 4.56 24.4 1.84 27.2 0.24 30.88 0L31.6 1.92C29.36 2.48 27.56 3.6 26.2 5.28 24.84 6.96 24.16 8.64 24.16 10.32H28V24H19.6Z" fill="currentColor"/>
   </svg>
-  <blockquote class="testimonial__text">{quote}</blockquote>
+  <blockquote class="testimonial__text testimonial__text--clamped">{quote}</blockquote>
+  <button class="testimonial__toggle" aria-expanded="false">Lees meer</button>
   {(author || service) && (
     <figcaption class="testimonial__meta">
       {author && <span class="testimonial__author">{author}</span>}
@@ -20,6 +21,31 @@ const { quote, author, service } = Astro.props;
     </figcaption>
   )}
 </figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.testimonial').forEach(card => {
+    const text = card.querySelector<HTMLElement>('.testimonial__text');
+    const btn  = card.querySelector<HTMLButtonElement>('.testimonial__toggle');
+    if (!text || !btn) return;
+
+    // Temporarily remove clamp to measure full height, then restore.
+    // scrollHeight with line-clamp active is unreliable across browsers.
+    text.classList.remove('testimonial__text--clamped');
+    const fullHeight = text.scrollHeight;
+    text.classList.add('testimonial__text--clamped');
+    const clampedHeight = text.clientHeight;
+
+    if (fullHeight > clampedHeight + 2) {
+      btn.style.display = 'block';
+      btn.addEventListener('click', () => {
+        const isClamped = text.classList.contains('testimonial__text--clamped');
+        text.classList.toggle('testimonial__text--clamped');
+        btn.setAttribute('aria-expanded', String(isClamped));
+        btn.textContent = isClamped ? 'Lees minder' : 'Lees meer';
+      });
+    }
+  });
+</script>
 
 <style>
   .testimonial {
@@ -44,7 +70,32 @@ const { quote, author, service } = Astro.props;
     line-height: 1.8;
     border: none;
     padding: 0;
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-3);
+  }
+
+  .testimonial__text--clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .testimonial__toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .testimonial__toggle:hover {
+    color: var(--color-primary-dark);
   }
 
   .testimonial__meta {

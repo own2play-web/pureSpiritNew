@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import nav from '../data/navigatie.json';
 const currentYear = new Date().getFullYear();
 ---
 
@@ -9,34 +10,27 @@ const currentYear = new Date().getFullYear();
       <a href="/" class="footer__logo">
         <img src="/uploads/pure-spirit-logo-95px-hoog.png" alt="Pure Spirit Oss" class="footer__logo-img" />
       </a>
-      <p>
-        Bachbloesemtherapie, Meditatie, Coaching,<br />
-        Begeleiding HSP en Persoonlijke Ontwikkeling.
-      </p>
+      <p>{nav.footer_beschrijving}</p>
       <p class="footer__motto">
-        <em>Zuiverheid · Eenvoud · Kracht</em>
+        <em>{nav.footer_motto}</em>
       </p>
     </div>
 
     <div class="footer__col">
       <h4>Diensten</h4>
       <ul>
-        <li><a href="/diensten/bachbloesemtherapie/">Bachbloesemtherapie</a></li>
-        <li><a href="/diensten/meditatie/">Meditatie</a></li>
-        <li><a href="/diensten/coaching/">Coaching</a></li>
-        <li><a href="/diensten/begeleiding-hsp/">Begeleiding HSP</a></li>
-        <li><a href="/diensten/persoonlijke-groei/">Persoonlijke groei</a></li>
+        {nav.footer_diensten.map(item => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
       </ul>
     </div>
 
     <div class="footer__col">
       <h4>Navigatie</h4>
       <ul>
-        <li><a href="/tarieven/">Tarieven</a></li>
-        <li><a href="/nieuws/">Nieuws</a></li>
-        <li><a href="/ervaringen/">Ervaringen</a></li>
-        <li><a href="/contact/">Contact</a></li>
-        <li><a href="/contact/">Aanmelden</a></li>
+        {nav.footer_navigatie.map(item => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
       </ul>
     </div>
 

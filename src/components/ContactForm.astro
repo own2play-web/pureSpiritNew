@@ -7,6 +7,7 @@
   method="POST"
   data-netlify="true"
   netlify-honeypot="bot-field"
+  data-netlify-recaptcha="true"
   class="contact-form"
   action="/contact/bedankt/"
 >
@@ -56,8 +57,31 @@
     of bel ons op <a href="tel:0412692162">0412 69 21 62</a>.
   </p>
 
+  <div data-netlify-recaptcha="true"></div>
+
   <button type="submit" class="btn btn--primary">Verstuur bericht</button>
 </form>
+
+<script>
+  const params   = new URLSearchParams(window.location.search);
+  const sessie   = params.get('sessie');
+  const datum    = params.get('datum');
+  const isAnimo  = params.has('animo');
+
+  if (sessie) {
+    const onderwerp = document.getElementById('onderwerp') as HTMLSelectElement | null;
+    const bericht   = document.getElementById('bericht')   as HTMLTextAreaElement | null;
+
+    if (onderwerp) onderwerp.value = 'aanmelden';
+
+    if (bericht) {
+      const omschrijving = datum ? `${sessie} op ${datum}` : sessie;
+      bericht.value = isAnimo
+        ? `Ik heb interesse in: ${omschrijving}.\n\nGraag meer informatie als er voldoende animo is.`
+        : `Ik wil me graag aanmelden voor: ${omschrijving}.`;
+    }
+  }
+</script>
 
 <style>
   .contact-form {

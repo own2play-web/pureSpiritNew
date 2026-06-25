@@ -1,0 +1,20 @@
+{
+  "header_cta_label": "Inschrijven",
+  "header_cta_url": "/agenda/",
+  "footer_beschrijving": "Bachbloesemtherapie, Meditatie, Coaching, Begeleiding HSP en Persoonlijke Ontwikkeling.",
+  "footer_motto": "Zuiverheid · Eenvoud · Kracht",
+  "footer_diensten": [
+    { "label": "Bachbloesemtherapie", "href": "/diensten/bachbloesemtherapie/" },
+    { "label": "Meditatie",           "href": "/diensten/meditatie/" },
+    { "label": "Coaching",            "href": "/diensten/coaching/" },
+    { "label": "Begeleiding HSP",     "href": "/diensten/begeleiding-hsp/" },
+    { "label": "Persoonlijke groei",  "href": "/diensten/persoonlijke-groei/" }
+  ],
+  "footer_navigatie": [
+    { "label": "Tarieven",   "href": "/tarieven/" },
+    { "label": "Nieuws",     "href": "/nieuws/" },
+    { "label": "Agenda",     "href": "/agenda/" },
+    { "label": "Ervaringen", "href": "/ervaringen/" },
+    { "label": "Contact",    "href": "/contact/" }
+  ]
+}

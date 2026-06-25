@@ -17,7 +17,7 @@ sidebar_items:
 
 ## Persoonlijke ontwikkeling bij Pure Spirit
 
-Bij Pure Spirit vind je een uitgebreid aanbod aan cursussen en workshops gericht op persoonlijke groei. Voor alle leeftijden — van kinderen tot volwassenen.
+Bij Pure Spirit vind je een uitgebreid aanbod aan cursussen en workshops gericht op persoonlijke groei. Voor alle leeftijden, van kinderen tot volwassenen.
 
 Alle activiteiten zijn praktisch ingesteld: je krijgt handvatten die je meteen kunt toepassen in je dagelijks leven. En dat in een veilige, kleine groep van maximaal 6 personen, zodat er ruimte is voor persoonlijke aandacht.
 

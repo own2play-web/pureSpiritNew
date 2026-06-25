@@ -1,0 +1,58 @@
+{
+  "cursussen": [
+    {
+      "titel": "Meditatie Extra",
+      "type": "Meditatie",
+      "tijdstip": "19:30 – 21:00",
+      "locatie": "Oss",
+      "prijs": "Cursus (6 lessen)",
+      "max_plaatsen": 6,
+      "status": "open",
+      "beschrijving": "Meditatiecursus voor volwassenen in een kleine groep van maximaal 6 personen. Leer je gedachten tot rust te brengen en meer bij jezelf te zijn.",
+      "data": [
+        "2026-09-09",
+        "2026-10-14",
+        "2026-11-11",
+        "2026-12-09",
+        "2027-01-13",
+        "2027-02-10"
+      ]
+    },
+    {
+      "titel": "Kindermeditatie",
+      "type": "Jongeren",
+      "tijdstip": "19:30 – 20:30",
+      "locatie": "Oss",
+      "prijs": "Cursus (6 lessen)",
+      "max_plaatsen": 6,
+      "status": "animo",
+      "beschrijving": "Meditatiecursus voor jongeren van 15 tot 19 jaar. Rust in je hoofd, zes maandelijkse lessen.",
+      "data": [
+        "2026-10-07",
+        "2026-11-04",
+        "2026-12-02",
+        "2027-01-06",
+        "2027-02-03",
+        "2027-03-03"
+      ]
+    },
+    {
+      "titel": "Meditatie voor jong volwassenen",
+      "type": "Meditatie",
+      "tijdstip": "19:30 – 20:45",
+      "locatie": "Oss",
+      "prijs": "Cursus (6 lessen)",
+      "max_plaatsen": 6,
+      "status": "gesloten",
+      "beschrijving": "Cursus voor jong volwassenen van ongeveer 20 tot 27 jaar. Zes maandelijkse lessen.",
+      "data": [
+        "2026-10-14",
+        "2026-11-11",
+        "2026-12-09",
+        "2027-01-13",
+        "2027-02-10",
+        "2027-03-10"
+      ]
+    }
+  ]
+}

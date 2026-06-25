@@ -140,6 +140,32 @@ collections:
           - { label: Facebook URL,   name: facebook,  widget: string, required: false }
           - { label: Instagram URL,  name: instagram, widget: string, required: false }
 
+      # Navigatie (header & footer)
+      - label: Navigatie (header & footer)
+        name: navigatie
+        file: src/data/navigatie.json
+        fields:
+          - { label: "Header – Knop tekst", name: header_cta_label, widget: string }
+          - { label: "Header – Knop URL",   name: header_cta_url,   widget: string }
+          - { label: "Footer – Beschrijving", name: footer_beschrijving, widget: text }
+          - { label: "Footer – Motto",        name: footer_motto,        widget: string }
+          - label: "Footer – Diensten links"
+            name: footer_diensten
+            widget: list
+            label_singular: Link
+            summary: "{{fields.label}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL,   name: href,  widget: string }
+          - label: "Footer – Navigatie links"
+            name: footer_navigatie
+            widget: list
+            label_singular: Link
+            summary: "{{fields.label}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL,   name: href,  widget: string }
+
       # FAQ
       - label: Veelgestelde vragen
         name: faq
@@ -164,4 +190,37 @@ collections:
               - { label: Dienst,        name: dienst,        widget: string }
               - { label: Prijs,         name: prijs,         widget: string }
               - { label: Omschrijving,  name: omschrijving,  widget: string, required: false }
+
+      # Agenda
+      - label: Agenda
+        name: agenda
+        file: src/data/agenda.json
+        fields:
+          - label: Cursussen
+            name: cursussen
+            widget: list
+            label_singular: Cursus
+            summary: "{{fields.titel}} – start {{fields.data}}"
+            fields:
+              - { label: Naam cursus,   name: titel,      widget: string }
+              - { label: Type,          name: type,       widget: select, options: [Meditatie, Jongeren, Coaching, HSP, Workshop], required: false }
+              - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
+              - { label: Locatie,       name: locatie,    widget: string, default: Oss }
+              - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }
+              - { label: Max. plaatsen, name: max_plaatsen, widget: number, required: false }
+              - label: Status
+                name: status
+                widget: select
+                options:
+                  - { label: "Inschrijving open",         value: open     }
+                  - { label: "Start bij voldoende animo", value: animo    }
+                  - { label: "Gesloten",                  value: gesloten }
+                default: open
+              - { label: Beschrijving,  name: beschrijving, widget: text, required: false }
+              - label: Lesdagen
+                name: data
+                widget: list
+                label_singular: Lesdag
+                hint: "Voeg de data toe, te beginnen met de startdatum"
+                field: { label: Datum, name: datum, widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
 

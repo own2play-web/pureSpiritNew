@@ -1,0 +1,353 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import AgendaKalender from '../components/AgendaKalender.astro';
+import agendaData from '../data/agenda.json';
+
+const vandaag = new Date();
+vandaag.setHours(0, 0, 0, 0);
+
+const maandNamen = ['januari','februari','maart','april','mei','juni',
+                    'juli','augustus','september','oktober','november','december'];
+const maandKort  = ['jan','feb','mrt','apr','mei','jun',
+                    'jul','aug','sep','okt','nov','dec'];
+
+function slugify(s: string) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function formatDatum(datumStr: string) {
+  const d = new Date(datumStr);
+  return `${d.getDate()} ${maandNamen[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function contactUrl(titel: string, datum: string, status: string) {
+  const params = new URLSearchParams({
+    sessie: titel,
+    datum:  formatDatum(datum),
+    ...(status === 'animo' ? { animo: '1' } : {}),
+  });
+  return `/contact/?${params.toString()}`;
+}
+
+// Filter: cursus is relevant als de startdatum in de toekomst ligt
+const komend = agendaData.cursussen
+  .filter(c => c.data.length > 0 && new Date(c.data[0]) >= vandaag)
+  .sort((a, b) => new Date(a.data[0]).getTime() - new Date(b.data[0]).getTime());
+
+// Groepeer op maand van de startdatum
+const maanden: Record<string, typeof komend> = {};
+for (const cursus of komend) {
+  const d    = new Date(cursus.data[0]);
+  const sleu = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  if (!maanden[sleu]) maanden[sleu] = [];
+  maanden[sleu].push(cursus);
+}
+
+const typekleur: Record<string, string> = {
+  'Meditatie':  'badge--meditatie',
+  'Jongeren':   'badge--jongeren',
+  'Coaching':   'badge--coaching',
+  'HSP':        'badge--hsp',
+  'Workshop':   'badge--workshop',
+};
+---
+
+<PageLayout
+  title="Agenda"
+  heroTitle="Agenda"
+  heroSubtitle="Bekijk wanneer de eerstvolgende cursussen starten en schrijf je in."
+  description="Agenda van Pure Spirit Oss – meditatiecursussen, workshops en sessies in Oss."
+>
+  <section class="section">
+    <div class="container">
+      {komend.length > 0 && (
+        <AgendaKalender cursussen={agendaData.cursussen} />
+      )}
+
+      {Object.keys(maanden).length === 0 ? (
+        <p class="geen-cursussen">Er zijn momenteel geen komende cursussen gepland. Kom later terug of neem <a href="/contact/">contact op</a> voor meer informatie.</p>
+      ) : (
+        Object.entries(maanden).map(([sleutel, cursussen]) => {
+          const [jaar, maand] = sleutel.split('-');
+          const maandNaam = maandNamen[Number(maand) - 1];
+          return (
+            <div class="maand-groep">
+              <h2 class="maand-titel">{maandNaam} {jaar}</h2>
+              <ul class="cursus-lijst">
+                {cursussen.map(cursus => {
+                  const { titel, type, tijdstip, locatie, prijs, max_plaatsen, status, beschrijving, data } = cursus;
+                  const startDatum  = data[0];
+                  const overigData  = data.slice(1);
+                  const badgeKlasse = type ? (typekleur[type] ?? 'badge--overig') : '';
+                  const startD      = new Date(startDatum);
+                  return (
+                    <li class="cursus-kaart" id={`cursus-${slugify(titel)}`}>
+                      <div class="cursus-datum-blok">
+                        <span class="cursus-dag">{startD.getDate()}</span>
+                        <span class="cursus-maand">{maandKort[startD.getMonth()]}</span>
+                      </div>
+                      <div class="cursus-inhoud">
+                        <div class="cursus-header">
+                          <h3 class="cursus-titel">{titel}</h3>
+                          {type && <span class:list={['badge', badgeKlasse]}>{type}</span>}
+                        </div>
+                        {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
+                        <ul class="cursus-meta">
+                          {tijdstip && (
+                            <li>
+                              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                              {tijdstip}
+                            </li>
+                          )}
+                          <li>
+                            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            {locatie}
+                          </li>
+                          {prijs && (
+                            <li>
+                              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                              {prijs}
+                            </li>
+                          )}
+                          {max_plaatsen && (
+                            <li>
+                              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                              Max. {max_plaatsen} personen
+                            </li>
+                          )}
+                        </ul>
+                        {overigData.length > 0 && (
+                          <p class="overige-data">
+                            <span class="overige-data__label">Overige lessen:</span>
+                            {overigData.map((d, i) => {
+                              const dt = new Date(d);
+                              return (
+                                <span class="overige-data__datum">
+                                  {dt.getDate()} {maandKort[dt.getMonth()]}{i < overigData.length - 1 ? ' ·' : ''}
+                                </span>
+                              );
+                            })}
+                          </p>
+                        )}
+                      </div>
+                      <div class="cursus-actie">
+                        {status === 'open' && (
+                          <a href={contactUrl(titel, startDatum, status)} class="btn btn--primary">Schrijf je in</a>
+                        )}
+                        {status === 'animo' && (
+                          <div class="animo-wrap">
+                            <a href={contactUrl(titel, startDatum, status)} class="btn btn--outline">Geef interesse aan</a>
+                            <p class="animo-toelichting">Start bij voldoende animo</p>
+                          </div>
+                        )}
+                        {status === 'gesloten' && (
+                          <span class="btn btn--muted">Gesloten</span>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .geen-cursussen {
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+  }
+
+  .maand-groep {
+    margin-bottom: var(--space-12);
+  }
+
+  .maand-titel {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: capitalize;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .cursus-lijst {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .cursus-kaart {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: var(--space-5);
+    align-items: start;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    scroll-margin-top: 100px;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .cursus-kaart--highlight {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+
+  .cursus-datum-blok {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    text-align: center;
+    min-width: 56px;
+  }
+
+  .cursus-dag {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    line-height: 1;
+  }
+
+  .cursus-maand {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: var(--space-1);
+  }
+
+  .cursus-inhoud {
+    min-width: 0;
+  }
+
+  .cursus-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2);
+  }
+
+  .cursus-titel {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .cursus-beschrijving {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+    line-height: 1.6;
+  }
+
+  .cursus-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+  }
+
+  .cursus-meta li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .cursus-meta svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .overige-data {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1);
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .overige-data__label {
+    font-weight: 600;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .overige-data__datum {
+    white-space: nowrap;
+  }
+
+  .cursus-actie {
+    display: flex;
+    align-items: flex-start;
+    padding-top: var(--space-1);
+  }
+
+  .animo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+  }
+
+  .animo-toelichting {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    font-family: var(--font-body);
+    white-space: nowrap;
+  }
+
+  .badge--meditatie  { background-color: #e0f2f1; color: #00695c; }
+  .badge--jongeren   { background-color: #fff3e0; color: #e65100; }
+  .badge--coaching   { background-color: #ede7f6; color: #512da8; }
+  .badge--hsp        { background-color: #fce4ec; color: #c62828; }
+  .badge--workshop   { background-color: #e8f5e9; color: #2e7d32; }
+  .badge--overig     { background-color: var(--color-primary-light); color: var(--color-primary-dark); }
+
+  @media (max-width: 640px) {
+    .cursus-kaart {
+      grid-template-columns: 52px 1fr;
+      grid-template-rows: auto auto;
+    }
+
+    .cursus-actie {
+      grid-column: 2;
+      padding-top: var(--space-3);
+    }
+
+    .animo-wrap { align-items: flex-start; }
+  }
+</style>

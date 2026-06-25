@@ -19,7 +19,7 @@ sidebar_items:
 
 ## Eenvoudig en puur
 
-De Bachbloesemtherapie is begin vorige eeuw ontwikkeld door de Britse arts Edward Bach. Het uitgangspunt van Bach is dat een ziekte in de meeste gevallen ontstaat door een onbalans in het lichaam — veroorzaakt door negatieve emoties zoals angst, onzekerheid, de neiging controle te houden, een laag zelfbeeld of perfectionisme.
+De Bachbloesemtherapie is begin vorige eeuw ontwikkeld door de Britse arts Edward Bach. Het uitgangspunt van Bach is dat een ziekte in de meeste gevallen ontstaat door een onbalans in het lichaam, veroorzaakt door negatieve emoties zoals angst, onzekerheid, de neiging controle te houden, een laag zelfbeeld of perfectionisme.
 
 Door het gebruik van de juiste bloesemremedies worden deze negatieve emoties geneutraliseerd en worden de bijbehorende positieve eigenschappen versterkt. Het resultaat is een herstel van balans en een betere weerbaarheid.
 
@@ -29,7 +29,7 @@ De Bachremedies kunnen prima gebruikt worden in combinatie met andere medicatie 
 
 Goede resultaten kunnen al in zeer korte tijd bereikt worden. In de meeste situaties zijn **3 à 4 afspraken**, met hiertussen telkens een maand, al voldoende.
 
-De eerste afspraak — inclusief intakegesprek — duurt bij volwassenen ongeveer anderhalf uur. Vervolgafspraken zijn korter.
+De eerste afspraak, inclusief intakegesprek, duurt bij volwassenen ongeveer anderhalf uur. Vervolgafspraken zijn korter.
 
 ## Voor wie?
 

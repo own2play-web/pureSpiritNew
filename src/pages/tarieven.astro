@@ -9,161 +9,236 @@ import PageLayout from '../layouts/PageLayout.astro';
   description="Tarieven voor Bachbloesemtherapie, Meditatie, Coaching en HSP-begeleiding bij Pure Spirit Oss."
 >
   <section class="section">
-    <div class="container container--narrow">
+    <div class="container">
 
       <div class="notice">
-        <p>
-          Bij PURE SPIRIT gelden de volgende tarieven.
-          <strong>Per 1 januari 2026 worden de tarieven aangepast.</strong>
-        </p>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>Bij Pure Spirit gelden de volgende tarieven. <strong>Per 1 januari 2026 worden de tarieven aangepast.</strong></p>
       </div>
 
-      <h2>Tarief BachBloesemtherapie</h2>
-      <p>
-        Het tarief van de BachBloesemtherapie bedraagt <strong>€&nbsp;75,–</strong> voor een uur en
-        <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.
-      </p>
-      <p>
-        De eerste afspraak, inclusief intakegesprek, zal ongeveer anderhalf uur duren. De vervolgafspraken
-        zullen, afhankelijk van de problematiek, meestal korter zijn.
-      </p>
-      <p>
-        Het flesje BachBloesemremedies, dat voor jou persoonlijk wordt samengesteld tijdens het consult,
-        kost <strong>€&nbsp;10,–</strong>.
-      </p>
-      <p>
-        In sommige situaties is het mogelijk om een zelfde (vervolg)flesje te laten maken, zonder een consult.
-        Een flesje Bachremedies kost dan <strong>€&nbsp;25,–</strong>.
-        Als het flesje wordt opgestuurd komen de verzendkosten er bij.
-      </p>
+      <!-- Twee-koloms layout: uitleg links, tabel rechts -->
+      <div class="hoofd-layout">
 
-      <h2>Tarief Privéconsult en Coaching</h2>
-      <p>
-        Het tarief van een privéconsult bedraagt <strong>€&nbsp;75,–</strong> voor een uur en
-        <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.
-      </p>
-      <p>
-        Het eerste consult, inclusief intakegesprek, zal ongeveer anderhalf uur duren. De vervolgafspraken
-        zullen, afhankelijk van de problematiek, meestal korter zijn.
-      </p>
+        <div class="uitleg-kolom">
+          <article class="uitleg-sectie">
+            <h2>Bachbloesemtherapie</h2>
+            <p>Het tarief bedraagt <strong>€&nbsp;75,–</strong> voor een uur en <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.</p>
+            <p>De eerste afspraak, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter.</p>
+            <p>Het flesje BachBloesemremedies dat persoonlijk voor jou wordt samengesteld tijdens het consult kost <strong>€&nbsp;10,–</strong>. Een zelfde (vervolg)flesje zonder consult kost <strong>€&nbsp;25,–</strong>; bij verzending komen verzendkosten bij.</p>
+          </article>
 
-      <h2>Tarief Consult op afstand</h2>
-      <p>
-        Het is altijd mogelijk om een consult op afstand te doen. Dit kan telefonisch of via beeldbellen.
-        De tarieven zijn hetzelfde als bij afspraken in de praktijk. Omdat er meer werk is achteraf aan het
-        maken van het dossier en het maken van het Bachbloesem flesje wordt er 15 minuten bijgeteld.
-        De ervaring leert dat de tijd dan hetzelfde is als bij een praktijkafspraak.
-      </p>
+          <article class="uitleg-sectie">
+            <h2>Privéconsult &amp; Coaching</h2>
+            <p>Het tarief bedraagt <strong>€&nbsp;75,–</strong> voor een uur en <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.</p>
+            <p>Het eerste consult, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter.</p>
+          </article>
 
-      <h2>Betaling</h2>
-      <p>
-        Na afloop van het consult krijg je met de mail de factuur gestuurd. Hierop is de werkelijke tijd die
-        het consult heeft geduurd in rekening gebracht. Daarbij gelden de onderstaande tarieven.
-      </p>
+          <article class="uitleg-sectie">
+            <h2>Consult op afstand</h2>
+            <p>Altijd mogelijk, telefonisch of via beeldbellen. De tarieven zijn hetzelfde als bij afspraken in de praktijk.</p>
+            <p>Omdat er achteraf meer werk is aan het dossier en het Bachbloesemflesje, wordt 15 minuten bijgeteld. De totale tijd is daarmee vergelijkbaar met een praktijkafspraak.</p>
+          </article>
 
-      <h2>Overzicht tarieven</h2>
-      <div class="price-table">
-        <div class="price-row">
-          <span>Consult tot 30 minuten</span>
-          <span class="price">€&nbsp;55,–</span>
+          <article class="uitleg-sectie">
+            <h2>Annuleren</h2>
+            <p>Je mag de afspraak <strong>kosteloos annuleren tot 48 uur</strong> van tevoren. Tot 12 uur van tevoren betaal je de helft van een ingepland consult (90 min.). Daarna betaal je het volledige consult.</p>
+          </article>
         </div>
-        <div class="price-row">
-          <span>30–45 minuten</span>
-          <span class="price">€&nbsp;65,–</span>
+
+        <div class="tabel-kolom">
+          <div class="tabel-sticky">
+            <h2 class="tabel-kop">Overzicht tarieven</h2>
+            <p class="tabel-sub">Factuur volgt per mail na afloop van het consult, op basis van werkelijke tijd.</p>
+
+            <div class="tabel-card">
+              <div class="tabel-groephdr">Consulttijden</div>
+              <div class="tabel-rij">
+                <span>Tot 30 minuten</span>
+                <strong>€ 55,–</strong>
+              </div>
+              <div class="tabel-rij">
+                <span>30–45 minuten</span>
+                <strong>€ 65,–</strong>
+              </div>
+              <div class="tabel-rij">
+                <span>45–60 minuten</span>
+                <strong>€ 75,–</strong>
+              </div>
+              <div class="tabel-rij">
+                <span>Per kwartier na 60 min.</span>
+                <strong>€ 18,75</strong>
+              </div>
+              <div class="tabel-rij">
+                <span>Telefonisch / beeldbellen</span>
+                <em>+ 15 min.</em>
+              </div>
+
+              <div class="tabel-groephdr">Bachbloesem</div>
+              <div class="tabel-rij">
+                <span>Flesje op maat (tijdens consult)</span>
+                <strong>€ 10,–</strong>
+              </div>
+              <div class="tabel-rij">
+                <span>Vervolgflesje zonder consult</span>
+                <strong>€ 25,–</strong>
+              </div>
+
+              <div class="tabel-groephdr">Overig</div>
+              <div class="tabel-rij tabel-rij--last">
+                <span>Energetisch werk (max. 30 min.)</span>
+                <strong>€ 75,–</strong>
+              </div>
+            </div>
+
+            <a href="/contact/" class="btn btn--primary cta-btn">Afspraak maken</a>
+          </div>
         </div>
-        <div class="price-row">
-          <span>45–60 minuten</span>
-          <span class="price">€&nbsp;75,–</span>
-        </div>
-        <div class="price-row">
-          <span>Na 60 minuten, per kwartier</span>
-          <span class="price">€&nbsp;18,75</span>
-        </div>
-        <div class="price-row">
-          <span>Telefonisch / beeldbellen</span>
-          <span class="price">Consulttijd + 15 min.</span>
-        </div>
-        <div class="price-row">
-          <span>Flesje Bachbloesem op maat (tijdens consult)</span>
-          <span class="price">€&nbsp;10,–</span>
-        </div>
-        <div class="price-row">
-          <span>Zelfde (vervolg)flesje Bachbloesem zonder consult</span>
-          <span class="price">€&nbsp;25,–</span>
-        </div>
-        <div class="price-row">
-          <span>Energetisch werk (max. 30 minuten)</span>
-          <span class="price">€&nbsp;75,–</span>
-        </div>
+
       </div>
-
-      <h2>Afspraak annuleren of vergeten</h2>
-      <p>
-        Ben je verhinderd, dan mag je de afspraak kosteloos annuleren tot 48 uur van tevoren.
-        Annuleer je tot 12 uur van tevoren, dan betaal je de helft van een ingepland consult (90 minuten).
-        Daarna betaal je het volledige consult (90 minuten).
-      </p>
-
-      <h2>Afspraak maken of aanmelden</h2>
-      <p>
-        Wil je een afspraak maken voor een privéconsult of je aanmelden voor een activiteit,
-        neem dan <a href="/contact/">contact met ons op</a>.
-        Wil je meer informatie of wil je andere mogelijkheden of tijden bespreken, bel dan gerust naar
-        PURE SPIRIT: <a href="tel:0412692162">0412 69 21 62</a>. We helpen je graag verder.
-      </p>
-
-      <div style="text-align: center; margin-top: var(--space-12);">
-        <a href="/contact/" class="btn btn--primary">Afspraak maken</a>
-      </div>
-
     </div>
   </section>
 </PageLayout>
 
 <style>
   .notice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
     background-color: var(--color-primary-light);
+    border: 1px solid var(--color-border);
     border-left: 3px solid var(--color-primary);
     border-radius: var(--radius-md);
-    padding: var(--space-5) var(--space-6);
-    margin-bottom: var(--space-10);
-  }
-
-  .notice p { margin: 0; font-size: var(--text-sm); }
-
-  h2 {
-    margin-top: var(--space-10);
-    margin-bottom: var(--space-4);
-  }
-
-  .price-table {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-block: var(--space-8);
-  }
-
-  .price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-4) var(--space-6);
-    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-12);
     font-size: var(--text-sm);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+
+  .notice svg { flex-shrink: 0; color: var(--color-primary); margin-top: 2px; }
+  .notice p   { margin: 0; }
+
+  /* Twee-koloms layout */
+  .hoofd-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  /* Uitleg kolom */
+  .uitleg-kolom {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .uitleg-sectie {
+    padding-block: var(--space-8);
     border-bottom: 1px solid var(--color-border);
   }
 
-  .price-row:last-child { border-bottom: none; }
+  .uitleg-sectie:first-child { padding-top: 0; }
+  .uitleg-sectie:last-child  { border-bottom: none; }
 
-  .price-row:nth-child(odd) {
-    background-color: var(--color-primary-light);
+  .uitleg-sectie h2 {
+    font-size: var(--text-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-4);
   }
 
-  .price {
+  .uitleg-sectie p {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    line-height: 1.75;
+    margin: 0 0 var(--space-3);
+  }
+
+  .uitleg-sectie p:last-child { margin-bottom: 0; }
+
+  /* Tabel kolom */
+  .tabel-kolom {
+    position: relative;
+  }
+
+  .tabel-sticky {
+    position: sticky;
+    top: 100px;
+  }
+
+  .tabel-kop {
+    font-size: var(--text-xl);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .tabel-sub {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+  }
+
+  .tabel-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--space-5);
+  }
+
+  .tabel-groephdr {
+    background-color: var(--color-surface-alt);
+    padding: var(--space-2) var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tabel-rij {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .tabel-rij--last { border-bottom: none; }
+
+  .tabel-rij strong {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
     font-weight: 700;
     color: var(--color-primary-dark);
     white-space: nowrap;
-    font-family: var(--font-heading);
-    font-size: var(--text-base);
+  }
+
+  .tabel-rij em {
+    font-style: normal;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  @media (max-width: 860px) {
+    .hoofd-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .tabel-sticky {
+      position: static;
+    }
   }
 </style>

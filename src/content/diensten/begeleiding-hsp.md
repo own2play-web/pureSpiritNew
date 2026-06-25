@@ -17,7 +17,7 @@ sidebar_items:
 
 Een HSP'er (Highly Sensitive Person) is meer dan gemiddeld gevoelig voor indrukken en prikkels, en merkt meer signalen en details op dan anderen. Dit kan heel waardevol zijn, maar ook uitputtend als je er niet mee weet om te gaan.
 
-Hooggevoeligheid is geen ziekte of stoornis — het is een persoonskenmerk dat zowel een last als een geschenk kan zijn.
+Hooggevoeligheid is geen ziekte of stoornis, maar een persoonskenmerk dat zowel een last als een geschenk kan zijn.
 
 ## HSP bij kinderen (HSK)
 
@@ -50,4 +50,4 @@ In groepsverband leer je ook van en met anderen die ook hooggevoelig zijn. Dat g
 
 ## Lezingen
 
-Pure Spirit verzorgt ook lezingen over hooggevoeligheid — voor scholen, bedrijven of andere organisaties. Neem contact op voor de mogelijkheden.
+Pure Spirit verzorgt ook lezingen over hooggevoeligheid voor scholen, bedrijven of andere organisaties. Neem contact op voor de mogelijkheden.
