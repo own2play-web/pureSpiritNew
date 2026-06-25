@@ -1,6 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="30" stroke="#246482" stroke-width="2" fill="white"/>
-  <circle cx="32" cy="32" r="24" stroke="#246482" stroke-width="1" fill="none" opacity="0.4"/>
-  <text x="32" y="27" font-family="Georgia, serif" font-size="9" font-weight="bold" fill="#246482" text-anchor="middle" letter-spacing="1.5">PURE</text>
-  <text x="32" y="38" font-family="Georgia, serif" font-size="9" font-weight="bold" fill="#246482" text-anchor="middle" letter-spacing="1.5">SPIRIT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#246482"/>
+  <text x="32" y="46" font-family="Georgia, serif" font-size="34" font-weight="bold" fill="white" text-anchor="middle">PS</text>
 </svg>

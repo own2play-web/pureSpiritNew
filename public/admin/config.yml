@@ -18,6 +18,29 @@ collections:
     folder: src/content/nieuws
     create: true
     slug: "{{slug}}"
+    sortable_fields: ['datum', 'titel', 'categorie']
+    view_filters:
+      - label: Bachbloesem
+        field: categorie
+        pattern: Bachbloesem
+      - label: Meditatie
+        field: categorie
+        pattern: Meditatie
+      - label: Coaching
+        field: categorie
+        pattern: Coaching
+      - label: HSP
+        field: categorie
+        pattern: HSP
+      - label: Cursus
+        field: categorie
+        pattern: Cursus
+      - label: Jongeren
+        field: categorie
+        pattern: Jongeren
+      - label: Summerschool
+        field: categorie
+        pattern: Summerschool
     fields:
       - { label: Titel,        name: titel,        widget: string }
       - { label: Datum,        name: datum,        widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
