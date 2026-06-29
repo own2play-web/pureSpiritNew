@@ -1,0 +1,137 @@
+---
+// Standalone pagina buiten de normale layout — geen header/footer nodig
+---
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Publiceer website – Pure Spirit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: #f0f7fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .kaart {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .icoon { font-size: 3rem; margin-bottom: 1rem; }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #1a4a61;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      color: #5a7480;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    button {
+      background: #246482;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem 2.5rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 200ms, transform 100ms;
+      width: 100%;
+    }
+
+    button:hover:not(:disabled) { background: #1a4a61; }
+    button:active:not(:disabled) { transform: scale(0.98); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .status {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: none;
+    }
+
+    .status--bezig  { background: #e6f2f7; color: #246482; display: block; }
+    .status--succes { background: #d1f0e8; color: #0d5c42; display: block; }
+    .status--fout   { background: #fee2e2; color: #9b1c1c; display: block; }
+
+    .terug {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: #246482;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .terug:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="kaart">
+    <div class="icoon">🚀</div>
+    <h1>Website publiceren</h1>
+    <p>
+      Klik op de knop om alle wijzigingen die je hebt opgeslagen live te zetten.
+      Dit duurt ongeveer 1–2 minuten.
+    </p>
+
+    <button id="publiceer-btn" onclick="publiceer()">
+      Publiceer website
+    </button>
+
+    <div id="status" class="status"></div>
+
+    <a href="/admin/" class="terug">← Terug naar beheer</a>
+  </div>
+
+  <script>
+    async function publiceer() {
+      const btn    = document.getElementById('publiceer-btn');
+      const status = document.getElementById('status');
+
+      btn.disabled  = true;
+      btn.textContent = 'Bezig met publiceren…';
+      status.className = 'status status--bezig';
+      status.textContent = '⏳ Wijzigingen worden verwerkt…';
+
+      try {
+        const res  = await fetch('/.netlify/functions/publiceer', { method: 'POST' });
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+          status.className = 'status status--succes';
+          status.textContent = '✅ Gelukt! De website wordt nu bijgewerkt (duurt ~1–2 minuten).';
+          btn.textContent = 'Gepubliceerd!';
+        } else {
+          throw new Error(data.fout || 'Onbekende fout');
+        }
+      } catch (e) {
+        status.className = 'status status--fout';
+        status.textContent = '❌ Er ging iets mis: ' + e.message;
+        btn.disabled    = false;
+        btn.textContent = 'Opnieuw proberen';
+      }
+    }
+  </script>
+</body>
+</html>
