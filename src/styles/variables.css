@@ -63,3 +63,28 @@
   /* Transitions */
   --transition: 200ms ease;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary:       #5baac8;
+    --color-primary-dark:  #7dc4da;
+    --color-primary-light: #112534;
+    --color-accent:        #7ab8cc;
+    --color-accent-dark:   #9dd0e2;
+
+    --color-bg:            #0e1c26;
+    --color-surface:       #142230;
+    --color-surface-alt:   #1a2c3c;
+
+    --color-text:          #e2eff5;
+    --color-text-muted:    #80abbe;
+    --color-text-light:    #ffffff;
+
+    --color-border:        #1e3d54;
+    --color-border-strong: #2a5570;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  }
+}

@@ -143,7 +143,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
     <div class="container">
       <div class="about-grid">
         <div class="about-photo">
-          <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" />
+          <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" style={`--positie-mobiel: ${homepage.sasja_foto_positie_mobiel ?? 'center top'}`} />
         </div>
         <div class="about-text">
           <span class="about-eyebrow">Wie ben ik?</span>
@@ -198,24 +198,107 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   )}
 
   <!-- CTA -->
-  <section class="section section--dark">
-    <div class="container" style="text-align: center;">
-      <h2>Klaar om te beginnen?</h2>
-      <p class="lead" style="max-width: 520px; margin-inline: auto; margin-bottom: var(--space-8);">
-        Neem vrijblijvend contact op. We denken graag met je mee welke begeleiding
-        het beste bij jou past.
-      </p>
-      <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
-        <a href="/contact/" class="btn btn--accent">Neem contact op</a>
-        <a href="tel:0412692162" class="btn btn--outline" style="border-color: rgba(255,255,255,0.5); color: #fff;">
-          Bel 0412 69 21 62
-        </a>
+  <section class="cta-bottom">
+    <div class="cta-bottom__wave-top" aria-hidden="true">
+      <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,0 L0,48 C180,72 360,24 540,48 C720,72 900,24 1080,48 C1260,72 1380,36 1440,48 L1440,0 Z"/>
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="cta-bottom__kaart">
+        <h2>Klaar om te beginnen?</h2>
+        <p class="lead">
+          Neem vrijblijvend contact op. We denken graag met je mee welke begeleiding
+          het beste bij jou past.
+        </p>
+        <div class="cta-bottom__knoppen">
+          <a href="/contact/" class="btn btn--accent">Neem contact op</a>
+          <a href="tel:0412692162" class="btn btn--outline" style="border-color: rgba(255,255,255,0.5); color: #fff;">
+            Bel 0412 69 21 62
+          </a>
+        </div>
       </div>
+    </div>
+
+    <div class="cta-bottom__wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 55" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,55 L0,28 C180,5 360,50 540,28 C720,5 900,50 1080,28 C1260,5 1380,40 1440,28 L1440,55 Z"/>
+      </svg>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .cta-bottom {
+    background-color: var(--color-primary);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .cta-bottom__wave-top {
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .cta-bottom__wave-top svg {
+    display: block;
+    width: 100%;
+  }
+
+  .cta-bottom__wave-top path {
+    fill: var(--color-surface-alt);
+  }
+
+  .cta-bottom .container {
+    padding-block: var(--space-16);
+  }
+
+  .cta-bottom__wave-bottom {
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .cta-bottom__wave-bottom svg {
+    display: block;
+    width: 100%;
+  }
+
+  .cta-bottom__wave-bottom path {
+    fill: var(--color-primary-dark);
+  }
+
+  .cta-bottom__kaart {
+    max-width: 600px;
+    margin-inline: auto;
+    text-align: center;
+    background-color: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-lg);
+    padding: var(--space-12) var(--space-10);
+  }
+
+  .cta-bottom__kaart h2 {
+    color: #fff;
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-bottom__kaart .lead {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-bottom__knoppen {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .cta-bottom__kaart { padding: var(--space-8) var(--space-6); }
+  }
+
   .actueel-bar {
     background-color: var(--color-accent);
     color: #fff;
@@ -312,8 +395,9 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
       gap: var(--space-8);
     }
     .sasja-photo {
-      aspect-ratio: 3/2;
-      object-position: center 20%;
+      aspect-ratio: 4/5;
+      max-height: 420px;
+      object-position: var(--positie-mobiel, center top);
     }
     .hsp-grid { grid-template-columns: 1fr; gap: var(--space-10); }
   }

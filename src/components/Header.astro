@@ -7,6 +7,7 @@ const navLinks = [
       { label: 'Coaching',            href: '/diensten/coaching/' },
       { label: 'Begeleiding HSP',     href: '/diensten/begeleiding-hsp/' },
       { label: 'Persoonlijke groei',  href: '/diensten/persoonlijke-groei/' },
+      { label: 'Privéconsult',        href: '/diensten/prive-consult/' },
     ]
   },
   { label: 'Over mij',   href: '/over/' },
@@ -43,6 +44,11 @@ const currentPath = Astro.url.pathname;
               {link.children && <span class="nav-arrow" aria-hidden="true">▾</span>}
             </a>
             {link.children && (
+              <button class="nav-toggle" aria-expanded="false" aria-label={`${link.label} submenu uitklappen`}>
+                <span class="nav-arrow" aria-hidden="true">▾</span>
+              </button>
+            )}
+            {link.children && (
               <ul class="nav-dropdown">
                 {link.children.map(child => (
                   <li>
@@ -67,14 +73,60 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
-  const toggle = document.querySelector('.header__toggle') as HTMLButtonElement;
-  const nav    = document.querySelector('#main-nav') as HTMLElement;
+  function initMenu() {
+    const toggle = document.querySelector('.header__toggle') as HTMLButtonElement;
+    const nav    = document.querySelector('#main-nav') as HTMLElement;
 
-  toggle?.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    nav.classList.toggle('header__nav--open', !open);
-  });
+    if (!toggle || !nav) return;
+
+    // Remove old listener by replacing the element clone, then re-add
+    const fresh = toggle.cloneNode(true) as HTMLButtonElement;
+    toggle.replaceWith(fresh);
+
+    fresh.addEventListener('click', () => {
+      const open = fresh.getAttribute('aria-expanded') === 'true';
+      fresh.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('header__nav--open', !open);
+    });
+
+    // Mobile: submenu toggle
+    nav.querySelectorAll('.nav-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.nav-item') as HTMLElement;
+        const isOpen = item.classList.contains('nav-item--open');
+        // Sluit alle andere open submenus
+        nav.querySelectorAll('.nav-item--open').forEach(el => {
+          el.classList.remove('nav-item--open');
+          el.querySelector('.nav-toggle')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('nav-item--open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Sluit menu bij klik op een link (mobiel)
+    nav.querySelectorAll('.nav-dropdown__link').forEach(link => {
+      link.addEventListener('click', () => {
+        fresh.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('header__nav--open');
+      });
+    });
+
+    // Sluit menu bij klik op een top-level link zonder children
+    nav.querySelectorAll('.nav-link').forEach(link => {
+      const item = link.closest('.nav-item');
+      if (!item?.classList.contains('nav-item--has-children')) {
+        link.addEventListener('click', () => {
+          fresh.setAttribute('aria-expanded', 'false');
+          nav.classList.remove('header__nav--open');
+        });
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initMenu);
 </script>
 
 <style>
@@ -212,6 +264,8 @@ const currentPath = Astro.url.pathname;
     transition: transform var(--transition), opacity var(--transition);
   }
 
+  .nav-toggle { display: none; }
+
   .nav-item--cta {
     display: flex;
     align-items: center;
@@ -225,7 +279,25 @@ const currentPath = Astro.url.pathname;
 
   @media (max-width: 900px) {
     .header__toggle { display: flex; }
-    .header__cta    { display: none; }
+
+    .nav-item--cta {
+      padding-left: 0;
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--space-2);
+      width: 100%;
+    }
+
+    .header__cta {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: var(--text-base);
+    }
+
+    .header__inner { position: relative; justify-content: center; }
+    .header__logo  { padding-right: 0; border-right: none; }
+    .header__toggle { position: absolute; right: 0; }
 
     .header__nav {
       display: none;
@@ -249,14 +321,68 @@ const currentPath = Astro.url.pathname;
       gap: 0;
     }
 
+    .nav-item--has-children .nav-link .nav-arrow { display: none; }
+
     .nav-link {
       padding: var(--space-3) var(--space-2);
       font-size: var(--text-base);
       width: 100%;
     }
 
+    /* Submenu toggle knop op mobiel */
+    .nav-item--has-children {
+      position: relative;
+    }
+
+    .nav-link {
+      padding-right: var(--space-12);
+    }
+
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 48px;
+      height: 48px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      padding: 0;
+    }
+
+    .nav-toggle .nav-arrow {
+      font-size: 1em;
+      transition: transform var(--transition);
+    }
+
+    .nav-item--open > .nav-toggle .nav-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Dropdown inline op mobiel */
     .nav-dropdown {
-      display: none !important;
+      display: none;
+      position: static;
+      box-shadow: none;
+      border: none;
+      border-left: 3px solid var(--color-primary-light);
+      border-radius: 0;
+      background: none;
+      padding: var(--space-1) 0 var(--space-2) var(--space-4);
+      margin: 0;
+    }
+
+    .nav-item--open > .nav-dropdown {
+      display: block;
+    }
+
+    .nav-dropdown__link {
+      padding: var(--space-2) var(--space-2);
+      font-size: var(--text-sm);
     }
   }
 </style>

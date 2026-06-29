@@ -54,9 +54,17 @@ const currentYear = new Date().getFullYear();
   <div class="footer__bottom">
     <div class="container footer__bottom-inner">
       <p>&copy; {currentYear} {site.naam} {site.stad} &nbsp;·&nbsp; KVK: {site.kvk}</p>
-      <p>
+      <div class="footer__bottom-links">
         <a href="/privacy/">Privacybeleid</a>
-      </p>
+        {site.facebook && (
+          <a href={site.facebook} target="_blank" rel="noopener noreferrer" aria-label="Pure Spirit op Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+            Facebook
+          </a>
+        )}
+      </div>
     </div>
   </div>
 </footer>
@@ -65,7 +73,6 @@ const currentYear = new Date().getFullYear();
   .footer {
     background-color: var(--color-primary-dark);
     color: rgba(255,255,255,0.85);
-    margin-top: var(--space-20);
   }
 
   .footer__grid {
@@ -163,10 +170,23 @@ const currentYear = new Date().getFullYear();
     color: rgba(255,255,255,0.5);
   }
 
+  .footer__bottom-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
   .footer__bottom a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     color: rgba(255,255,255,0.5);
     text-decoration: none;
     transition: color var(--transition);
+  }
+
+  .footer__bottom a:hover {
+    color: rgba(255,255,255,0.9);
   }
 
   .footer__bottom a:hover {

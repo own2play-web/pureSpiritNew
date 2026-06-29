@@ -23,6 +23,7 @@ const { werkwijze, waarden } = over;
             src={homepage.sasja_foto}
             alt="Sasja van Geel – Pure Spirit Oss"
             class="sasja-foto"
+            style={`--positie-mobiel: ${homepage.sasja_foto_positie_mobiel ?? 'center top'}`}
           />
         </div>
         <div class="over-tekst">
@@ -178,8 +179,9 @@ const { werkwijze, waarden } = over;
     }
 
     .sasja-foto {
-      aspect-ratio: 3/2;
-      object-position: center 20%;
+      aspect-ratio: 4/5;
+      max-height: 420px;
+      object-position: var(--positie-mobiel, center top);
     }
 
     .waarde {

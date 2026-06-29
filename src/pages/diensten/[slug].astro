@@ -109,9 +109,9 @@ const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
   .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
   .sidebar-card--light { background: var(--color-primary-light); border-color: transparent; }
 
-  dl { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-4); font-size: var(--text-sm); }
-  dt { font-weight: 700; }
-  dd { color: var(--color-text-muted); }
+  dl { display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-sm); }
+  dt { font-weight: 700; color: var(--color-text); }
+  dd { color: var(--color-text-muted); margin-left: 0; }
 
   /* Prose styling */
   .prose :global(h2) { margin-top: var(--space-10); color: var(--color-primary-dark); }

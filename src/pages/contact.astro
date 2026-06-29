@@ -70,6 +70,36 @@ import site from '../data/site.json';
       </div>
     </div>
   </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="kaart-header">
+        <div>
+          <h2>Hoe kom je bij ons?</h2>
+          <p>{site.adres}, {site.postcode} {site.stad}</p>
+        </div>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(site.adres + ', ' + site.postcode + ' ' + site.stad)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--outline"
+        >
+          Route plannen →
+        </a>
+      </div>
+      <div class="kaart-wrapper">
+        <iframe
+          title="Locatie Pure Spirit Oss"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=5.5050%2C51.7504%2C5.5250%2C51.7604&layer=mapnik&marker=51.7554%2C5.5150"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <p class="kaart-credit">
+        Kaart via <a href="https://www.openstreetmap.org/node/Beethovengaarde+90+Oss" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+      </p>
+    </div>
+  </section>
 </PageLayout>
 
 <style>
@@ -139,4 +169,40 @@ import site from '../data/site.json';
     .contact-grid { grid-template-columns: 1fr; }
     .contact-info  { position: static; }
   }
+
+  .kaart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .kaart-header h2 { margin-bottom: var(--space-1); }
+  .kaart-header p  { color: var(--color-text-muted); font-size: var(--text-sm); margin: 0; }
+
+  .kaart-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    height: 380px;
+  }
+
+  .kaart-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .kaart-credit {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+  }
+
+  .kaart-credit a { color: var(--color-primary); }
 </style>

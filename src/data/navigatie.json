@@ -8,7 +8,8 @@
     { "label": "Meditatie",           "href": "/diensten/meditatie/" },
     { "label": "Coaching",            "href": "/diensten/coaching/" },
     { "label": "Begeleiding HSP",     "href": "/diensten/begeleiding-hsp/" },
-    { "label": "Persoonlijke groei",  "href": "/diensten/persoonlijke-groei/" }
+    { "label": "Persoonlijke groei",  "href": "/diensten/persoonlijke-groei/" },
+    { "label": "Privéconsult",        "href": "/diensten/prive-consult/" }
   ],
   "footer_navigatie": [
     { "label": "Over mij",   "href": "/over/" },

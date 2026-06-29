@@ -114,6 +114,15 @@ collections:
           - { label: "Sasja – Sectietitel",  name: sasja_titel,      widget: string }
           - { label: "Sasja – Tekst",        name: sasja_tekst,      widget: text, hint: "Gebruik een lege regel tussen alinea's" }
           - { label: "Sasja – Foto",         name: sasja_foto,       widget: image }
+          - label: "Sasja – Foto focus mobiel"
+            name: sasja_foto_positie_mobiel
+            widget: select
+            default: "center top"
+            hint: "Welk deel van de foto is zichtbaar op mobiel?"
+            options:
+              - { label: "Bovenkant (gezicht bovenaan)", value: "center top" }
+              - { label: "Midden",                       value: "center center" }
+              - { label: "Onderkant",                    value: "center bottom" }
           - { label: "Sasja – Knop tekst",   name: sasja_cta_label,  widget: string }
           - { label: "Sasja – Knop URL",     name: sasja_cta_url,    widget: string }
 

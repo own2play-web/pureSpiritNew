@@ -10,7 +10,7 @@ function formatDatum(iso: string) {
 }
 ---
 
-<div id="inschrijven-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+<div id="inschrijven-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-heading" transition:persist>
   <div class="modal__backdrop"></div>
   <div class="modal__box">
 
@@ -155,6 +155,7 @@ function formatDatum(iso: string) {
             <option value="coaching">Coaching</option>
             <option value="hsp">Begeleiding HSP</option>
             <option value="persoonlijke-groei">Persoonlijke groei</option>
+            <option value="priveconsult">Privéconsult</option>
             <option value="aanmelden">Aanmelden cursus / workshop</option>
             <option value="overig">Overig</option>
           </select>
@@ -269,6 +270,7 @@ function formatDatum(iso: string) {
     'Coaching':            'coaching',
     'Begeleiding HSP':     'hsp',
     'Persoonlijke groei':  'persoonlijke-groei',
+    'Privéconsult':        'priveconsult',
   };
 
   // Stap 1
@@ -679,8 +681,8 @@ function formatDatum(iso: string) {
 
   /* ── Mobiel ──────────────────────────────────────────────── */
   @media (max-width: 540px) {
-    .modal { padding: 0; align-items: flex-end; }
-    .modal__box { max-height: 92vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-width: 100%; }
+    .modal { padding: var(--space-4) var(--space-3); align-items: flex-start; }
+    .modal__box { max-height: calc(100vh - var(--space-8)); border-radius: var(--radius-lg); max-width: 100%; }
     .form-row { grid-template-columns: 1fr; }
     .cursus-rij { flex-direction: column; align-items: flex-start; }
   }
