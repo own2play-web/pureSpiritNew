@@ -587,6 +587,11 @@ function formatDatum(iso: string) {
   .badge--open  { background-color: #d1f0e8; color: #0d5c42; }
   .badge--animo { background-color: #fef3c7; color: #78420a; }
 
+  @media (prefers-color-scheme: dark) {
+    .badge--open  { background-color: color-mix(in srgb, #0d5c42 18%, var(--color-surface)); color: color-mix(in srgb, #0d5c42 70%, white); }
+    .badge--animo { background-color: color-mix(in srgb, #78420a 18%, var(--color-surface)); color: color-mix(in srgb, #78420a 70%, white); }
+  }
+
   .modal__leeg {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
@@ -640,7 +645,7 @@ function formatDatum(iso: string) {
   .form-group select:focus,
   .form-group textarea:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(36, 100, 130, 0.12);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
   .form-group textarea { resize: vertical; min-height: 100px; }
 
@@ -651,6 +656,13 @@ function formatDatum(iso: string) {
     border-radius: var(--radius-md);
     padding: var(--space-3) var(--space-4);
     margin: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .form-fout {
+      color: color-mix(in srgb, #9b1c1c 70%, white);
+      background-color: color-mix(in srgb, #9b1c1c 18%, var(--color-surface));
+    }
   }
 
   /* ── Bevestiging (stap 4) ────────────────────────────────── */

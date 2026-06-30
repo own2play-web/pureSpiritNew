@@ -17,6 +17,9 @@
   --color-border:        #cde4ee;
   --color-border-strong: #9fc8d9;
 
+  --color-warning-bg:    #fffbf0;
+  --color-footer-bg:     #1a4a61;
+
   /* Typografie */
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Nunito', system-ui, sans-serif;
@@ -82,6 +85,9 @@
 
     --color-border:        #1e3d54;
     --color-border-strong: #2a5570;
+
+    --color-warning-bg:    #2e2812;
+    --color-footer-bg:     #081119;
 
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);

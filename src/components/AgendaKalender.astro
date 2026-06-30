@@ -139,7 +139,7 @@ const legendaTypes = Array.from(
       <ul class="kalender-legenda">
         {legendaTypes.map(type => (
           <li>
-            <span class="legenda-kleur" style={`background-color:${typeBg[type]};color:${typeKleur[type]}`}>{type.slice(0,1)}</span>
+            <span class="legenda-kleur" style={`--leg-bg:${typeBg[type]};--leg-kleur:${typeKleur[type]}`}>{type.slice(0,1)}</span>
             {type}
           </li>
         ))}
@@ -288,6 +288,13 @@ const legendaTypes = Array.from(
     cursor: pointer;
   }
 
+  @media (prefers-color-scheme: dark) {
+    .cel--start {
+      background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
+      color: color-mix(in srgb, var(--cel-kleur) 70%, white);
+    }
+  }
+
   .cel--start:hover {
     filter: brightness(0.93);
   }
@@ -373,6 +380,15 @@ const legendaTypes = Array.from(
     border-radius: var(--radius-sm);
     font-size: 0.6rem;
     font-weight: 700;
+    background-color: var(--leg-bg);
+    color: var(--leg-kleur);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .legenda-kleur {
+      background-color: color-mix(in srgb, var(--leg-bg) 25%, var(--color-surface));
+      color: color-mix(in srgb, var(--leg-kleur) 70%, white);
+    }
   }
 
   .legenda-start {
