@@ -82,10 +82,24 @@ const legendaTypes = Array.from(
 
 <div class="kalender-wrapper">
   <div id="kalender-grid" class:list={['kalender-grid', kalenderMaanden.length > 1 && 'kalender-grid--collapsed']}>
-    {kalenderMaanden.map(({ jaar, maand }) => (
-      <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
+    {kalenderMaanden.map(({ jaar, maand }, i) => (
+      <div class:list={['kalender-maand-wrap', i === 0 && 'kalender-maand-wrap--actief']} data-maand-index={i}>
+        <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
+      </div>
     ))}
   </div>
+
+  {kalenderMaanden.length > 1 && (
+    <div class="kalender-mobiel-nav">
+      <button type="button" id="kalender-vorige" class="kalender-nav-btn" aria-label="Vorige maand" disabled>
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10 3 5 8 10 13"/></svg>
+      </button>
+      <span id="kalender-mobiel-label" class="kalender-mobiel-label" aria-live="polite"></span>
+      <button type="button" id="kalender-volgende" class="kalender-nav-btn" aria-label="Volgende maand">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 3 11 8 6 13"/></svg>
+      </button>
+    </div>
+  )}
 
   {kalenderMaanden.length > 1 && (
     <button type="button" class="btn btn--outline kalender-toggle" id="kalender-toggle" aria-expanded="false" aria-controls="kalender-grid">
@@ -154,6 +168,33 @@ const legendaTypes = Array.from(
     toggleBtn.textContent = open ? labelMeer : 'Toon minder maanden';
   });
 
+  // Mobiel: 1 maand tegelijk met vorige/volgende i.p.v. de "toon meer" grid
+  const maandWraps = Array.from(document.querySelectorAll<HTMLElement>('.kalender-maand-wrap'));
+  const vorigeBtn   = document.getElementById('kalender-vorige')   as HTMLButtonElement | null;
+  const volgendeBtn = document.getElementById('kalender-volgende') as HTMLButtonElement | null;
+  const mobielLabel = document.getElementById('kalender-mobiel-label') as HTMLElement | null;
+  let mobielIndex = maandWraps.findIndex(w => w.classList.contains('kalender-maand-wrap--actief'));
+  if (mobielIndex < 0) mobielIndex = 0;
+
+  function updateMobielNav() {
+    maandWraps.forEach((w, i) => w.classList.toggle('kalender-maand-wrap--actief', i === mobielIndex));
+    if (vorigeBtn)   vorigeBtn.disabled   = mobielIndex === 0;
+    if (volgendeBtn) volgendeBtn.disabled = mobielIndex === maandWraps.length - 1;
+    if (mobielLabel) {
+      const titel = maandWraps[mobielIndex]?.querySelector('.kalender-maand__titel')?.textContent ?? '';
+      mobielLabel.textContent = titel;
+    }
+  }
+
+  vorigeBtn?.addEventListener('click', () => {
+    if (mobielIndex > 0) { mobielIndex--; updateMobielNav(); }
+  });
+  volgendeBtn?.addEventListener('click', () => {
+    if (mobielIndex < maandWraps.length - 1) { mobielIndex++; updateMobielNav(); }
+  });
+
+  if (maandWraps.length > 0) updateMobielNav();
+
   document.querySelectorAll<HTMLButtonElement>('[data-cursus-id]').forEach(knop => {
     knop.addEventListener('mouseenter', () => toon(knop));
     knop.addEventListener('mouseleave', () => verberg(120));
@@ -196,21 +237,72 @@ const legendaTypes = Array.from(
     .kalender-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
-  /* Toon alleen de eerste rij; aantal kolommen (en dus verborgen kaarten)
-     verschilt per breakpoint, vandaar exclusieve ranges per media query.
-     :global() nodig omdat de kaarten worden gerenderd door het
-     KalenderMaand-subcomponent en dus een ander Astro-scope-attribuut
-     hebben dan dit component. */
-  @media (max-width: 639px) {
-    :global(.kalender-grid--collapsed > :nth-child(n + 2)) { display: none; }
-  }
-
+  /* Tablet/desktop: toon alleen de eerste rij; aantal kolommen (en dus
+     verborgen kaarten) verschilt per breakpoint, vandaar exclusieve ranges
+     per media query. :global() nodig omdat de kaarten worden gerenderd
+     door het KalenderMaand-subcomponent en dus een ander Astro-scope-
+     attribuut hebben dan dit component. */
   @media (min-width: 640px) and (max-width: 1023px) {
-    :global(.kalender-grid--collapsed > :nth-child(n + 3)) { display: none; }
+    :global(.kalender-grid--collapsed > .kalender-maand-wrap:nth-child(n + 3)) { display: none; }
   }
 
   @media (min-width: 1024px) {
-    :global(.kalender-grid--collapsed > :nth-child(n + 5)) { display: none; }
+    :global(.kalender-grid--collapsed > .kalender-maand-wrap:nth-child(n + 5)) { display: none; }
+  }
+
+  /* Mobiel: 1 maand tegelijk via vorige/volgende-knoppen i.p.v. een grid */
+  @media (max-width: 639px) {
+    .kalender-maand-wrap { display: none; }
+    .kalender-maand-wrap--actief { display: block; }
+    .kalender-toggle { display: none; }
+  }
+
+  .kalender-mobiel-nav {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .kalender-mobiel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+  }
+
+  .kalender-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: background-color var(--transition), color var(--transition), opacity var(--transition);
+  }
+
+  .kalender-nav-btn:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .kalender-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .kalender-mobiel-label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    text-align: center;
+    min-width: 140px;
   }
 
   .kalender-toggle {
