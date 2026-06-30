@@ -68,3 +68,108 @@ const cellen = buildCellen(jaar, maand);
     })}
   </div>
 </div>
+
+<style>
+  .kalender-maand {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+
+  .kalender-maand__titel {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .kalender-dag-namen {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--space-1);
+  }
+
+  .kalender-dag-namen span {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-align: center;
+    padding-block: var(--space-1);
+  }
+
+  .kalender-cellen {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .cel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    font-weight: 400;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default;
+  }
+
+  .cel--leeg { visibility: hidden; }
+
+  .cel--vandaag {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+    font-weight: 700;
+  }
+
+  /* Startdatum: gevulde gekleurde achtergrond */
+  .cel--start {
+    background-color: var(--cel-bg);
+    color: var(--cel-kleur);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .cel--start {
+      background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
+      color: color-mix(in srgb, var(--cel-kleur) 70%, white);
+    }
+  }
+
+  .cel--start:hover {
+    filter: brightness(0.93);
+  }
+
+  /* Vervolgles: stippeltje onder het getal */
+  .cel--vervolg {
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .cel--vervolg:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .cel--vervolg::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--cel-kleur, var(--color-primary));
+  }
+</style>

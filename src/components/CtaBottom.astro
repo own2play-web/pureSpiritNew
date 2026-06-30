@@ -1,0 +1,110 @@
+---
+interface Props {
+  title: string;
+  lead: string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+}
+
+const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref } = Astro.props;
+---
+
+<section class="cta-bottom">
+  <div class="cta-bottom__wave-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,0 L0,48 C180,72 360,24 540,48 C720,72 900,24 1080,48 C1260,72 1380,36 1440,48 L1440,0 Z"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="cta-bottom__kaart">
+      <h2>{title}</h2>
+      <p class="lead">{lead}</p>
+      <div class="cta-bottom__knoppen">
+        <a href={primaryHref} class="btn btn--accent">{primaryLabel}</a>
+        <a href={secondaryHref} class="btn btn--outline" style="border-color: rgba(255,255,255,0.5); color: #fff;">
+          {secondaryLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bottom__wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1440 55" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,55 L0,28 C180,5 360,50 540,28 C720,5 900,50 1080,28 C1260,5 1380,40 1440,28 L1440,55 Z"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .cta-bottom {
+    background-color: var(--color-action);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .cta-bottom__wave-top {
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .cta-bottom__wave-top svg {
+    display: block;
+    width: 100%;
+  }
+
+  .cta-bottom__wave-top path {
+    fill: var(--color-surface-alt);
+  }
+
+  .cta-bottom .container {
+    padding-block: var(--space-16);
+  }
+
+  .cta-bottom__wave-bottom {
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .cta-bottom__wave-bottom svg {
+    display: block;
+    width: 100%;
+  }
+
+  .cta-bottom__wave-bottom path {
+    fill: var(--color-footer-bg);
+  }
+
+  .cta-bottom__kaart {
+    max-width: 600px;
+    margin-inline: auto;
+    text-align: center;
+    background-color: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-lg);
+    padding: var(--space-12) var(--space-10);
+  }
+
+  .cta-bottom__kaart h2 {
+    color: #fff;
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-bottom__kaart .lead {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-bottom__knoppen {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .cta-bottom__kaart { padding: var(--space-8) var(--space-6); }
+  }
+</style>

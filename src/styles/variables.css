@@ -24,6 +24,12 @@
   --color-hero-2: #eef5f0;
   --color-hero-3: #faf9f6;
 
+  /* Altijd-donkere variant van --color-primary, voor vlakken met witte
+     tekst (knoppen, badges, pills). --color-primary zelf wordt in dark
+     mode juist lichter gemaakt (voor leesbaarheid als voorgrondkleur),
+     dus is ongeschikt als achtergrond-met-wit-tekst in dat thema. */
+  --color-action: #246482;
+
   /* Typografie */
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Nunito', system-ui, sans-serif;
@@ -90,12 +96,14 @@
     --color-border:        #1e3d54;
     --color-border-strong: #2a5570;
 
-    --color-warning-bg:    #2e2812;
+    --color-warning-bg:    color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
     --color-footer-bg:     #081119;
 
-    --color-hero-1: #1a3247;
-    --color-hero-2: #1c3329;
-    --color-hero-3: #2b2418;
+    --color-hero-1: color-mix(in srgb, var(--color-primary) 20%, var(--color-bg));
+    --color-hero-2: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
+    --color-hero-3: var(--color-bg);
+
+    --color-action: #1f5d7c;
 
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);

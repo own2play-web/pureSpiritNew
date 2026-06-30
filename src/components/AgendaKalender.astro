@@ -78,30 +78,19 @@ const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate(
 const legendaTypes = Array.from(
   new Set(cursussen.map(c => c.type).filter(Boolean) as string[])
 );
-
-const ZICHTBARE_MAANDEN = 3;
-const directZichtbaar = kalenderMaanden.slice(0, ZICHTBARE_MAANDEN);
-const extraMaanden     = kalenderMaanden.slice(ZICHTBARE_MAANDEN);
 ---
 
 <div class="kalender-wrapper">
-  <div class="kalender-grid">
-    {directZichtbaar.map(({ jaar, maand }) => (
+  <div id="kalender-grid" class:list={['kalender-grid', kalenderMaanden.length > 1 && 'kalender-grid--collapsed']}>
+    {kalenderMaanden.map(({ jaar, maand }) => (
       <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
     ))}
   </div>
 
-  {extraMaanden.length > 0 && (
-    <>
-      <div class="kalender-grid" id="kalender-extra" hidden>
-        {extraMaanden.map(({ jaar, maand }) => (
-          <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
-        ))}
-      </div>
-      <button type="button" class="btn btn--outline kalender-toggle" id="kalender-toggle" aria-expanded="false" aria-controls="kalender-extra">
-        Toon {extraMaanden.length} {extraMaanden.length === 1 ? 'maand' : 'maanden'} meer
-      </button>
-    </>
+  {kalenderMaanden.length > 1 && (
+    <button type="button" class="btn btn--outline kalender-toggle" id="kalender-toggle" aria-expanded="false" aria-controls="kalender-grid">
+      Toon meer maanden
+    </button>
   )}
 
   <div class="kalender-legenda-rij">
@@ -154,13 +143,13 @@ const extraMaanden     = kalenderMaanden.slice(ZICHTBARE_MAANDEN);
     }, vertraging);
   }
 
-  const toggleBtn    = document.getElementById('kalender-toggle') as HTMLButtonElement | null;
-  const extraMaanden = document.getElementById('kalender-extra') as HTMLElement | null;
-  const labelMeer    = toggleBtn?.textContent ?? '';
+  const toggleBtn = document.getElementById('kalender-toggle') as HTMLButtonElement | null;
+  const grid      = document.getElementById('kalender-grid') as HTMLElement | null;
+  const labelMeer = toggleBtn?.textContent ?? '';
 
   toggleBtn?.addEventListener('click', () => {
     const open = toggleBtn.getAttribute('aria-expanded') === 'true';
-    if (extraMaanden) extraMaanden.hidden = open;
+    grid?.classList.toggle('kalender-grid--collapsed', open);
     toggleBtn.setAttribute('aria-expanded', String(!open));
     toggleBtn.textContent = open ? labelMeer : 'Toon minder maanden';
   });
@@ -194,9 +183,34 @@ const extraMaanden     = kalenderMaanden.slice(ZICHTBARE_MAANDEN);
 
   .kalender-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(1, 1fr);
     gap: var(--space-5);
     margin-bottom: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .kalender-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .kalender-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* Toon alleen de eerste rij; aantal kolommen (en dus verborgen kaarten)
+     verschilt per breakpoint, vandaar exclusieve ranges per media query.
+     :global() nodig omdat de kaarten worden gerenderd door het
+     KalenderMaand-subcomponent en dus een ander Astro-scope-attribuut
+     hebben dan dit component. */
+  @media (max-width: 639px) {
+    :global(.kalender-grid--collapsed > :nth-child(n + 2)) { display: none; }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    :global(.kalender-grid--collapsed > :nth-child(n + 3)) { display: none; }
+  }
+
+  @media (min-width: 1024px) {
+    :global(.kalender-grid--collapsed > :nth-child(n + 5)) { display: none; }
   }
 
   .kalender-toggle {
@@ -210,7 +224,7 @@ const extraMaanden     = kalenderMaanden.slice(ZICHTBARE_MAANDEN);
   .kal-tooltip {
     position: absolute;
     z-index: 200;
-    background-color: var(--color-text);
+    background-color: var(--color-footer-bg);
     color: var(--color-text-light);
     border-radius: var(--radius-md);
     padding: var(--space-3) var(--space-4);

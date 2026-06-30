@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import CtaBottom from '../components/CtaBottom.astro';
 import homepage from '../data/homepage.json';
 import over from '../data/over.json';
 
@@ -76,20 +77,14 @@ const { werkwijze, waarden } = over;
   </section>
 
   <!-- CTA -->
-  <section class="section section--dark">
-    <div class="container" style="text-align: center;">
-      <h2>Kennismaken?</h2>
-      <p class="lead" style="max-width: 500px; margin-inline: auto; margin-bottom: var(--space-8);">
-        Neem vrijblijvend contact op. Ik denk graag met je mee welke begeleiding het beste bij jou past.
-      </p>
-      <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
-        <a href="/contact/" class="btn btn--accent">Neem contact op</a>
-        <a href="/diensten/" class="btn btn--outline" style="border-color: rgba(255,255,255,0.5); color: #fff;">
-          Bekijk de diensten
-        </a>
-      </div>
-    </div>
-  </section>
+  <CtaBottom
+    title="Kennismaken?"
+    lead="Neem vrijblijvend contact op. Ik denk graag met je mee welke begeleiding het beste bij jou past."
+    primaryLabel="Neem contact op"
+    primaryHref="/contact/"
+    secondaryLabel="Bekijk de diensten"
+    secondaryHref="/diensten/"
+  />
 
 </PageLayout>
 

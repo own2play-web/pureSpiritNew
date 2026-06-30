@@ -100,14 +100,14 @@ img {
 }
 
 .btn--primary {
-  background-color: var(--color-primary);
+  background-color: var(--color-action);
   color: var(--color-text-light);
-  border-color: var(--color-primary);
+  border-color: var(--color-action);
 }
 
 .btn--primary:hover {
-  background-color: color-mix(in srgb, var(--color-primary) 80%, black);
-  border-color: color-mix(in srgb, var(--color-primary) 80%, black);
+  background-color: color-mix(in srgb, var(--color-action) 80%, black);
+  border-color: color-mix(in srgb, var(--color-action) 80%, black);
   color: var(--color-text-light);
 }
 
@@ -183,7 +183,11 @@ html.fade-in-active .section {
 
 html.fade-in-active .section.is-revealed {
   opacity: 1;
-  transform: translateY(0);
+  /* transform: none (niet translateY(0)) zodra onthuld: elke transform-
+     waarde, ook een nul-vertaling, maakt het element een containing block
+     voor position:absolute kinderen (bv. de agenda-tooltip), wat hun
+     viewport-relatieve positionering breekt. */
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
