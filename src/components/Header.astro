@@ -90,7 +90,13 @@ const currentPath = Astro.url.pathname;
     });
 
     // Mobile: submenu toggle
-    nav.querySelectorAll('.nav-toggle').forEach(btn => {
+    // Header heeft transition:persist, dus initMenu() draait opnieuw bij elke
+    // client-side navigatie zonder dat de DOM-elementen vervangen worden.
+    // Knoppen klonen voorkomt dat listeners zich opstapelen bij elke navigatie.
+    nav.querySelectorAll('.nav-toggle').forEach(oldBtn => {
+      const btn = oldBtn.cloneNode(true) as HTMLButtonElement;
+      oldBtn.replaceWith(btn);
+
       btn.addEventListener('click', () => {
         const item = btn.closest('.nav-item') as HTMLElement;
         const isOpen = item.classList.contains('nav-item--open');
@@ -106,8 +112,17 @@ const currentPath = Astro.url.pathname;
       });
     });
 
+    // Reset eventuele open submenus bij elke (her)initialisatie
+    nav.querySelectorAll('.nav-item--open').forEach(el => {
+      el.classList.remove('nav-item--open');
+      el.querySelector('.nav-toggle')?.setAttribute('aria-expanded', 'false');
+    });
+
     // Sluit menu bij klik op een link (mobiel)
-    nav.querySelectorAll('.nav-dropdown__link').forEach(link => {
+    nav.querySelectorAll('.nav-dropdown__link').forEach(oldLink => {
+      const link = oldLink.cloneNode(true) as HTMLAnchorElement;
+      oldLink.replaceWith(link);
+
       link.addEventListener('click', () => {
         fresh.setAttribute('aria-expanded', 'false');
         nav.classList.remove('header__nav--open');
@@ -115,9 +130,12 @@ const currentPath = Astro.url.pathname;
     });
 
     // Sluit menu bij klik op een top-level link zonder children
-    nav.querySelectorAll('.nav-link').forEach(link => {
-      const item = link.closest('.nav-item');
+    nav.querySelectorAll('.nav-link').forEach(oldLink => {
+      const item = oldLink.closest('.nav-item');
       if (!item?.classList.contains('nav-item--has-children')) {
+        const link = oldLink.cloneNode(true) as HTMLAnchorElement;
+        oldLink.replaceWith(link);
+
         link.addEventListener('click', () => {
           fresh.setAttribute('aria-expanded', 'false');
           nav.classList.remove('header__nav--open');
@@ -343,15 +361,33 @@ const currentPath = Astro.url.pathname;
       align-items: center;
       justify-content: center;
       position: absolute;
-      right: 0;
-      top: 0;
-      width: 48px;
-      height: 48px;
-      background: none;
+      right: var(--space-2);
+      top: 6px;
+      width: 36px;
+      height: 36px;
+      background-color: var(--color-primary-light);
       border: none;
+      border-radius: var(--radius-full);
       cursor: pointer;
-      color: var(--color-text-muted);
+      color: var(--color-primary);
       padding: 0;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
+
+    .nav-toggle:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .nav-item--open > .nav-toggle {
+      background-color: var(--color-primary);
+      color: #fff;
     }
 
     .nav-toggle .nav-arrow {
