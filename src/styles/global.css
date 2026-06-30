@@ -174,14 +174,18 @@ img {
   .container { padding-inline: var(--space-4); }
 }
 
-/* Fade-in bij scroll (feature flag in BaseLayout.astro) */
-html.fade-in-active .section {
+/* Fade-in bij scroll (feature flag in BaseLayout.astro). Granulair per
+   kaart/blok (zie REVEAL_SELECTOR in BaseLayout.astro) zodat het effect
+   ook bij grote secties zichtbaar blijft tijdens het scrollen, niet alleen
+   bovenaan de sectie. */
+html.fade-in-active [data-reveal] {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 600ms ease, transform 600ms ease;
+  transform: translateY(28px);
+  transition: opacity 700ms cubic-bezier(0.21, 0.6, 0.35, 1),
+              transform 700ms cubic-bezier(0.21, 0.6, 0.35, 1);
 }
 
-html.fade-in-active .section.is-revealed {
+html.fade-in-active [data-reveal].is-revealed {
   opacity: 1;
   /* transform: none (niet translateY(0)) zodra onthuld: elke transform-
      waarde, ook een nul-vertaling, maakt het element een containing block
@@ -190,8 +194,25 @@ html.fade-in-active .section.is-revealed {
   transform: none;
 }
 
+/* Lichte stagger voor naast elkaar getoonde kaarten in een grid/rij */
+html.fade-in-active .grid > [data-reveal]:nth-child(2),
+html.fade-in-active .cursus-lijst > [data-reveal]:nth-child(2),
+html.fade-in-active .binnenkort-grid > [data-reveal]:nth-child(2) { transition-delay: 80ms; }
+html.fade-in-active .grid > [data-reveal]:nth-child(3),
+html.fade-in-active .cursus-lijst > [data-reveal]:nth-child(3),
+html.fade-in-active .binnenkort-grid > [data-reveal]:nth-child(3) { transition-delay: 160ms; }
+html.fade-in-active .grid > [data-reveal]:nth-child(4),
+html.fade-in-active .cursus-lijst > [data-reveal]:nth-child(4),
+html.fade-in-active .binnenkort-grid > [data-reveal]:nth-child(4) { transition-delay: 240ms; }
+html.fade-in-active .grid > [data-reveal]:nth-child(5),
+html.fade-in-active .cursus-lijst > [data-reveal]:nth-child(5),
+html.fade-in-active .binnenkort-grid > [data-reveal]:nth-child(5) { transition-delay: 320ms; }
+html.fade-in-active .grid > [data-reveal]:nth-child(6),
+html.fade-in-active .cursus-lijst > [data-reveal]:nth-child(6),
+html.fade-in-active .binnenkort-grid > [data-reveal]:nth-child(6) { transition-delay: 400ms; }
+
 @media (prefers-reduced-motion: reduce) {
-  html.fade-in-active .section {
+  html.fade-in-active [data-reveal] {
     opacity: 1;
     transform: none;
     transition: none;

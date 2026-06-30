@@ -97,14 +97,44 @@ const jsonLd = {
   // Feature flag: fade-in-bij-scroll. Zet op false om sitebreed uit te schakelen.
   const FADE_IN_ENABLED = true;
 
+  // Herkenbare deelblokken binnen een sectie (kaarten, grid-items, kolommen).
+  // Worden los van elkaar onthuld zodat het effect ook bij lange/grote
+  // secties zichtbaar blijft terwijl je scrollt, niet alleen bovenaan.
+  const REVEAL_SELECTOR = [
+    '.section__header',
+    '.grid > *',
+    '.hsp-grid > *',
+    '.about-grid > *',
+    '.over-grid > *',
+    '.contact-grid > *',
+    '.cursus-lijst > *',
+    '.binnenkort-grid > *',
+    '.waarden > *',
+    '.cta-bottom__kaart',
+  ].join(', ');
+
   function initFadeIn() {
     document.documentElement.classList.remove('fade-in-active');
+    document.querySelectorAll('[data-reveal-init]').forEach(el => {
+      el.removeAttribute('data-reveal-init');
+      el.removeAttribute('data-reveal');
+      el.classList.remove('is-revealed');
+    });
     if (!FADE_IN_ENABLED) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     document.documentElement.classList.add('fade-in-active');
 
-    const targets = document.querySelectorAll('.section:not([data-reveal-init])');
+    // Secties zonder herkenbare deelblokken vallen terug op een fade van de
+    // hele sectie (bv. een losse alinea-sectie zonder grid/kaarten).
+    document.querySelectorAll('.section').forEach(section => {
+      if (!section.querySelector(REVEAL_SELECTOR)) {
+        section.setAttribute('data-reveal', '');
+      }
+    });
+    document.querySelectorAll(REVEAL_SELECTOR).forEach(el => el.setAttribute('data-reveal', ''));
+
+    const targets = document.querySelectorAll('[data-reveal]:not([data-reveal-init])');
     if (!('IntersectionObserver' in window)) {
       targets.forEach(el => el.classList.add('is-revealed'));
       return;
@@ -117,7 +147,7 @@ const jsonLd = {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
 
     targets.forEach(el => {
       el.setAttribute('data-reveal-init', '');
