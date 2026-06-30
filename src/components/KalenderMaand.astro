@@ -1,0 +1,70 @@
+---
+type DagInfo = { titel: string; type?: string; isStart: boolean; cursusId: string };
+
+interface Props {
+  jaar: number;
+  maand: number;
+  maandNamen: string[];
+  dagKort: string[];
+  dagMap: Record<string, DagInfo[]>;
+  vandaagSleutel: string;
+  typeBg: Record<string, string>;
+  typeKleur: Record<string, string>;
+}
+
+const { jaar, maand, maandNamen, dagKort, dagMap, vandaagSleutel, typeBg, typeKleur } = Astro.props;
+
+function buildCellen(jaar: number, maand: number): (number | null)[] {
+  const eersteDag   = new Date(jaar, maand, 1);
+  const aantaldagen = new Date(jaar, maand + 1, 0).getDate();
+  let startKolom    = eersteDag.getDay() - 1;
+  if (startKolom < 0) startKolom = 6;
+  const cellen: (number | null)[] = Array(startKolom).fill(null);
+  for (let d = 1; d <= aantaldagen; d++) cellen.push(d);
+  while (cellen.length % 7 !== 0) cellen.push(null);
+  return cellen;
+}
+
+function datumSleutel(jaar: number, maand: number, dag: number) {
+  return `${jaar}-${String(maand + 1).padStart(2,'0')}-${String(dag).padStart(2,'0')}`;
+}
+
+const cellen = buildCellen(jaar, maand);
+---
+
+<div class="kalender-maand">
+  <h3 class="kalender-maand__titel">{maandNamen[maand]} {jaar}</h3>
+  <div class="kalender-dag-namen">
+    {dagKort.map(d => <span>{d}</span>)}
+  </div>
+  <div class="kalender-cellen">
+    {cellen.map(dag => {
+      if (!dag) return <span class="cel cel--leeg" />;
+
+      const sleutel    = datumSleutel(jaar, maand, dag);
+      const items      = dagMap[sleutel] ?? [];
+      const isVandaag  = sleutel === vandaagSleutel;
+      const heeftStart = items.some(d => d.isStart);
+      const eersteType = items[0]?.type;
+      const cursusId   = items[0]?.cursusId ?? '';
+
+      const tooltip = items
+        .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
+        .join('\n');
+
+      return items.length > 0 ? (
+        <button
+          class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg']}
+          style={eersteType ? `--cel-bg:${typeBg[eersteType]};--cel-kleur:${typeKleur[eersteType]}` : ''}
+          data-tooltip={tooltip}
+          data-cursus-id={cursusId}
+          type="button"
+        >
+          {dag}
+        </button>
+      ) : (
+        <span class:list={['cel', isVandaag && 'cel--vandaag']}>{dag}</span>
+      );
+    })}
+  </div>
+</div>

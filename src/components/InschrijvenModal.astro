@@ -244,11 +244,27 @@ function formatDatum(iso: string) {
     document.body.style.overflow = '';
   }
 
-  // Trigger vanuit header
+  function kiesCursus(titel: string, datum: string, isAnimo: boolean) {
+    huidigKeuze = 'cursus';
+    (document.getElementById('mi-bericht') as HTMLTextAreaElement).value = isAnimo
+      ? `Ik heb interesse in de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.\n\nGraag meer informatie als er voldoende animo is.`
+      : `Ik wil me graag aanmelden voor de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.`;
+    (document.getElementById('hidden-keuze') as HTMLInputElement).value = `Cursus: ${titel}`;
+    setOnderwerp('aanmelden');
+    naarStap('3');
+  }
+
+  // Trigger vanuit header / agenda (agenda-items geven data-cursus-titel mee
+  // om direct naar het vooringevulde formulier te springen)
   document.addEventListener('click', e => {
-    if ((e.target as HTMLElement).closest('[data-open-modal="inschrijven"]')) {
+    const trigger = (e.target as HTMLElement).closest('[data-open-modal="inschrijven"]') as HTMLElement | null;
+    if (trigger) {
       e.preventDefault();
       openModal();
+      const cursusTitel = trigger.dataset.cursusTitel;
+      if (cursusTitel) {
+        kiesCursus(cursusTitel, trigger.dataset.cursusDatum ?? '', trigger.dataset.cursusStatus === 'animo');
+      }
     }
   });
 
@@ -291,16 +307,8 @@ function formatDatum(iso: string) {
   // Stap 2a: cursus
   modal.querySelectorAll('.cursus-rij').forEach(btn => {
     btn.addEventListener('click', () => {
-      const el      = btn as HTMLElement;
-      const titel   = el.dataset.cursus    ?? '';
-      const datum   = el.dataset.startdatum ?? '';
-      const isAnimo = el.dataset.status === 'animo';
-      (document.getElementById('mi-bericht') as HTMLTextAreaElement).value = isAnimo
-        ? `Ik heb interesse in de cursus "${titel}" (start ${datum}).\n\nGraag meer informatie als er voldoende animo is.`
-        : `Ik wil me graag aanmelden voor de cursus "${titel}" (start ${datum}).`;
-      (document.getElementById('hidden-keuze') as HTMLInputElement).value = `Cursus: ${titel}`;
-      setOnderwerp('aanmelden');
-      naarStap('3');
+      const el = btn as HTMLElement;
+      kiesCursus(el.dataset.cursus ?? '', el.dataset.startdatum ?? '', el.dataset.status === 'animo');
     });
   });
 

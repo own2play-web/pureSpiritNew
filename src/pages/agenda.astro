@@ -20,15 +20,6 @@ function formatDatum(datumStr: string) {
   return `${d.getDate()} ${maandNamen[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-function contactUrl(titel: string, datum: string, status: string) {
-  const params = new URLSearchParams({
-    sessie: titel,
-    datum:  formatDatum(datum),
-    ...(status === 'animo' ? { animo: '1' } : {}),
-  });
-  return `/contact/?${params.toString()}`;
-}
-
 // Filter: cursus is relevant als de startdatum in de toekomst ligt
 const komend = agendaData.cursussen
   .filter(c => c.data.length > 0 && new Date(c.data[0]) >= vandaag)
@@ -114,7 +105,7 @@ const typekleur: Record<string, string> = {
                           )}
                           {prijs && (
                             <li>
-                              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12a7.9 7.9 0 0 0 7.8 8 7.7 7.7 0 0 0 5.2-2"/></svg>
                               {prijs}
                             </li>
                           )}
@@ -151,11 +142,25 @@ const typekleur: Record<string, string> = {
                       </div>
                       <div class="cursus-actie">
                         {status === 'open' && (
-                          <a href={contactUrl(titel, startDatum, status)} class="btn btn--primary">Schrijf je in</a>
+                          <button
+                            type="button"
+                            class="btn btn--primary"
+                            data-open-modal="inschrijven"
+                            data-cursus-titel={titel}
+                            data-cursus-datum={formatDatum(startDatum)}
+                            data-cursus-status={status}
+                          >Schrijf je in</button>
                         )}
                         {status === 'animo' && (
                           <div class="animo-wrap">
-                            <a href={contactUrl(titel, startDatum, status)} class="btn btn--outline">Geef interesse aan</a>
+                            <button
+                              type="button"
+                              class="btn btn--outline"
+                              data-open-modal="inschrijven"
+                              data-cursus-titel={titel}
+                              data-cursus-datum={formatDatum(startDatum)}
+                              data-cursus-status={status}
+                            >Geef interesse aan</button>
                             <p class="animo-toelichting">Start bij voldoende animo</p>
                           </div>
                         )}
@@ -197,7 +202,7 @@ const typekleur: Record<string, string> = {
                     )}
                     {bc.prijs && (
                       <li>
-                        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12a7.9 7.9 0 0 0 7.8 8 7.7 7.7 0 0 0 5.2-2"/></svg>
                         {bc.prijs}
                       </li>
                     )}
@@ -208,10 +213,13 @@ const typekleur: Record<string, string> = {
                       </li>
                     )}
                   </ul>
-                  <a href={`/contact/?onderwerp=${bc.type === 'Jongeren' || bc.type === 'Kinderen' ? 'aanmelden' : 'overig'}&sessie=${encodeURIComponent(bc.titel)}`}
-                     class="btn btn--outline binnenkort-kaart__btn">
-                    Geef interesse aan
-                  </a>
+                  <button
+                    type="button"
+                    class="btn btn--outline binnenkort-kaart__btn"
+                    data-open-modal="inschrijven"
+                    data-cursus-titel={bc.titel}
+                    data-cursus-status="animo"
+                  >Geef interesse aan</button>
                 </div>
               );
             })}

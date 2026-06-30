@@ -1,4 +1,6 @@
 ---
+import KalenderMaand from './KalenderMaand.astro';
+
 interface Cursus {
   titel: string;
   type?: string;
@@ -67,17 +69,6 @@ const typeBg: Record<string, string> = {
   'Workshop':  '#e8f5e9',
 };
 
-function buildCellen(jaar: number, maand: number): (number | null)[] {
-  const eersteDag   = new Date(jaar, maand, 1);
-  const aantaldagen = new Date(jaar, maand + 1, 0).getDate();
-  let startKolom    = eersteDag.getDay() - 1;
-  if (startKolom < 0) startKolom = 6;
-  const cellen: (number | null)[] = Array(startKolom).fill(null);
-  for (let d = 1; d <= aantaldagen; d++) cellen.push(d);
-  while (cellen.length % 7 !== 0) cellen.push(null);
-  return cellen;
-}
-
 function datumSleutel(jaar: number, maand: number, dag: number) {
   return `${jaar}-${String(maand + 1).padStart(2,'0')}-${String(dag).padStart(2,'0')}`;
 }
@@ -87,52 +78,31 @@ const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate(
 const legendaTypes = Array.from(
   new Set(cursussen.map(c => c.type).filter(Boolean) as string[])
 );
+
+const ZICHTBARE_MAANDEN = 3;
+const directZichtbaar = kalenderMaanden.slice(0, ZICHTBARE_MAANDEN);
+const extraMaanden     = kalenderMaanden.slice(ZICHTBARE_MAANDEN);
 ---
 
 <div class="kalender-wrapper">
   <div class="kalender-grid">
-    {kalenderMaanden.map(({ jaar, maand }) => {
-      const cellen = buildCellen(jaar, maand);
-      return (
-        <div class="kalender-maand">
-          <h3 class="kalender-maand__titel">{maandNamen[maand]} {jaar}</h3>
-          <div class="kalender-dag-namen">
-            {dagKort.map(d => <span>{d}</span>)}
-          </div>
-          <div class="kalender-cellen">
-            {cellen.map(dag => {
-              if (!dag) return <span class="cel cel--leeg" />;
-
-              const sleutel    = datumSleutel(jaar, maand, dag);
-              const items      = dagMap[sleutel] ?? [];
-              const isVandaag  = sleutel === vandaagSleutel;
-              const heeftStart = items.some(d => d.isStart);
-              const eersteType = items[0]?.type;
-              const cursusId   = items[0]?.cursusId ?? '';
-
-              const tooltip = items
-                .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
-                .join('\n');
-
-              return items.length > 0 ? (
-                <button
-                  class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg']}
-                  style={eersteType ? `--cel-bg:${typeBg[eersteType]};--cel-kleur:${typeKleur[eersteType]}` : ''}
-                  data-tooltip={tooltip}
-                  data-cursus-id={cursusId}
-                  type="button"
-                >
-                  {dag}
-                </button>
-              ) : (
-                <span class:list={['cel', isVandaag && 'cel--vandaag']}>{dag}</span>
-              );
-            })}
-          </div>
-        </div>
-      );
-    })}
+    {directZichtbaar.map(({ jaar, maand }) => (
+      <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
+    ))}
   </div>
+
+  {extraMaanden.length > 0 && (
+    <>
+      <div class="kalender-grid" id="kalender-extra" hidden>
+        {extraMaanden.map(({ jaar, maand }) => (
+          <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
+        ))}
+      </div>
+      <button type="button" class="btn btn--outline kalender-toggle" id="kalender-toggle" aria-expanded="false" aria-controls="kalender-extra">
+        Toon {extraMaanden.length} {extraMaanden.length === 1 ? 'maand' : 'maanden'} meer
+      </button>
+    </>
+  )}
 
   <div class="kalender-legenda-rij">
     {legendaTypes.length > 0 && (
@@ -184,6 +154,17 @@ const legendaTypes = Array.from(
     }, vertraging);
   }
 
+  const toggleBtn    = document.getElementById('kalender-toggle') as HTMLButtonElement | null;
+  const extraMaanden = document.getElementById('kalender-extra') as HTMLElement | null;
+  const labelMeer    = toggleBtn?.textContent ?? '';
+
+  toggleBtn?.addEventListener('click', () => {
+    const open = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (extraMaanden) extraMaanden.hidden = open;
+    toggleBtn.setAttribute('aria-expanded', String(!open));
+    toggleBtn.textContent = open ? labelMeer : 'Toon minder maanden';
+  });
+
   document.querySelectorAll<HTMLButtonElement>('[data-cursus-id]').forEach(knop => {
     knop.addEventListener('mouseenter', () => toon(knop));
     knop.addEventListener('mouseleave', () => verberg(120));
@@ -218,107 +199,11 @@ const legendaTypes = Array.from(
     margin-bottom: var(--space-4);
   }
 
-  .kalender-maand {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-  }
-
-  .kalender-maand__titel {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-primary-dark);
-    text-align: center;
-    margin-bottom: var(--space-3);
-  }
-
-  .kalender-dag-namen {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: var(--space-1);
-  }
-
-  .kalender-dag-namen span {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-align: center;
-    padding-block: var(--space-1);
-  }
-
-  .kalender-cellen {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-  }
-
-  .cel {
-    position: relative;
+  .kalender-toggle {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    color: var(--color-text);
-    border-radius: var(--radius-sm);
-    font-weight: 400;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: default;
-  }
-
-  .cel--leeg { visibility: hidden; }
-
-  .cel--vandaag {
-    outline: 2px solid var(--color-primary);
-    outline-offset: -2px;
-    font-weight: 700;
-  }
-
-  /* Startdatum: gevulde gekleurde achtergrond */
-  .cel--start {
-    background-color: var(--cel-bg);
-    color: var(--cel-kleur);
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .cel--start {
-      background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
-      color: color-mix(in srgb, var(--cel-kleur) 70%, white);
-    }
-  }
-
-  .cel--start:hover {
-    filter: brightness(0.93);
-  }
-
-  /* Vervolgles: stippeltje onder het getal */
-  .cel--vervolg {
-    color: var(--color-text);
-    cursor: pointer;
-  }
-
-  .cel--vervolg:hover {
-    background-color: var(--color-primary-light);
-  }
-
-  .cel--vervolg::after {
-    content: '';
-    position: absolute;
-    bottom: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: var(--cel-kleur, var(--color-primary));
+    margin: 0 auto var(--space-6);
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-5);
   }
 
   /* Tooltip */
