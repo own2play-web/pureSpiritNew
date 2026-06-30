@@ -173,3 +173,23 @@ img {
   .section { padding-block: var(--space-12); }
   .container { padding-inline: var(--space-4); }
 }
+
+/* Fade-in bij scroll (feature flag in BaseLayout.astro) */
+html.fade-in-active .section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+html.fade-in-active .section.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.fade-in-active .section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

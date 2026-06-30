@@ -93,6 +93,41 @@ const jsonLd = {
   </body>
 </html>
 
+<script>
+  // Feature flag: fade-in-bij-scroll. Zet op false om sitebreed uit te schakelen.
+  const FADE_IN_ENABLED = true;
+
+  function initFadeIn() {
+    document.documentElement.classList.remove('fade-in-active');
+    if (!FADE_IN_ENABLED) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.documentElement.classList.add('fade-in-active');
+
+    const targets = document.querySelectorAll('.section:not([data-reveal-init])');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    targets.forEach(el => {
+      el.setAttribute('data-reveal-init', '');
+      observer.observe(el);
+    });
+  }
+
+  document.addEventListener('astro:page-load', initFadeIn);
+</script>
+
 <style>
   .skip-link {
     position: absolute;
