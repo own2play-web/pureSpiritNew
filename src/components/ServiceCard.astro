@@ -28,6 +28,13 @@ const { title, description, href, icon } = Astro.props;
     transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
   }
 
+  @media (prefers-color-scheme: dark) {
+    .service-card {
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
   .service-card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary);

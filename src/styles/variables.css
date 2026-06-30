@@ -20,6 +20,10 @@
   --color-warning-bg:    #fffbf0;
   --color-footer-bg:     #1a4a61;
 
+  --color-hero-1: #e6f2f7;
+  --color-hero-2: #eef5f0;
+  --color-hero-3: #faf9f6;
+
   /* Typografie */
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Nunito', system-ui, sans-serif;
@@ -88,6 +92,10 @@
 
     --color-warning-bg:    #2e2812;
     --color-footer-bg:     #081119;
+
+    --color-hero-1: #1a3247;
+    --color-hero-2: #1c3329;
+    --color-hero-3: #2b2418;
 
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);

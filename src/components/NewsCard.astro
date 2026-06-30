@@ -40,6 +40,13 @@ const formatted = new Date(date).toLocaleDateString('nl-NL', {
     transition: box-shadow var(--transition), border-color var(--transition);
   }
 
+  @media (prefers-color-scheme: dark) {
+    .news-card {
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
   .news-card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary);
