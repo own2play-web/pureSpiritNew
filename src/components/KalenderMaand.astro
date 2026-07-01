@@ -22,6 +22,7 @@ function buildCellen(jaar: number, maand: number): (number | null)[] {
   const cellen: (number | null)[] = Array(startKolom).fill(null);
   for (let d = 1; d <= aantaldagen; d++) cellen.push(d);
   while (cellen.length % 7 !== 0) cellen.push(null);
+  while (cellen.length < 42) cellen.push(null); // altijd 6 rijen = gelijke kaardhoogte
   return cellen;
 }
 

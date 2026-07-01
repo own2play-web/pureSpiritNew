@@ -81,14 +81,6 @@ const legendaTypes = Array.from(
 ---
 
 <div class="kalender-wrapper">
-  <div id="kalender-grid" class:list={['kalender-grid', kalenderMaanden.length > 1 && 'kalender-grid--collapsed']}>
-    {kalenderMaanden.map(({ jaar, maand }, i) => (
-      <div class:list={['kalender-maand-wrap', i === 0 && 'kalender-maand-wrap--actief']} data-maand-index={i}>
-        <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
-      </div>
-    ))}
-  </div>
-
   {kalenderMaanden.length > 1 && (
     <div class="kalender-mobiel-nav">
       <button type="button" id="kalender-vorige" class="kalender-nav-btn" aria-label="Vorige maand" disabled>
@@ -100,6 +92,14 @@ const legendaTypes = Array.from(
       </button>
     </div>
   )}
+
+  <div id="kalender-grid" class:list={['kalender-grid', kalenderMaanden.length > 1 && 'kalender-grid--collapsed']}>
+    {kalenderMaanden.map(({ jaar, maand }, i) => (
+      <div class:list={['kalender-maand-wrap', i === 0 && 'kalender-maand-wrap--actief']} data-maand-index={i}>
+        <KalenderMaand jaar={jaar} maand={maand} maandNamen={maandNamen} dagKort={dagKort} dagMap={dagMap} vandaagSleutel={vandaagSleutel} typeBg={typeBg} typeKleur={typeKleur} />
+      </div>
+    ))}
+  </div>
 
   {kalenderMaanden.length > 1 && (
     <button type="button" class="btn btn--outline kalender-toggle" id="kalender-toggle" aria-expanded="false" aria-controls="kalender-grid">
@@ -254,7 +254,8 @@ const legendaTypes = Array.from(
   @media (max-width: 639px) {
     .kalender-maand-wrap { display: none; }
     .kalender-maand-wrap--actief { display: block; }
-    .kalender-toggle { display: none; }
+    /* Maandnaam zit al in de mobiel-nav, verberg hem in de kalenderkaart */
+    :global(.kalender-maand__titel) { display: none; }
   }
 
   .kalender-mobiel-nav {
@@ -306,10 +307,14 @@ const legendaTypes = Array.from(
   }
 
   .kalender-toggle {
-    display: flex;
+    display: none; /* verborgen op mobiel; tablet+ via min-width hieronder */
     margin: 0 auto var(--space-6);
     font-size: var(--text-sm);
     padding: var(--space-2) var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .kalender-toggle { display: flex; }
   }
 
   /* Tooltip */

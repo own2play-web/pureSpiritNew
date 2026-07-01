@@ -1,5 +1,13 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import tarieven from '../data/tarieven.json';
+
+// Eenvoudige markdown-renderer: **vet** → <strong>, alinea's op \n\n
+function renderTekst(tekst: string): string[] {
+  return tekst
+    .split('\n\n')
+    .map(p => p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
+}
 ---
 
 <PageLayout
@@ -11,83 +19,54 @@ import PageLayout from '../layouts/PageLayout.astro';
   <section class="section">
     <div class="container">
 
-      <div class="notice">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <p>Bij Pure Spirit gelden de volgende tarieven. <strong>Per 1 januari 2026 worden de tarieven aangepast.</strong></p>
-      </div>
+      {tarieven.aankondiging && (
+        <div class="notice">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p>Bij Pure Spirit gelden de volgende tarieven. <strong>{tarieven.aankondiging}</strong></p>
+        </div>
+      )}
 
-      <!-- Twee-koloms layout: uitleg links, tabel rechts -->
       <div class="hoofd-layout">
 
+        <!-- Linkerkolom: tekst-secties -->
         <div class="uitleg-kolom">
-          <article class="uitleg-sectie">
-            <h2>Bachbloesemtherapie</h2>
-            <p>Het tarief bedraagt <strong>€&nbsp;75,–</strong> voor een uur en <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.</p>
-            <p>De eerste afspraak, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter.</p>
-            <p>Het flesje BachBloesemremedies dat persoonlijk voor jou wordt samengesteld tijdens het consult kost <strong>€&nbsp;10,–</strong>. Een zelfde (vervolg)flesje zonder consult kost <strong>€&nbsp;25,–</strong>; bij verzending komen verzendkosten bij.</p>
-          </article>
-
-          <article class="uitleg-sectie">
-            <h2>Privéconsult &amp; Coaching</h2>
-            <p>Het tarief bedraagt <strong>€&nbsp;75,–</strong> voor een uur en <strong>€&nbsp;55,–</strong> voor een half uur. Het starttarief van een afspraak is €&nbsp;55,–.</p>
-            <p>Het eerste consult, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter.</p>
-          </article>
-
-          <article class="uitleg-sectie">
-            <h2>Consult op afstand</h2>
-            <p>Altijd mogelijk, telefonisch of via beeldbellen. De tarieven zijn hetzelfde als bij afspraken in de praktijk.</p>
-            <p>Omdat er achteraf meer werk is aan het dossier en het Bachbloesemflesje, wordt 15 minuten bijgeteld. De totale tijd is daarmee vergelijkbaar met een praktijkafspraak.</p>
-          </article>
-
-          <article class="uitleg-sectie">
-            <h2>Annuleren</h2>
-            <p>Je mag de afspraak <strong>kosteloos annuleren tot 48 uur</strong> van tevoren. Tot 12 uur van tevoren betaal je de helft van een ingepland consult (90 min.). Daarna betaal je het volledige consult.</p>
-          </article>
+          {tarieven.secties.map(sectie => (
+            <article class="uitleg-sectie">
+              <h2>{sectie.titel}</h2>
+              {renderTekst(sectie.tekst).map(alinea => (
+                <p set:html={alinea} />
+              ))}
+            </article>
+          ))}
         </div>
 
+        <!-- Rechterkolom: tarieftabel -->
         <div class="tabel-kolom">
           <div class="tabel-sticky">
-            <h2 class="tabel-kop">Overzicht tarieven</h2>
-            <p class="tabel-sub">Factuur volgt per mail na afloop van het consult, op basis van werkelijke tijd.</p>
+            <h2 class="tabel-kop">{tarieven.tabel_titel}</h2>
+            {tarieven.tabel_ondertitel && (
+              <p class="tabel-sub">{tarieven.tabel_ondertitel}</p>
+            )}
 
             <div class="tabel-card">
-              <div class="tabel-groephdr">Consulttijden</div>
-              <div class="tabel-rij">
-                <span>Tot 30 minuten</span>
-                <strong>€ 55,–</strong>
-              </div>
-              <div class="tabel-rij">
-                <span>30–45 minuten</span>
-                <strong>€ 65,–</strong>
-              </div>
-              <div class="tabel-rij">
-                <span>45–60 minuten</span>
-                <strong>€ 75,–</strong>
-              </div>
-              <div class="tabel-rij">
-                <span>Per kwartier na 60 min.</span>
-                <strong>€ 18,75</strong>
-              </div>
-              <div class="tabel-rij">
-                <span>Telefonisch / beeldbellen</span>
-                <em>+ 15 min.</em>
-              </div>
-
-              <div class="tabel-groephdr">Bachbloesem</div>
-              <div class="tabel-rij">
-                <span>Flesje op maat (tijdens consult)</span>
-                <strong>€ 10,–</strong>
-              </div>
-              <div class="tabel-rij">
-                <span>Vervolgflesje zonder consult</span>
-                <strong>€ 25,–</strong>
-              </div>
-
-              <div class="tabel-groephdr">Overig</div>
-              <div class="tabel-rij tabel-rij--last">
-                <span>Energetisch werk (max. 30 min.)</span>
-                <strong>€ 75,–</strong>
-              </div>
+              {tarieven.groepen.map((groep, gi) => (
+                <>
+                  <div class="tabel-groephdr">{groep.naam}</div>
+                  {groep.rijen.map((rij, ri) => {
+                    const isLast = gi === tarieven.groepen.length - 1 && ri === groep.rijen.length - 1;
+                    const isPrijs = rij.waarde.startsWith('€');
+                    return (
+                      <div class:list={['tabel-rij', isLast && 'tabel-rij--last']}>
+                        <span>{rij.label}</span>
+                        {isPrijs
+                          ? <strong>{rij.waarde}</strong>
+                          : <em>{rij.waarde}</em>
+                        }
+                      </div>
+                    );
+                  })}
+                </>
+              ))}
             </div>
 
             <a href="/contact/" class="btn btn--primary cta-btn">Afspraak maken</a>
@@ -118,7 +97,6 @@ import PageLayout from '../layouts/PageLayout.astro';
   .notice svg { flex-shrink: 0; color: var(--color-primary); margin-top: 2px; }
   .notice p   { margin: 0; }
 
-  /* Twee-koloms layout */
   .hoofd-layout {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -126,7 +104,6 @@ import PageLayout from '../layouts/PageLayout.astro';
     align-items: start;
   }
 
-  /* Uitleg kolom */
   .uitleg-kolom {
     display: flex;
     flex-direction: column;
@@ -156,7 +133,6 @@ import PageLayout from '../layouts/PageLayout.astro';
 
   .uitleg-sectie p:last-child { margin-bottom: 0; }
 
-  /* Tabel kolom */
   .tabel-kolom {
     position: relative;
   }

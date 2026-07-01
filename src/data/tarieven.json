@@ -1,39 +1,72 @@
 {
-  "items": [
+  "aankondiging": "Per 1 januari 2027 worden de tarieven aangepast.",
+  "tabel_titel": "Overzicht tarieven",
+  "tabel_ondertitel": "Factuur volgt per mail na afloop van het consult, op basis van werkelijke tijd.",
+  "groepen": [
     {
-      "dienst": "Eerste consult Bachbloesemtherapie (± 1,5 uur)",
-      "prijs": "Op aanvraag",
-      "omschrijving": "Inclusief uitgebreid intakegesprek en persoonlijk flesje"
+      "naam": "Consulttijden",
+      "rijen": [
+        {
+          "label": "Tot 30 minuten",
+          "waarde": "€ 55,–"
+        },
+        {
+          "label": "30–45 minuten",
+          "waarde": "€ 65,–"
+        },
+        {
+          "label": "45–60 minuten",
+          "waarde": "€ 75,–"
+        },
+        {
+          "label": "Per kwartier na 60 min.",
+          "waarde": "€ 18,75"
+        },
+        {
+          "label": "Telefonisch / beeldbellen",
+          "waarde": "+ 15 min."
+        }
+      ]
     },
     {
-      "dienst": "Vervolgconsult Bachbloesemtherapie",
-      "prijs": "Op aanvraag",
-      "omschrijving": ""
+      "naam": "Bachbloesem",
+      "rijen": [
+        {
+          "label": "Flesje op maat (tijdens consult)",
+          "waarde": "€ 10,–"
+        },
+        {
+          "label": "Vervolgflesje zonder consult",
+          "waarde": "€ 25,–"
+        }
+      ]
     },
     {
-      "dienst": "Standaard Bachbloesemflesje (bijv. examenstress)",
-      "prijs": "€ 35,–",
-      "omschrijving": "Persoonlijk samengesteld, direct beschikbaar"
+      "naam": "Overig",
+      "rijen": [
+        {
+          "label": "Energetisch werk (max. 30 min.)",
+          "waarde": "€ 75,–"
+        }
+      ]
+    }
+  ],
+  "secties": [
+    {
+      "titel": "Bachbloesemtherapie",
+      "tekst": "Het tarief bedraagt **€ 75,–** voor een uur en **€ 55,–** voor een half uur. Het starttarief van een afspraak is € 55,–.\n\nDe eerste afspraak, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter.\n\nHet flesje BachBloesemremedies dat persoonlijk voor jou wordt samengesteld tijdens het consult kost **€ 10,–**. Een zelfde (vervolg)flesje zonder consult kost **€ 25,–**; bij verzending komen verzendkosten bij."
     },
     {
-      "dienst": "Coaching (per sessie)",
-      "prijs": "Op aanvraag",
-      "omschrijving": "Zowel privé als zakelijk"
+      "titel": "Privéconsult & Coaching",
+      "tekst": "Het tarief bedraagt **€ 75,–** voor een uur en **€ 55,–** voor een half uur. Het starttarief van een afspraak is € 55,–.\n\nHet eerste consult, inclusief intakegesprek, duurt ongeveer anderhalf uur. Vervolgafspraken zijn afhankelijk van de problematiek meestal korter."
     },
     {
-      "dienst": "HSP-begeleiding (individueel)",
-      "prijs": "Op aanvraag",
-      "omschrijving": ""
+      "titel": "Consult op afstand",
+      "tekst": "Altijd mogelijk, telefonisch of via beeldbellen. De tarieven zijn hetzelfde als bij afspraken in de praktijk.\n\nOmdat er achteraf meer werk is aan het dossier en het Bachbloesemflesje, wordt 15 minuten bijgeteld. De totale tijd is daarmee vergelijkbaar met een praktijkafspraak."
     },
     {
-      "dienst": "Losse meditatieles (Summerschool)",
-      "prijs": "€ 22,50",
-      "omschrijving": "Per losse les, maximaal 6 personen"
-    },
-    {
-      "dienst": "Meditatiecursus (6 lessen)",
-      "prijs": "Op aanvraag",
-      "omschrijving": "Zie het programma voor actuele prijzen"
+      "titel": "Annuleren",
+      "tekst": "Je mag de afspraak **kosteloos annuleren tot 48 uur** van tevoren. Tot 12 uur van tevoren betaal je de helft van een ingepland consult (90 min.). Daarna betaal je het volledige consult."
     }
   ]
 }
