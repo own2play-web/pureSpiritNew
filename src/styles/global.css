@@ -124,14 +124,24 @@ img {
 
 .btn--accent {
   background-color: var(--color-accent);
-  color: var(--color-text-light);
+  color: var(--color-text-on-accent);
   border-color: var(--color-accent);
 }
 
 .btn--accent:hover {
   background-color: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
-  color: var(--color-text-light);
+  color: var(--color-text-on-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* In dark mode is de tekst donker (zie --color-text-on-accent), dus
+     lichter i.p.v. donkerder op hover: donkerder zou het contrast met
+     donkere tekst juist verslechteren. */
+  .btn--accent:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 85%, white);
+    border-color: color-mix(in srgb, var(--color-accent) 85%, white);
+  }
 }
 
 .btn--muted {

@@ -6,13 +6,16 @@ interface Props {
   primaryHref: string;
   secondaryLabel: string;
   secondaryHref: string;
+  /** Achtergrond van de sectie die hier direct boven staat, zodat de golf
+      er naadloos op aansluit. Default past bij een voorgaande .section--alt. */
+  waveTopFill?: string;
 }
 
-const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref } = Astro.props;
+const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref, waveTopFill = 'var(--color-surface-alt)' } = Astro.props;
 ---
 
 <section class="cta-bottom">
-  <div class="cta-bottom__wave-top" aria-hidden="true">
+  <div class="cta-bottom__wave-top" aria-hidden="true" style={`--wave-top-fill: ${waveTopFill}`}>
     <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0,0 L0,48 C180,72 360,24 540,48 C720,72 900,24 1080,48 C1260,72 1380,36 1440,48 L1440,0 Z"/>
     </svg>
@@ -45,9 +48,21 @@ const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref } 
     padding-bottom: 0;
   }
 
+  @media (prefers-color-scheme: dark) {
+    /* --color-action blijft bewust een vast, gematigd blauw voor kleine
+       knop-oppervlakken met witte tekst — als achtergrond van deze hele
+       sectie oogt dat te licht naast de rest van dark mode. Eigen, diepere
+       tint alleen voor deze band. */
+    .cta-bottom {
+      background-color: #123449;
+    }
+  }
+
   .cta-bottom__wave-top {
     line-height: 0;
     overflow: hidden;
+    margin-top: -1px;
+    margin-bottom: -1px;
   }
 
   .cta-bottom__wave-top svg {
@@ -56,7 +71,7 @@ const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref } 
   }
 
   .cta-bottom__wave-top path {
-    fill: var(--color-surface-alt);
+    fill: var(--wave-top-fill);
   }
 
   .cta-bottom .container {
@@ -66,6 +81,10 @@ const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref } 
   .cta-bottom__wave-bottom {
     line-height: 0;
     overflow: hidden;
+    /* Voorkomt een 1px lijn tussen golf en footer: de svg-hoogte is
+       fractioneel (viewBox geschaald naar 100% breedte), en afronding
+       daarvan kan bij sommige vensterbreedtes net een naad laten zien. */
+    margin-bottom: -1px;
   }
 
   .cta-bottom__wave-bottom svg {

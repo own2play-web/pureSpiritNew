@@ -3,12 +3,12 @@
   --color-primary:       #246482;
   --color-primary-dark:  #1a4a61;
   --color-primary-light: #e6f2f7;
-  --color-accent:        #7ab8cc;
-  --color-accent-dark:   #4e97b3;
+  --color-accent:        #c99a3f;
+  --color-accent-dark:   #a87b2c;
 
   --color-bg:            #f8fbfd;
   --color-surface:       #ffffff;
-  --color-surface-alt:   #eef6fa;
+  --color-surface-alt:   #f4edd9;
 
   --color-text:          #1e2f38;
   --color-text-muted:    #5a7480;
@@ -29,6 +29,12 @@
      mode juist lichter gemaakt (voor leesbaarheid als voorgrondkleur),
      dus is ongeschikt als achtergrond-met-wit-tekst in dat thema. */
   --color-action: #246482;
+
+  /* Tekstkleur op --color-accent-vlakken (badge, .btn--accent): in light
+     mode is het goud donker genoeg voor witte tekst; in dark mode wordt
+     --color-accent juist lichter (voor leesbaarheid als voorgrondkleur),
+     dus daar donkere tekst nodig voor voldoende contrast. */
+  --color-text-on-accent: #ffffff;
 
   /* Typografie */
   --font-heading: 'Cormorant Garamond', Georgia, serif;
@@ -82,11 +88,14 @@
     --color-primary:       #5baac8;
     --color-primary-dark:  #7dc4da;
     --color-primary-light: #112534;
-    --color-accent:        #7ab8cc;
-    --color-accent-dark:   #9dd0e2;
+    --color-accent:        #e0b563;
+    --color-accent-dark:   #f0cd8c;
 
     --color-bg:            #0e1c26;
     --color-surface:       #142230;
+    /* Niet uit --color-accent (goud) mixen: warm goud in een koele donkere
+       ondergrond geeft een modderige olijfkleur i.p.v. een fraaie donkere
+       tint. Vaste koele tint, zoals vóór de goud-omzetting. */
     --color-surface-alt:   #1a2c3c;
 
     --color-text:          #e2eff5;
@@ -96,14 +105,20 @@
     --color-border:        #1e3d54;
     --color-border-strong: #2a5570;
 
-    --color-warning-bg:    color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+    /* Zelfde modder-probleem: een lage --color-accent-mix in een koele
+       ondergrond oogt vuil i.p.v. warm. Vaste, bewust donker-amberkleurige
+       tint in plaats van een berekende mix. */
+    --color-warning-bg:    #33280f;
     --color-footer-bg:     #081119;
 
     --color-hero-1: color-mix(in srgb, var(--color-primary) 20%, var(--color-bg));
-    --color-hero-2: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg));
+    /* Zelfde modder-probleem als --color-surface-alt: mix uit --color-primary
+       i.p.v. --color-accent, zodat de hero-gradient koel blijft. */
+    --color-hero-2: color-mix(in srgb, var(--color-primary) 12%, var(--color-bg));
     --color-hero-3: var(--color-bg);
 
     --color-action: #1f5d7c;
+    --color-text-on-accent: #1e2f38;
 
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);

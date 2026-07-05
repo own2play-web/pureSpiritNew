@@ -187,6 +187,1310 @@ declare module 'astro:content' {
   collection: "diensten";
   data: InferEntrySchema<"diensten">
 } & { render(): Render[".md"] };
+"prive-consult.md": {
+	id: "prive-consult.md";
+  slug: "prive-consult";
+  body: string;
+  collection: "diensten";
+  data: InferEntrySchema<"diensten">
+} & { render(): Render[".md"] };
+};
+"ervaringen": {
+"ervaring-001.md": {
+	id: "ervaring-001.md";
+  slug: "ervaring-001";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-002.md": {
+	id: "ervaring-002.md";
+  slug: "ervaring-002";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-003.md": {
+	id: "ervaring-003.md";
+  slug: "ervaring-003";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-004.md": {
+	id: "ervaring-004.md";
+  slug: "ervaring-004";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-005.md": {
+	id: "ervaring-005.md";
+  slug: "ervaring-005";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-006.md": {
+	id: "ervaring-006.md";
+  slug: "ervaring-006";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-007.md": {
+	id: "ervaring-007.md";
+  slug: "ervaring-007";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-008.md": {
+	id: "ervaring-008.md";
+  slug: "ervaring-008";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-009.md": {
+	id: "ervaring-009.md";
+  slug: "ervaring-009";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-010.md": {
+	id: "ervaring-010.md";
+  slug: "ervaring-010";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-011.md": {
+	id: "ervaring-011.md";
+  slug: "ervaring-011";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-012.md": {
+	id: "ervaring-012.md";
+  slug: "ervaring-012";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-013.md": {
+	id: "ervaring-013.md";
+  slug: "ervaring-013";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-014.md": {
+	id: "ervaring-014.md";
+  slug: "ervaring-014";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-015.md": {
+	id: "ervaring-015.md";
+  slug: "ervaring-015";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-016.md": {
+	id: "ervaring-016.md";
+  slug: "ervaring-016";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-017.md": {
+	id: "ervaring-017.md";
+  slug: "ervaring-017";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-018.md": {
+	id: "ervaring-018.md";
+  slug: "ervaring-018";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-019.md": {
+	id: "ervaring-019.md";
+  slug: "ervaring-019";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-020.md": {
+	id: "ervaring-020.md";
+  slug: "ervaring-020";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-021.md": {
+	id: "ervaring-021.md";
+  slug: "ervaring-021";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-022.md": {
+	id: "ervaring-022.md";
+  slug: "ervaring-022";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-023.md": {
+	id: "ervaring-023.md";
+  slug: "ervaring-023";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-024.md": {
+	id: "ervaring-024.md";
+  slug: "ervaring-024";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-025.md": {
+	id: "ervaring-025.md";
+  slug: "ervaring-025";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-026.md": {
+	id: "ervaring-026.md";
+  slug: "ervaring-026";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-027.md": {
+	id: "ervaring-027.md";
+  slug: "ervaring-027";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-028.md": {
+	id: "ervaring-028.md";
+  slug: "ervaring-028";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-029.md": {
+	id: "ervaring-029.md";
+  slug: "ervaring-029";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-030.md": {
+	id: "ervaring-030.md";
+  slug: "ervaring-030";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-031.md": {
+	id: "ervaring-031.md";
+  slug: "ervaring-031";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-032.md": {
+	id: "ervaring-032.md";
+  slug: "ervaring-032";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-033.md": {
+	id: "ervaring-033.md";
+  slug: "ervaring-033";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-034.md": {
+	id: "ervaring-034.md";
+  slug: "ervaring-034";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-035.md": {
+	id: "ervaring-035.md";
+  slug: "ervaring-035";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-036.md": {
+	id: "ervaring-036.md";
+  slug: "ervaring-036";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-037.md": {
+	id: "ervaring-037.md";
+  slug: "ervaring-037";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-038.md": {
+	id: "ervaring-038.md";
+  slug: "ervaring-038";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-039.md": {
+	id: "ervaring-039.md";
+  slug: "ervaring-039";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-040.md": {
+	id: "ervaring-040.md";
+  slug: "ervaring-040";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-041.md": {
+	id: "ervaring-041.md";
+  slug: "ervaring-041";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-042.md": {
+	id: "ervaring-042.md";
+  slug: "ervaring-042";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-043.md": {
+	id: "ervaring-043.md";
+  slug: "ervaring-043";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-044.md": {
+	id: "ervaring-044.md";
+  slug: "ervaring-044";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-045.md": {
+	id: "ervaring-045.md";
+  slug: "ervaring-045";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-046.md": {
+	id: "ervaring-046.md";
+  slug: "ervaring-046";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-047.md": {
+	id: "ervaring-047.md";
+  slug: "ervaring-047";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-048.md": {
+	id: "ervaring-048.md";
+  slug: "ervaring-048";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-049.md": {
+	id: "ervaring-049.md";
+  slug: "ervaring-049";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-050.md": {
+	id: "ervaring-050.md";
+  slug: "ervaring-050";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-051.md": {
+	id: "ervaring-051.md";
+  slug: "ervaring-051";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-052.md": {
+	id: "ervaring-052.md";
+  slug: "ervaring-052";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-053.md": {
+	id: "ervaring-053.md";
+  slug: "ervaring-053";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-054.md": {
+	id: "ervaring-054.md";
+  slug: "ervaring-054";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-055.md": {
+	id: "ervaring-055.md";
+  slug: "ervaring-055";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-056.md": {
+	id: "ervaring-056.md";
+  slug: "ervaring-056";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-057.md": {
+	id: "ervaring-057.md";
+  slug: "ervaring-057";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-058.md": {
+	id: "ervaring-058.md";
+  slug: "ervaring-058";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-059.md": {
+	id: "ervaring-059.md";
+  slug: "ervaring-059";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-060.md": {
+	id: "ervaring-060.md";
+  slug: "ervaring-060";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-061.md": {
+	id: "ervaring-061.md";
+  slug: "ervaring-061";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-062.md": {
+	id: "ervaring-062.md";
+  slug: "ervaring-062";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-063.md": {
+	id: "ervaring-063.md";
+  slug: "ervaring-063";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-064.md": {
+	id: "ervaring-064.md";
+  slug: "ervaring-064";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-065.md": {
+	id: "ervaring-065.md";
+  slug: "ervaring-065";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-066.md": {
+	id: "ervaring-066.md";
+  slug: "ervaring-066";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-067.md": {
+	id: "ervaring-067.md";
+  slug: "ervaring-067";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-068.md": {
+	id: "ervaring-068.md";
+  slug: "ervaring-068";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-069.md": {
+	id: "ervaring-069.md";
+  slug: "ervaring-069";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-070.md": {
+	id: "ervaring-070.md";
+  slug: "ervaring-070";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-071.md": {
+	id: "ervaring-071.md";
+  slug: "ervaring-071";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-072.md": {
+	id: "ervaring-072.md";
+  slug: "ervaring-072";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-073.md": {
+	id: "ervaring-073.md";
+  slug: "ervaring-073";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-074.md": {
+	id: "ervaring-074.md";
+  slug: "ervaring-074";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-075.md": {
+	id: "ervaring-075.md";
+  slug: "ervaring-075";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-076.md": {
+	id: "ervaring-076.md";
+  slug: "ervaring-076";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-077.md": {
+	id: "ervaring-077.md";
+  slug: "ervaring-077";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-078.md": {
+	id: "ervaring-078.md";
+  slug: "ervaring-078";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-079.md": {
+	id: "ervaring-079.md";
+  slug: "ervaring-079";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-080.md": {
+	id: "ervaring-080.md";
+  slug: "ervaring-080";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-081.md": {
+	id: "ervaring-081.md";
+  slug: "ervaring-081";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-082.md": {
+	id: "ervaring-082.md";
+  slug: "ervaring-082";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-083.md": {
+	id: "ervaring-083.md";
+  slug: "ervaring-083";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-084.md": {
+	id: "ervaring-084.md";
+  slug: "ervaring-084";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-085.md": {
+	id: "ervaring-085.md";
+  slug: "ervaring-085";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-086.md": {
+	id: "ervaring-086.md";
+  slug: "ervaring-086";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-087.md": {
+	id: "ervaring-087.md";
+  slug: "ervaring-087";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-088.md": {
+	id: "ervaring-088.md";
+  slug: "ervaring-088";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-089.md": {
+	id: "ervaring-089.md";
+  slug: "ervaring-089";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-090.md": {
+	id: "ervaring-090.md";
+  slug: "ervaring-090";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-091.md": {
+	id: "ervaring-091.md";
+  slug: "ervaring-091";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-092.md": {
+	id: "ervaring-092.md";
+  slug: "ervaring-092";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-093.md": {
+	id: "ervaring-093.md";
+  slug: "ervaring-093";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-094.md": {
+	id: "ervaring-094.md";
+  slug: "ervaring-094";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-095.md": {
+	id: "ervaring-095.md";
+  slug: "ervaring-095";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-096.md": {
+	id: "ervaring-096.md";
+  slug: "ervaring-096";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-097.md": {
+	id: "ervaring-097.md";
+  slug: "ervaring-097";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-098.md": {
+	id: "ervaring-098.md";
+  slug: "ervaring-098";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-099.md": {
+	id: "ervaring-099.md";
+  slug: "ervaring-099";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-100.md": {
+	id: "ervaring-100.md";
+  slug: "ervaring-100";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-101.md": {
+	id: "ervaring-101.md";
+  slug: "ervaring-101";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-102.md": {
+	id: "ervaring-102.md";
+  slug: "ervaring-102";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-103.md": {
+	id: "ervaring-103.md";
+  slug: "ervaring-103";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-104.md": {
+	id: "ervaring-104.md";
+  slug: "ervaring-104";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-105.md": {
+	id: "ervaring-105.md";
+  slug: "ervaring-105";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-106.md": {
+	id: "ervaring-106.md";
+  slug: "ervaring-106";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-107.md": {
+	id: "ervaring-107.md";
+  slug: "ervaring-107";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-108.md": {
+	id: "ervaring-108.md";
+  slug: "ervaring-108";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-109.md": {
+	id: "ervaring-109.md";
+  slug: "ervaring-109";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-110.md": {
+	id: "ervaring-110.md";
+  slug: "ervaring-110";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-111.md": {
+	id: "ervaring-111.md";
+  slug: "ervaring-111";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-112.md": {
+	id: "ervaring-112.md";
+  slug: "ervaring-112";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-113.md": {
+	id: "ervaring-113.md";
+  slug: "ervaring-113";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-114.md": {
+	id: "ervaring-114.md";
+  slug: "ervaring-114";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-115.md": {
+	id: "ervaring-115.md";
+  slug: "ervaring-115";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-116.md": {
+	id: "ervaring-116.md";
+  slug: "ervaring-116";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-117.md": {
+	id: "ervaring-117.md";
+  slug: "ervaring-117";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-118.md": {
+	id: "ervaring-118.md";
+  slug: "ervaring-118";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-119.md": {
+	id: "ervaring-119.md";
+  slug: "ervaring-119";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-120.md": {
+	id: "ervaring-120.md";
+  slug: "ervaring-120";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-121.md": {
+	id: "ervaring-121.md";
+  slug: "ervaring-121";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-122.md": {
+	id: "ervaring-122.md";
+  slug: "ervaring-122";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-123.md": {
+	id: "ervaring-123.md";
+  slug: "ervaring-123";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-124.md": {
+	id: "ervaring-124.md";
+  slug: "ervaring-124";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-125.md": {
+	id: "ervaring-125.md";
+  slug: "ervaring-125";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-126.md": {
+	id: "ervaring-126.md";
+  slug: "ervaring-126";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-127.md": {
+	id: "ervaring-127.md";
+  slug: "ervaring-127";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-128.md": {
+	id: "ervaring-128.md";
+  slug: "ervaring-128";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-129.md": {
+	id: "ervaring-129.md";
+  slug: "ervaring-129";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-130.md": {
+	id: "ervaring-130.md";
+  slug: "ervaring-130";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-131.md": {
+	id: "ervaring-131.md";
+  slug: "ervaring-131";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-132.md": {
+	id: "ervaring-132.md";
+  slug: "ervaring-132";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-133.md": {
+	id: "ervaring-133.md";
+  slug: "ervaring-133";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-134.md": {
+	id: "ervaring-134.md";
+  slug: "ervaring-134";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-135.md": {
+	id: "ervaring-135.md";
+  slug: "ervaring-135";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-136.md": {
+	id: "ervaring-136.md";
+  slug: "ervaring-136";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-137.md": {
+	id: "ervaring-137.md";
+  slug: "ervaring-137";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-138.md": {
+	id: "ervaring-138.md";
+  slug: "ervaring-138";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-139.md": {
+	id: "ervaring-139.md";
+  slug: "ervaring-139";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-140.md": {
+	id: "ervaring-140.md";
+  slug: "ervaring-140";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-141.md": {
+	id: "ervaring-141.md";
+  slug: "ervaring-141";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-142.md": {
+	id: "ervaring-142.md";
+  slug: "ervaring-142";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-143.md": {
+	id: "ervaring-143.md";
+  slug: "ervaring-143";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-144.md": {
+	id: "ervaring-144.md";
+  slug: "ervaring-144";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-145.md": {
+	id: "ervaring-145.md";
+  slug: "ervaring-145";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-146.md": {
+	id: "ervaring-146.md";
+  slug: "ervaring-146";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-147.md": {
+	id: "ervaring-147.md";
+  slug: "ervaring-147";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-148.md": {
+	id: "ervaring-148.md";
+  slug: "ervaring-148";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-149.md": {
+	id: "ervaring-149.md";
+  slug: "ervaring-149";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-150.md": {
+	id: "ervaring-150.md";
+  slug: "ervaring-150";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-151.md": {
+	id: "ervaring-151.md";
+  slug: "ervaring-151";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-152.md": {
+	id: "ervaring-152.md";
+  slug: "ervaring-152";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-153.md": {
+	id: "ervaring-153.md";
+  slug: "ervaring-153";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-154.md": {
+	id: "ervaring-154.md";
+  slug: "ervaring-154";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-155.md": {
+	id: "ervaring-155.md";
+  slug: "ervaring-155";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-156.md": {
+	id: "ervaring-156.md";
+  slug: "ervaring-156";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-157.md": {
+	id: "ervaring-157.md";
+  slug: "ervaring-157";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-158.md": {
+	id: "ervaring-158.md";
+  slug: "ervaring-158";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-159.md": {
+	id: "ervaring-159.md";
+  slug: "ervaring-159";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-160.md": {
+	id: "ervaring-160.md";
+  slug: "ervaring-160";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-161.md": {
+	id: "ervaring-161.md";
+  slug: "ervaring-161";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-162.md": {
+	id: "ervaring-162.md";
+  slug: "ervaring-162";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-163.md": {
+	id: "ervaring-163.md";
+  slug: "ervaring-163";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-164.md": {
+	id: "ervaring-164.md";
+  slug: "ervaring-164";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-165.md": {
+	id: "ervaring-165.md";
+  slug: "ervaring-165";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-166.md": {
+	id: "ervaring-166.md";
+  slug: "ervaring-166";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-167.md": {
+	id: "ervaring-167.md";
+  slug: "ervaring-167";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-168.md": {
+	id: "ervaring-168.md";
+  slug: "ervaring-168";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-169.md": {
+	id: "ervaring-169.md";
+  slug: "ervaring-169";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-170.md": {
+	id: "ervaring-170.md";
+  slug: "ervaring-170";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-171.md": {
+	id: "ervaring-171.md";
+  slug: "ervaring-171";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-172.md": {
+	id: "ervaring-172.md";
+  slug: "ervaring-172";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-173.md": {
+	id: "ervaring-173.md";
+  slug: "ervaring-173";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-174.md": {
+	id: "ervaring-174.md";
+  slug: "ervaring-174";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-175.md": {
+	id: "ervaring-175.md";
+  slug: "ervaring-175";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-176.md": {
+	id: "ervaring-176.md";
+  slug: "ervaring-176";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-177.md": {
+	id: "ervaring-177.md";
+  slug: "ervaring-177";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-178.md": {
+	id: "ervaring-178.md";
+  slug: "ervaring-178";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-179.md": {
+	id: "ervaring-179.md";
+  slug: "ervaring-179";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-180.md": {
+	id: "ervaring-180.md";
+  slug: "ervaring-180";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-181.md": {
+	id: "ervaring-181.md";
+  slug: "ervaring-181";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-182.md": {
+	id: "ervaring-182.md";
+  slug: "ervaring-182";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-183.md": {
+	id: "ervaring-183.md";
+  slug: "ervaring-183";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-184.md": {
+	id: "ervaring-184.md";
+  slug: "ervaring-184";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
+"ervaring-185.md": {
+	id: "ervaring-185.md";
+  slug: "ervaring-185";
+  body: string;
+  collection: "ervaringen";
+  data: InferEntrySchema<"ervaringen">
+} & { render(): Render[".md"] };
 };
 "nieuws": {
 "229.md": {
