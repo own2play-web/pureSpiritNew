@@ -595,10 +595,8 @@ function formatDatum(iso: string) {
   .badge--open  { background-color: #d1f0e8; color: #0d5c42; }
   .badge--animo { background-color: #fef3c7; color: #78420a; }
 
-  @media (prefers-color-scheme: dark) {
-    .badge--open  { background-color: color-mix(in srgb, #0d5c42 18%, var(--color-surface)); color: color-mix(in srgb, #0d5c42 70%, white); }
-    .badge--animo { background-color: color-mix(in srgb, #78420a 18%, var(--color-surface)); color: color-mix(in srgb, #78420a 70%, white); }
-  }
+  :global(html[data-theme='dark']) .badge--open  { background-color: color-mix(in srgb, #0d5c42 18%, var(--color-surface)); color: color-mix(in srgb, #0d5c42 70%, white); }
+  :global(html[data-theme='dark']) .badge--animo { background-color: color-mix(in srgb, #78420a 18%, var(--color-surface)); color: color-mix(in srgb, #78420a 70%, white); }
 
   .modal__leeg {
     font-size: var(--text-sm);
@@ -666,11 +664,9 @@ function formatDatum(iso: string) {
     margin: 0;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .form-fout {
-      color: color-mix(in srgb, #9b1c1c 70%, white);
-      background-color: color-mix(in srgb, #9b1c1c 18%, var(--color-surface));
-    }
+  :global(html[data-theme='dark']) .form-fout {
+    color: color-mix(in srgb, #9b1c1c 70%, white);
+    background-color: color-mix(in srgb, #9b1c1c 18%, var(--color-surface));
   }
 
   /* ── Bevestiging (stap 4) ────────────────────────────────── */

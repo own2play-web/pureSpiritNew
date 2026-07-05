@@ -83,8 +83,11 @@
   --transition: 200ms ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* data-theme wordt gezet door het blocking script in BaseLayout.astro,
+   op basis van een opgeslagen keuze (ThemeToggle) of anders het systeem-
+   thema — zie daar voor de fallback-logica. Eén bron van waarheid i.p.v.
+   een @media-blok, zodat de handmatige omschakelaar hier ook op aangrijpt. */
+:root[data-theme='dark'] {
     --color-primary:       #5baac8;
     --color-primary-dark:  #7dc4da;
     --color-primary-light: #112534;
@@ -123,5 +126,4 @@
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
     --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
-  }
 }

@@ -1,0 +1,137 @@
+---
+// Handmatige overschrijving van het systeemthema. Zie BaseLayout.astro voor
+// het blocking init-script dat data-theme zet vóór de eerste render.
+interface Props {
+  /** 'footer' voor gebruik op de altijd-donkere footer-achtergrond
+      (--color-footer-bg), die niet met de gewone lichte-oppervlak-tokens werkt. */
+  variant?: 'default' | 'footer';
+}
+
+const { variant = 'default' } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['theme-switch', variant === 'footer' && 'theme-switch--footer']}
+  role="switch"
+  aria-checked="false"
+  aria-label="Wissel tussen licht en donker thema"
+  data-theme-toggle
+>
+  <span class="theme-switch__track">
+    <svg class="theme-switch__icon theme-switch__icon--sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+    </svg>
+    <svg class="theme-switch__icon theme-switch__icon--moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+    </svg>
+    <span class="theme-switch__thumb" aria-hidden="true"></span>
+  </span>
+</button>
+
+<script>
+  function initThemeToggle() {
+    const knop = document.querySelector('[data-theme-toggle]') as HTMLButtonElement;
+    if (!knop) return;
+
+    // Kloon-en-vervang zoals initMenu() in Header.astro: voorkomt dat
+    // listeners zich opstapelen bij elke astro:page-load.
+    const fresh = knop.cloneNode(true) as HTMLButtonElement;
+    knop.replaceWith(fresh);
+
+    fresh.setAttribute('aria-checked', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+
+    fresh.addEventListener('click', () => {
+      const huidig = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const nieuw = huidig === 'dark' ? 'light' : 'dark';
+
+      const wissel = () => {
+        document.documentElement.setAttribute('data-theme', nieuw);
+        localStorage.setItem('ps-theme', nieuw);
+        fresh.setAttribute('aria-checked', String(nieuw === 'dark'));
+      };
+
+      if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.startViewTransition(wissel);
+      } else {
+        wissel();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initThemeToggle);
+</script>
+
+<style>
+  .theme-switch {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .theme-switch__track {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 46px;
+    height: 25px;
+    padding: 0 6px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    border: 1px solid var(--color-border);
+    transition: background-color var(--transition), border-color var(--transition);
+  }
+
+  .theme-switch__icon {
+    position: relative;
+    z-index: 1;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .theme-switch__icon--moon {
+    color: var(--color-text-muted);
+  }
+
+  .theme-switch__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition);
+  }
+
+  :global(html[data-theme='dark']) .theme-switch__thumb {
+    transform: translateX(21px);
+  }
+
+  /* Footer heeft een altijd-donkere achtergrond (--color-footer-bg), in
+     beide thema's — de gewone tokens (bedoeld voor een licht oppervlak
+     zoals de header) werken daar niet. Zelfde rgba-wit-patroon als de
+     andere footer-links/-randen. */
+  .theme-switch--footer .theme-switch__track {
+    background-color: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .theme-switch--footer .theme-switch__icon {
+    color: rgba(255,255,255,0.55);
+  }
+
+  .theme-switch--footer .theme-switch__icon--moon {
+    color: rgba(255,255,255,0.75);
+  }
+
+  .theme-switch--footer .theme-switch__thumb {
+    background-color: #fff;
+  }
+</style>

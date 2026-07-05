@@ -141,11 +141,9 @@ const cellen = buildCellen(jaar, maand);
     cursor: pointer;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .cel--start {
-      background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
-      color: color-mix(in srgb, var(--cel-kleur) 70%, white);
-    }
+  :global(html[data-theme='dark']) .cel--start {
+    background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
+    color: color-mix(in srgb, var(--cel-kleur) 70%, white);
   }
 
   .cel--start:hover {

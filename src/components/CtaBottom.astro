@@ -48,14 +48,12 @@ const { title, lead, primaryLabel, primaryHref, secondaryLabel, secondaryHref, w
     padding-bottom: 0;
   }
 
-  @media (prefers-color-scheme: dark) {
-    /* --color-action blijft bewust een vast, gematigd blauw voor kleine
-       knop-oppervlakken met witte tekst — als achtergrond van deze hele
-       sectie oogt dat te licht naast de rest van dark mode. Eigen, diepere
-       tint alleen voor deze band. */
-    .cta-bottom {
-      background-color: #123449;
-    }
+  /* --color-action blijft bewust een vast, gematigd blauw voor kleine
+     knop-oppervlakken met witte tekst — als achtergrond van deze hele
+     sectie oogt dat te licht naast de rest van dark mode. Eigen, diepere
+     tint alleen voor deze band. */
+  :global(html[data-theme='dark']) .cta-bottom {
+    background-color: #123449;
   }
 
   .cta-bottom__wave-top {

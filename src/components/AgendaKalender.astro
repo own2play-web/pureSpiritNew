@@ -380,11 +380,9 @@ const legendaTypes = Array.from(
     color: var(--leg-kleur);
   }
 
-  @media (prefers-color-scheme: dark) {
-    .legenda-kleur {
-      background-color: color-mix(in srgb, var(--leg-bg) 25%, var(--color-surface));
-      color: color-mix(in srgb, var(--leg-kleur) 70%, white);
-    }
+  :global(html[data-theme='dark']) .legenda-kleur {
+    background-color: color-mix(in srgb, var(--leg-bg) 25%, var(--color-surface));
+    color: color-mix(in srgb, var(--leg-kleur) 70%, white);
   }
 
   .legenda-start {

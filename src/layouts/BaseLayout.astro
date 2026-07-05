@@ -44,6 +44,22 @@ const jsonLd = {
 <!doctype html>
 <html lang="nl">
   <head>
+    <script is:inline>
+      // Blocking, vóór eerste render: voorkomt flits van verkeerd thema.
+      // Draait ook na elke Astro view-transition (client-side navigatie),
+      // want <html> zelf wordt niet als transition:persist behandeld.
+      (function () {
+        function pasThemaToe() {
+          var opgeslagen = localStorage.getItem('ps-theme');
+          var thema = opgeslagen === 'light' || opgeslagen === 'dark'
+            ? opgeslagen
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', thema);
+        }
+        pasThemaToe();
+        document.addEventListener('astro:after-swap', pasThemaToe);
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Pure Spirit Oss</title>

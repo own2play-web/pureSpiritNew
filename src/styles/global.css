@@ -7,6 +7,20 @@
   padding: 0;
 }
 
+/* Zachte overgang bij het wisselen van thema (ThemeToggle.astro). Los van
+   het View Transitions-effect op de knop zelf: dit is de fallback/basis
+   voor browsers zonder document.startViewTransition, en verzacht sowieso
+   losse elementen die niet in de view-transition-snapshot zitten. */
+*, *::before, *::after {
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition), fill var(--transition), stroke var(--transition);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -134,14 +148,12 @@ img {
   color: var(--color-text-on-accent);
 }
 
-@media (prefers-color-scheme: dark) {
-  /* In dark mode is de tekst donker (zie --color-text-on-accent), dus
-     lichter i.p.v. donkerder op hover: donkerder zou het contrast met
-     donkere tekst juist verslechteren. */
-  .btn--accent:hover {
-    background-color: color-mix(in srgb, var(--color-accent) 85%, white);
-    border-color: color-mix(in srgb, var(--color-accent) 85%, white);
-  }
+/* In dark mode is de tekst donker (zie --color-text-on-accent), dus
+   lichter i.p.v. donkerder op hover: donkerder zou het contrast met
+   donkere tekst juist verslechteren. */
+html[data-theme='dark'] .btn--accent:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 85%, white);
+  border-color: color-mix(in srgb, var(--color-accent) 85%, white);
 }
 
 .btn--muted {
