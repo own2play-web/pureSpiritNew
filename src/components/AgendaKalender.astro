@@ -3,7 +3,7 @@ import KalenderMaand from './KalenderMaand.astro';
 
 interface Cursus {
   titel: string;
-  type?: string;
+  types?: string[];
   status: string;
   data: string[];
 }
@@ -18,7 +18,7 @@ function slugify(s: string) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-type DagInfo = { titel: string; type?: string; isStart: boolean; cursusId: string };
+type DagInfo = { titel: string; types: string[]; isStart: boolean; cursusId: string };
 
 const dagMap: Record<string, DagInfo[]> = {};
 for (const cursus of cursussen) {
@@ -27,7 +27,7 @@ for (const cursus of cursussen) {
     if (!dagMap[datum]) dagMap[datum] = [];
     dagMap[datum].push({
       titel:    cursus.titel,
-      type:     cursus.type,
+      types:    cursus.types ?? [],
       isStart:  i === 0,
       cursusId: `cursus-${slugify(cursus.titel)}`,
     });
@@ -60,6 +60,8 @@ const typeKleur: Record<string, string> = {
   'Coaching':  '#512da8',
   'HSP':       '#c62828',
   'Workshop':  '#2e7d32',
+  'Kinderen':  '#7e22ce',
+  'Cursus':    '#15803d',
 };
 const typeBg: Record<string, string> = {
   'Meditatie': '#e0f2f1',
@@ -67,6 +69,8 @@ const typeBg: Record<string, string> = {
   'Coaching':  '#ede7f6',
   'HSP':       '#fce4ec',
   'Workshop':  '#e8f5e9',
+  'Kinderen':  '#fdf4ff',
+  'Cursus':    '#f0fdf4',
 };
 
 function datumSleutel(jaar: number, maand: number, dag: number) {
@@ -74,10 +78,6 @@ function datumSleutel(jaar: number, maand: number, dag: number) {
 }
 
 const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate());
-
-const legendaTypes = Array.from(
-  new Set(cursussen.map(c => c.type).filter(Boolean) as string[])
-);
 ---
 
 <div class="kalender-wrapper">
@@ -108,16 +108,8 @@ const legendaTypes = Array.from(
   )}
 
   <div class="kalender-legenda-rij">
-    {legendaTypes.length > 0 && (
-      <ul class="kalender-legenda">
-        {legendaTypes.map(type => (
-          <li>
-            <span class="legenda-kleur" style={`--leg-bg:${typeBg[type]};--leg-kleur:${typeKleur[type]}`}>{type.slice(0,1)}</span>
-            {type}
-          </li>
-        ))}
-      </ul>
-    )}
+    <!-- Kleur-per-type-legenda is vervangen door de filterbalk onder de
+         kalender (agenda.astro) — die doet nu allebei: uitleggen én filteren. -->
     <ul class="kalender-legenda">
       <li><span class="legenda-start">9</span> Startdatum</li>
       <li><span class="legenda-vervolg">9</span> Vervolgles</li>
@@ -128,10 +120,22 @@ const legendaTypes = Array.from(
 <div id="kal-tooltip" class="kal-tooltip" role="tooltip"></div>
 
 <script>
-  const tooltip  = document.getElementById('kal-tooltip') as HTMLDivElement;
-  let hideTimer: ReturnType<typeof setTimeout> | null = null;
+  // Alles hier stond eerst als top-level code, wat betekent dat het maar
+  // één keer draait: bij de allereerste paginalaad. Na een client-side
+  // navigatie (Astro's ClientRouter) staat de kalender-DOM er weer vers
+  // bij, maar zonder dat deze listeners opnieuw gekoppeld worden — vandaar
+  // dat hover/klik/tooltip het pas na een harde refresh weer deden. Alles
+  // in een functie + astro:page-load lost dat op, zoals Header.astro ook
+  // al doet voor het mobiele menu.
+  let buitenKlikListener: ((e: Event) => void) | null = null;
 
-  function toon(knop: HTMLButtonElement) {
+  function initAgendaKalender() {
+    const tooltip = document.getElementById('kal-tooltip') as HTMLDivElement | null;
+    if (!tooltip) return;
+
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function toon(knop: HTMLButtonElement) {
     if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
 
     const info = knop.dataset.tooltip ?? '';
@@ -233,9 +237,16 @@ const legendaTypes = Array.from(
     scrollNaarCursus(knop.dataset.cursusId);
   });
 
-  // Tik/klik buiten de tooltip sluit 'm — vooral op mobiel nodig, want daar
-  // is er geen mouseleave die 'm anders zou verbergen.
-  document.addEventListener('click', () => verberg(0));
+    // Tik/klik buiten de tooltip sluit 'm — vooral op mobiel nodig, want
+    // daar is er geen mouseleave die 'm anders zou verbergen. Oude listener
+    // eerst weghalen, anders stapelt hij zich op bij elke navigatie hierheen
+    // (document zelf wordt niet vervangen, in tegenstelling tot de rest).
+    if (buitenKlikListener) document.removeEventListener('click', buitenKlikListener);
+    buitenKlikListener = () => verberg(0);
+    document.addEventListener('click', buitenKlikListener);
+  }
+
+  document.addEventListener('astro:page-load', initAgendaKalender);
 </script>
 
 <style>
@@ -362,7 +373,12 @@ const legendaTypes = Array.from(
     pointer-events: auto;
   }
 
-  .kal-tooltip__meer {
+  /* :global omdat deze knop via tooltip.innerHTML in JS wordt aangemaakt —
+     Astro's scoped CSS matcht alleen elementen die het zelf in de template
+     rendert (die krijgen een data-astro-cid-* attribuut); dynamisch
+     toegevoegde HTML krijgt dat nooit, dus zonder :global viel dit terug
+     op de kale browser-standaardstijl van een <button>. */
+  :global(.kal-tooltip__meer) {
     display: inline-flex;
     align-self: flex-start;
     align-items: center;
@@ -380,7 +396,7 @@ const legendaTypes = Array.from(
     transition: background-color var(--transition);
   }
 
-  .kal-tooltip__meer:hover {
+  :global(.kal-tooltip__meer:hover) {
     background-color: color-mix(in srgb, var(--color-accent) 85%, white);
   }
 
@@ -408,24 +424,6 @@ const legendaTypes = Array.from(
     font-family: var(--font-body);
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-  }
-
-  .legenda-kleur {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-sm);
-    font-size: 0.6rem;
-    font-weight: 700;
-    background-color: var(--leg-bg);
-    color: var(--leg-kleur);
-  }
-
-  :global(html[data-theme='dark']) .legenda-kleur {
-    background-color: color-mix(in srgb, var(--leg-bg) 25%, var(--color-surface));
-    color: color-mix(in srgb, var(--leg-kleur) 70%, white);
   }
 
   .legenda-start {

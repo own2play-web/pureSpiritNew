@@ -1,5 +1,5 @@
 ---
-type DagInfo = { titel: string; type?: string; isStart: boolean; cursusId: string };
+type DagInfo = { titel: string; types: string[]; isStart: boolean; cursusId: string };
 
 interface Props {
   jaar: number;
@@ -46,8 +46,22 @@ const cellen = buildCellen(jaar, maand);
       const items      = dagMap[sleutel] ?? [];
       const isVandaag  = sleutel === vandaagSleutel;
       const heeftStart = items.some(d => d.isStart);
-      const eersteType = items[0]?.type;
       const cursusId   = items[0]?.cursusId ?? '';
+
+      // Kleur van de cel: bij één type een vlakke kleur, bij twee (bv.
+      // Workshop + HSP) een diagonale tweekleurige vlak — anders was een
+      // cursus met meerdere tags niet te onderscheiden van eentje met maar
+      // één ervan (zie --cel-c2 fallback in de stijl hieronder).
+      const eersteTypes = items[0]?.types ?? [];
+      const c1 = eersteTypes[0] ? typeBg[eersteTypes[0]] : null;
+      const c2 = eersteTypes[1] ? typeBg[eersteTypes[1]] : null;
+      const kleur = eersteTypes[0] ? typeKleur[eersteTypes[0]] : null;
+      const stijl = c1 ? `--cel-c1:${c1};${c2 ? `--cel-c2:${c2};` : ''}--cel-kleur:${kleur}` : '';
+
+      // Voor de filterbalk: alle tags van alle cursussen die deze dag
+      // spelen (start of vervolgles), zodat een cel meetelt als je op
+      // een van die tags filtert.
+      const dagTypes = Array.from(new Set(items.flatMap(it => it.types)));
 
       const tooltip = items
         .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
@@ -56,9 +70,10 @@ const cellen = buildCellen(jaar, maand);
       return items.length > 0 ? (
         <button
           class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg']}
-          style={eersteType ? `--cel-bg:${typeBg[eersteType]};--cel-kleur:${typeKleur[eersteType]}` : ''}
+          style={stijl}
           data-tooltip={tooltip}
           data-cursus-id={cursusId}
+          data-types={dagTypes.join(' ')}
           type="button"
         >
           {dag}
@@ -133,21 +148,35 @@ const cellen = buildCellen(jaar, maand);
     font-weight: 700;
   }
 
-  /* Startdatum: gevulde gekleurde achtergrond */
+  /* Startdatum: gevulde gekleurde achtergrond. --cel-c2 valt terug op
+     --cel-c1 (via de var()-fallback) zodat een cursus met maar één tag
+     gewoon een vlakke kleur krijgt — de gradient-syntax is dan alleen
+     intern nog aanwezig, niet zichtbaar als aparte kleuren. */
   .cel--start {
-    background-color: var(--cel-bg);
+    background: linear-gradient(135deg, var(--cel-c1) 50%, var(--cel-c2, var(--cel-c1)) 50%);
     color: var(--cel-kleur);
     font-weight: 700;
     cursor: pointer;
   }
 
   :global(html[data-theme='dark']) .cel--start {
-    background-color: color-mix(in srgb, var(--cel-bg) 25%, var(--color-surface));
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--cel-c1) 25%, var(--color-surface)) 50%,
+      color-mix(in srgb, var(--cel-c2, var(--cel-c1)) 25%, var(--color-surface)) 50%
+    );
     color: color-mix(in srgb, var(--cel-kleur) 70%, white);
   }
 
   .cel--start:hover {
     filter: brightness(0.93);
+  }
+
+  /* Cellen die niet matchen met de actieve filter (agenda.astro) — gedimd
+     i.p.v. verborgen, anders valt de kalendergrid uit elkaar. */
+  .cel--gedimd {
+    opacity: 0.3;
+    filter: grayscale(60%);
   }
 
   /* Vervolgles: stippeltje onder het getal */

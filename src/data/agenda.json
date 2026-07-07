@@ -3,7 +3,7 @@
     {
       "titel": "Meditatie voor iedereen",
       "categorie": "Volwassenen",
-      "type": "Meditatie",
+      "types": ["Meditatie"],
       "tijdstip": "19:30 – 20:30",
       "locatie": "Oss",
       "prijs": "€ 90,–",
@@ -24,7 +24,7 @@
     {
       "titel": "Meditatie Extra",
       "categorie": "Volwassenen",
-      "type": "Meditatie",
+      "types": ["Meditatie"],
       "tijdstip": "19:30 – 21:00",
       "locatie": "Oss",
       "prijs": "€ 135,–",
@@ -45,7 +45,7 @@
     {
       "titel": "Ben ik HSP?",
       "categorie": "Volwassenen",
-      "type": "HSP",
+      "types": ["Workshop", "HSP"],
       "tijdstip": "19:30 – 21:30",
       "locatie": "Oss",
       "prijs": "€ 100,–",
@@ -62,7 +62,7 @@
     {
       "titel": "Meditatie voor jongeren",
       "categorie": "Jongeren",
-      "type": "Jongeren",
+      "types": ["Meditatie", "Jongeren"],
       "tijdstip": "19:30 – 20:30",
       "locatie": "Oss",
       "prijs": "€ 90,–",
@@ -84,7 +84,7 @@
     {
       "titel": "Meditatie voor jong volwassenen",
       "categorie": "Jongeren",
-      "type": "Jongeren",
+      "types": ["Meditatie", "Jongeren"],
       "tijdstip": "19:30 – 21:00",
       "locatie": "Oss",
       "prijs": "€ 135,–",
@@ -106,7 +106,7 @@
     {
       "titel": "Eenvoudig leren mediteren",
       "categorie": "Volwassenen",
-      "type": "Meditatie",
+      "types": ["Meditatie"],
       "tijdstip": "19:30 – 21:00",
       "locatie": "Oss",
       "prijs": "€ 135,–",
@@ -120,7 +120,7 @@
     {
       "titel": "Persoonlijke ontwikkeling",
       "categorie": "Volwassenen",
-      "type": "Cursus",
+      "types": ["Cursus"],
       "tijdstip": "Nader te bepalen",
       "locatie": "Oss",
       "prijs": "€ 180,–",
@@ -134,7 +134,7 @@
     {
       "titel": "Beter omgaan met prikkels",
       "categorie": "Volwassenen",
-      "type": "Workshop",
+      "types": ["Workshop"],
       "tijdstip": "19:30 – 22:00",
       "locatie": "Oss",
       "prijs": "€ 65,–",
@@ -148,7 +148,7 @@
     {
       "titel": "Begeleiden van hooggevoelige kinderen",
       "categorie": "Volwassenen",
-      "type": "Workshop",
+      "types": ["Workshop", "Kinderen"],
       "tijdstip": "Nader te bepalen",
       "locatie": "Oss",
       "prijs": "€ 150,–",
@@ -162,7 +162,7 @@
     {
       "titel": "Meditatie voor kinderen",
       "categorie": "Kinderen",
-      "type": "Kinderen",
+      "types": ["Meditatie", "Kinderen"],
       "tijdstip": "Nader te bepalen",
       "locatie": "Oss",
       "prijs": "€ 90,–",

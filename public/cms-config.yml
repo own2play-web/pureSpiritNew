@@ -301,7 +301,7 @@ collections:
             summary: "{{fields.titel}} – start {{fields.data}}"
             fields:
               - { label: Naam cursus,   name: titel,      widget: string }
-              - { label: Type,          name: type,       widget: select, options: [Meditatie, Jongeren, Coaching, HSP, Workshop], required: false }
+              - { label: "Type(s)",     name: types,      widget: select, options: [Meditatie, Jongeren, Coaching, HSP, Workshop, Kinderen, Cursus], multiple: true, required: false, hint: "Je kunt meerdere types kiezen, bv. Meditatie + Jongeren." }
               - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
               - { label: Locatie,       name: locatie,    widget: string, default: Oss }
               - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }

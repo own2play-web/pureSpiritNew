@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import tarieven from '../data/tarieven.json';
+import { getCollection } from 'astro:content';
 
 // Eenvoudige markdown-renderer: **vet** → <strong>, alinea's op \n\n
 function renderTekst(tekst: string): string[] {
@@ -8,6 +9,41 @@ function renderTekst(tekst: string): string[] {
     .split('\n\n')
     .map(p => p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
 }
+
+// Prijzen van cursussen/workshops komen uit hun eigen CMS-pagina (sidebar
+// "Prijs") i.p.v. hier nogmaals los te worden ingevoerd — anders lopen de
+// twee plekken op den duur uit elkaar, zoals eerder al gebeurde bij de
+// diensten-lijst.
+//
+// De prijs zelf blijft het totaalbedrag voor de hele cursus (zoals overal
+// elders op de site, bv. de agenda) — bedragen per losse les tonen zou hier
+// afwijken van die conventie en is bij een cursus met meerdere lesduren
+// (bv. "€ 112,50 (75 min) / € 90,– (60 min)") ook dubbelzinnig om te delen.
+// In plaats daarvan zetten we het aantal bijeenkomsten erbij, zodat
+// duidelijk is dat het bedrag voor de hele reeks is.
+function prijsRij(items: { data: { titel: string; sidebar_items?: { label: string; waarde: string }[] } }[]) {
+  return items.map(item => {
+    const prijs    = item.data.sidebar_items?.find(f => f.label === 'Prijs')?.waarde ?? 'Op aanvraag';
+    const aantal   = item.data.sidebar_items?.find(f => f.label === 'Aantal bijeenkomsten')?.waarde;
+    const n        = aantal ? parseInt(aantal, 10) : null;
+    const suffix   = n ? ` (${n} ${n === 1 ? 'les' : 'lessen'})` : '';
+    return {
+      label:  item.data.titel,
+      waarde: `${prijs}${suffix}`,
+    };
+  });
+}
+
+const [alleMeditatie, alleWorkshops] = await Promise.all([
+  getCollection('meditatie'),
+  getCollection('workshops'),
+]);
+
+const groepen = [
+  ...tarieven.groepen,
+  { naam: 'Meditatiecursussen', rijen: prijsRij(alleMeditatie.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
+  { naam: 'Workshops',          rijen: prijsRij(alleWorkshops.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
+];
 ---
 
 <PageLayout
@@ -49,11 +85,11 @@ function renderTekst(tekst: string): string[] {
             )}
 
             <div class="tabel-card">
-              {tarieven.groepen.map((groep, gi) => (
+              {groepen.map((groep, gi) => (
                 <>
                   <div class="tabel-groephdr">{groep.naam}</div>
                   {groep.rijen.map((rij, ri) => {
-                    const isLast = gi === tarieven.groepen.length - 1 && ri === groep.rijen.length - 1;
+                    const isLast = gi === groepen.length - 1 && ri === groep.rijen.length - 1;
                     const isPrijs = rij.waarde.startsWith('€');
                     return (
                       <div class:list={['tabel-rij', isLast && 'tabel-rij--last']}>
@@ -178,7 +214,7 @@ function renderTekst(tekst: string): string[] {
   .tabel-rij {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-4);
     padding: var(--space-3) var(--space-5);
     border-bottom: 1px solid var(--color-border);
@@ -193,7 +229,11 @@ function renderTekst(tekst: string): string[] {
     font-size: var(--text-base);
     font-weight: 700;
     color: var(--color-primary-dark);
-    white-space: nowrap;
+    text-align: right;
+    /* Sommige cursussen hebben twee lesduren + het aantal lessen erbij
+       (bv. "€ 112,50 (75 min) / € 90,– (60 min) (6 lessen)") — dat past
+       niet altijd op één regel in de smalle tabelkolom, dus mag wrappen. */
+    white-space: normal;
   }
 
   .tabel-rij em {

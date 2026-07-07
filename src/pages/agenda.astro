@@ -71,6 +71,13 @@ const typekleur: Record<string, string> = {
   'Kinderen':   'badge--kinderen',
   'Cursus':     'badge--cursus',
 };
+
+// Filterbalk: alle tags die daadwerkelijk voorkomen, in een vaste volgorde
+// (i.p.v. willekeurige volgorde van voorkomen) zodat de balk niet steeds
+// anders oogt als er cursussen bij komen.
+const alleTags = Object.keys(typekleur).filter(tag =>
+  agendaData.cursussen.some(c => (c.types ?? []).includes(tag))
+);
 ---
 
 <PageLayout
@@ -82,28 +89,19 @@ const typekleur: Record<string, string> = {
   <section class="section">
     <div class="container">
       {komend.length > 0 && (
-        <div class="cursus-overzicht">
-          <h2 class="cursus-overzicht__titel">Welke cursussen lopen er?</h2>
-          <p class="cursus-overzicht__toelichting">Bij de meeste cursussen kun je ook instappen als ze al gestart zijn. Klik op een cursus voor meer info.</p>
-          <ul class="cursus-overzicht__lijst">
-            {komend.map(cursus => {
-              const c = cursus as any;
-              const badgeKlasse = c.type ? (typekleur[c.type] ?? 'badge--overig') : '';
-              return (
-                <li>
-                  <a href={`#cursus-${slugify(c.titel)}`} class="cursus-overzicht__item">
-                    {c.type && <span class:list={['badge', badgeKlasse]}>{c.type}</span>}
-                    {c.titel}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <AgendaKalender cursussen={agendaData.cursussen} />
       )}
 
-      {komend.length > 0 && (
-        <AgendaKalender cursussen={agendaData.cursussen} />
+      {alleTags.length > 0 && (
+        <div class="filter-balk" role="group" aria-label="Filter cursussen op type">
+          <span class="filter-balk__label">Filter:</span>
+          {alleTags.map(tag => (
+            <button type="button" class:list={['filter-chip', typekleur[tag]]} data-filter-tag={tag} aria-pressed="false">
+              {tag}
+            </button>
+          ))}
+          <button type="button" class="filter-chip filter-chip--wis" data-filter-wis>Wis filter ✕</button>
+        </div>
       )}
 
       {Object.keys(maanden).length === 0 ? (
@@ -117,7 +115,8 @@ const typekleur: Record<string, string> = {
               <h2 class="maand-titel">{maandNaam} {jaar}</h2>
               <ul class="cursus-lijst">
                 {cursussen.map(cursus => {
-                  const { titel, type, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, instap_mogelijk, beschrijving, data } = cursus as any;
+                  const { titel, types, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, instap_mogelijk, beschrijving, data } = cursus as any;
+                  const cursusTypes: string[] = types ?? [];
                   const startDatum   = data[0];
                   const alGestart    = new Date(startDatum) < vandaag;
                   // Bij een al gestarte (maar nog lopende) cursus tonen we de
@@ -126,10 +125,9 @@ const typekleur: Record<string, string> = {
                   // nog moet komen.
                   const weergaveDatum = alGestart ? volgendeDatum(cursus).toISOString().slice(0,10) : startDatum;
                   const overigData  = data.filter((d: string) => d !== weergaveDatum && new Date(d) >= vandaag);
-                  const badgeKlasse = type ? (typekleur[type] ?? 'badge--overig') : '';
                   const startD      = new Date(weergaveDatum);
                   return (
-                    <li class="cursus-kaart" id={`cursus-${slugify(titel)}`}>
+                    <li class="cursus-kaart" id={`cursus-${slugify(titel)}`} data-types={cursusTypes.join(' ')}>
                       <div class="cursus-datum-blok">
                         <span class="cursus-dag">{startD.getDate()}</span>
                         <span class="cursus-maand">{maandKort[startD.getMonth()]}</span>
@@ -137,7 +135,9 @@ const typekleur: Record<string, string> = {
                       <div class="cursus-inhoud">
                         <div class="cursus-header">
                           <h3 class="cursus-titel">{titel}</h3>
-                          {type && <span class:list={['badge', badgeKlasse]}>{type}</span>}
+                          {cursusTypes.map(t => (
+                            <span class:list={['badge', typekleur[t] ?? 'badge--overig']}>{t}</span>
+                          ))}
                           {alGestart && instap_mogelijk && (
                             <span class="badge badge--instap">Loopt al · instappen mogelijk</span>
                           )}
@@ -241,12 +241,14 @@ const typekleur: Record<string, string> = {
           <div class="binnenkort-grid">
             {binnenkort.map(c => {
               const bc = c as any;
-              const badgeKlasse = bc.type ? (typekleur[bc.type] ?? 'badge--overig') : '';
+              const bcTypes: string[] = bc.types ?? [];
               return (
-                <div class="binnenkort-kaart">
+                <div class="binnenkort-kaart" data-types={bcTypes.join(' ')}>
                   <div class="binnenkort-kaart__top">
                     <h3 class="binnenkort-kaart__titel">{bc.titel}</h3>
-                    {bc.type && <span class:list={['badge', badgeKlasse]}>{bc.type}</span>}
+                    {bcTypes.map(t => (
+                      <span class:list={['badge', typekleur[t] ?? 'badge--overig']}>{t}</span>
+                    ))}
                   </div>
                   <p class="binnenkort-kaart__beschrijving">{bc.beschrijving}</p>
                   {activiteitLink.has(bc.titel) && (
@@ -289,49 +291,122 @@ const typekleur: Record<string, string> = {
   </section>
 </PageLayout>
 
+<script>
+  // Wordt op astro:page-load (i.p.v. top-level) geïnitialiseerd — zelfde
+  // reden als in AgendaKalender.astro: na een client-side navigatie staat
+  // de DOM er vers bij, maar top-level code draait dan niet opnieuw.
+  function initAgendaFilters() {
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-tag]'));
+    const wisBtn = document.querySelector<HTMLButtonElement>('[data-filter-wis]');
+    if (chips.length === 0) return;
+
+    const kaarten     = Array.from(document.querySelectorAll<HTMLElement>('.cursus-kaart, .binnenkort-kaart'));
+    const maandGroepen = Array.from(document.querySelectorAll<HTMLElement>('.maand-groep'));
+    const binnenkortSectie = document.querySelector<HTMLElement>('.binnenkort-sectie');
+    // Kalendercellen worden gedimd i.p.v. verborgen — verbergen zou gaten
+    // in de vaste 6-rijen-grid slaan (zie KalenderMaand.astro).
+    const kalenderCellen = Array.from(document.querySelectorAll<HTMLElement>('.cel--start, .cel--vervolg'));
+
+    function actieveTags(): string[] {
+      return chips.filter(c => c.getAttribute('aria-pressed') === 'true').map(c => c.dataset.filterTag!);
+    }
+
+    function matcht(el: HTMLElement, actief: string[]): boolean {
+      const types = (el.dataset.types ?? '').split(' ').filter(Boolean);
+      return actief.length === 0 || types.some(t => actief.includes(t));
+    }
+
+    function toepassen() {
+      const actief = actieveTags();
+
+      for (const kaart of kaarten) {
+        kaart.classList.toggle('cursus-kaart--verborgen', !matcht(kaart, actief));
+      }
+
+      for (const cel of kalenderCellen) {
+        cel.classList.toggle('cel--gedimd', !matcht(cel, actief));
+      }
+
+      for (const groep of maandGroepen) {
+        const heeftZichtbare = groep.querySelectorAll('.cursus-kaart:not(.cursus-kaart--verborgen)').length > 0;
+        groep.classList.toggle('maand-groep--verborgen', !heeftZichtbare);
+      }
+
+      if (binnenkortSectie) {
+        const heeftZichtbare = binnenkortSectie.querySelectorAll('.binnenkort-kaart:not(.cursus-kaart--verborgen)').length > 0;
+        binnenkortSectie.classList.toggle('maand-groep--verborgen', !heeftZichtbare);
+      }
+
+      if (wisBtn) wisBtn.classList.toggle('filter-chip--wis-actief', actief.length > 0);
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const actief = chip.getAttribute('aria-pressed') === 'true';
+        chip.setAttribute('aria-pressed', String(!actief));
+        toepassen();
+      });
+    });
+
+    wisBtn?.addEventListener('click', () => {
+      chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
+      toepassen();
+    });
+
+    toepassen();
+  }
+
+  document.addEventListener('astro:page-load', initAgendaFilters);
+</script>
+
 <style>
-  .cursus-overzicht {
-    margin-bottom: var(--space-8);
-  }
-
-  .cursus-overzicht__titel {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-1);
-  }
-
-  .cursus-overzicht__toelichting {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
-  }
-
-  .cursus-overzicht__lijst {
-    list-style: none;
+  .filter-balk {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-3);
-    padding: 0;
-    margin: 0;
+    margin-bottom: var(--space-10);
   }
 
-  .cursus-overzicht__item {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
+  .filter-balk__label {
     font-size: var(--text-sm);
     font-weight: 700;
-    color: var(--color-text);
-    text-decoration: none;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    padding: var(--space-2) var(--space-4);
-    transition: border-color var(--transition), box-shadow var(--transition);
+    color: var(--color-text-muted);
   }
 
-  .cursus-overzicht__item:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-sm);
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    font-family: var(--font-body);
+    white-space: nowrap;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color var(--transition), box-shadow var(--transition), opacity var(--transition);
+  }
+
+  .filter-chip[aria-pressed="true"] {
+    border-color: currentColor;
+  }
+
+  .filter-chip--wis {
+    background: none;
+    color: var(--color-text-muted);
+    font-weight: 700;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .filter-chip--wis-actief {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .filter-chip--wis-actief:hover {
+    color: var(--color-primary);
   }
 
   .geen-cursussen {
@@ -622,5 +697,15 @@ const typekleur: Record<string, string> = {
     }
 
     .animo-wrap { align-items: flex-start; }
+  }
+
+  /* Helemaal onderaan, bewust: zelfde specificiteit (0,1,0) als .cursus-kaart
+     en .maand-groep zelf, dus moet later in de stylesheet staan om te
+     winnen — anders wint hun eigen "display: grid/block" gewoon terug,
+     ook als deze class erbij staat (zag dit al eerder mis met de mobiele
+     "Toon meer maanden"-knop, zelfde soort cascade-bug). */
+  .cursus-kaart--verborgen,
+  .maand-groep--verborgen {
+    display: none;
   }
 </style>
