@@ -1,0 +1,85 @@
+---
+// Toont de eerstvolgende geplande datum voor een cursus/workshop, gekoppeld
+// op titel aan src/data/agenda.json. Onderaan een workshop/meditatie-pagina,
+// zodat de datum altijd overeenkomt met de agenda (één bron van waarheid,
+// geen los ingetypte datum die kan verouderen).
+import agendaData from '../data/agenda.json';
+
+interface Props {
+  titel: string;
+  /** Alleen nodig als de paginatitel afwijkt van de cursusnaam in de agenda. */
+  agendaTitel?: string;
+}
+
+const { titel, agendaTitel } = Astro.props;
+
+function slugify(s: string) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+const maandNamen = ['januari','februari','maart','april','mei','juni',
+                    'juli','augustus','september','oktober','november','december'];
+
+const vandaag = new Date();
+vandaag.setHours(0, 0, 0, 0);
+
+const cursus = agendaData.cursussen.find(c => c.titel === (agendaTitel || titel));
+const volgende = cursus?.data.find(d => new Date(d) >= vandaag);
+
+function formatDatum(datumStr: string) {
+  const d = new Date(datumStr);
+  return `${d.getDate()} ${maandNamen[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+const cursusId = cursus ? `cursus-${slugify(cursus.titel)}` : '';
+---
+
+<div class="volgende-datum">
+  {volgende ? (
+    <>
+      <p class="volgende-datum__label">Eerstvolgende keer</p>
+      <p class="volgende-datum__datum">{formatDatum(volgende)}{cursus?.tijdstip && cursus.tijdstip !== 'Nader te bepalen' ? ` · ${cursus.tijdstip}` : ''}</p>
+      <a href={`/agenda/#${cursusId}`} class="btn btn--outline">Bekijk in de agenda</a>
+    </>
+  ) : (
+    <>
+      <p class="volgende-datum__label">Nog geen datum gepland</p>
+      <p class="volgende-datum__toelichting">Neem contact op voor de mogelijkheden of om je interesse aan te geven.</p>
+      <a href="/contact/" class="btn btn--outline">Neem contact op</a>
+    </>
+  )}
+</div>
+
+<style>
+  .volgende-datum {
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    text-align: center;
+  }
+
+  .volgende-datum__label {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .volgende-datum__datum {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-5);
+  }
+
+  .volgende-datum__toelichting {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    max-width: 360px;
+    margin-inline: auto;
+    margin-bottom: var(--space-5);
+  }
+</style>

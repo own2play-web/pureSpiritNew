@@ -69,10 +69,10 @@ collections:
       - { label: Uitgelicht op homepage, name: uitgelicht, widget: boolean, default: false }
       - { label: Volgorde,              name: volgorde,   widget: number,  default: 99 }
 
-  # ─── Diensten ──────────────────────────────────────────────────────────────
+  # ─── Activiteiten – 1 op 1 ─────────────────────────────────────────────────
   - name: diensten
-    label: Diensten
-    label_singular: Dienst
+    label: "Activiteiten – 1 op 1"
+    label_singular: Activiteit
     folder: src/content/diensten
     create: false
     slug: "{{slug}}"
@@ -80,6 +80,53 @@ collections:
       - { label: Titel,            name: titel,            widget: string }
       - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
       - { label: Icoon (emoji),    name: icon,             widget: string, required: false, hint: "Bijv. 🌸 of 🧘" }
+      - { label: Samenvatting,     name: samenvatting,     widget: text }
+      - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
+      - label: Sidebar – In één oogopslag
+        name: sidebar_items
+        widget: list
+        required: false
+        fields:
+          - { label: Label,  name: label,  widget: string }
+          - { label: Waarde, name: waarde, widget: string }
+      - { label: Inhoud, name: body, widget: markdown }
+
+  # ─── Activiteiten – Meditatie (groepsverband) ─────────────────────────────
+  # Titel moet exact overeenkomen met de cursusnaam in de Agenda, anders
+  # vindt de "eerstvolgende datum"-widget op de pagina geen match — gebruik
+  # anders het veld "Titel in de agenda" hieronder.
+  - name: meditatie
+    label: "Activiteiten – Meditatie"
+    label_singular: Meditatiecursus
+    folder: src/content/meditatie
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titel,            name: titel,            widget: string }
+      - { label: "Titel in de agenda", name: agenda_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven afwijkt van de cursusnaam in de Agenda." }
+      - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
+      - { label: Samenvatting,     name: samenvatting,     widget: text }
+      - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
+      - label: Sidebar – In één oogopslag
+        name: sidebar_items
+        widget: list
+        required: false
+        fields:
+          - { label: Label,  name: label,  widget: string }
+          - { label: Waarde, name: waarde, widget: string }
+      - { label: Inhoud, name: body, widget: markdown }
+
+  # ─── Activiteiten – Workshops (groepsverband) ─────────────────────────────
+  - name: workshops
+    label: "Activiteiten – Workshops"
+    label_singular: Workshop
+    folder: src/content/workshops
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titel,            name: titel,            widget: string }
+      - { label: "Titel in de agenda", name: agenda_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven afwijkt van de cursusnaam in de Agenda." }
+      - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
       - { label: Samenvatting,     name: samenvatting,     widget: text }
       - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
       - label: Sidebar – In één oogopslag

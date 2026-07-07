@@ -1,0 +1,44 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { getCollection } from 'astro:content';
+
+const alleWorkshops = await getCollection('workshops');
+const workshops = alleWorkshops
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .map(w => ({
+    title: w.data.titel,
+    description: w.data.samenvatting,
+    href: `/activiteiten/workshops/${w.slug}/`,
+    icon: '💡',
+  }));
+---
+
+<PageLayout
+  title="Workshops"
+  heroTitle="Workshops"
+  heroSubtitle="Losse workshops rond hooggevoeligheid en het omgaan met prikkels, in kleine groepjes."
+  description="Workshops bij Pure Spirit Oss over hooggevoeligheid en omgaan met prikkels."
+>
+  <section class="section">
+    <div class="container">
+      <a href="/activiteiten/" class="back-link">← Alle activiteiten</a>
+      <div class="grid grid--3">
+        {workshops.map(w => <ServiceCard {...w} />)}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-bottom: var(--space-8);
+    font-weight: 700;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+</style>

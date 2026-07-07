@@ -1,0 +1,77 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { getCollection } from 'astro:content';
+
+// 1-op-1 activiteiten: uit de content collection, CMS-bewerkbaar.
+const allDiensten = await getCollection('diensten');
+const eenOpEen = allDiensten
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .map(d => ({
+    title: d.data.titel,
+    description: d.data.samenvatting,
+    href: `/activiteiten/${d.slug}/`,
+    icon: d.data.icon,
+  }));
+
+// Groepsverband: twee vaste categorieën, elk met een eigen overzicht van
+// varianten die in de CMS aan te maken zijn (src/content/meditatie,
+// src/content/workshops).
+const groepsverband = [
+  {
+    title: 'Meditatie',
+    description: 'Verschillende meditatiecursussen, voor kinderen tot volwassenen, in kleine groepjes.',
+    href: '/activiteiten/meditatie/',
+    icon: '🧘',
+  },
+  {
+    title: 'Workshops',
+    description: 'Losse workshops rond hooggevoeligheid en het omgaan met prikkels.',
+    href: '/activiteiten/workshops/',
+    icon: '💡',
+  },
+];
+---
+
+<PageLayout
+  title="Activiteiten"
+  heroTitle="Onze activiteiten"
+  heroSubtitle="Van Bachbloesemtherapie tot meditatiecursussen, altijd praktisch, persoonlijk en op maat."
+>
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <h2>1 op 1</h2>
+        <hr class="divider" />
+        <p class="lead">Individuele begeleiding, helemaal afgestemd op jouw situatie.</p>
+      </div>
+      <div class="grid grid--3">
+        {eenOpEen.map(s => <ServiceCard {...s} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__header">
+        <h2>In groepsverband</h2>
+        <hr class="divider" />
+        <p class="lead">Samen met anderen, in een kleine en veilige groep.</p>
+      </div>
+      <div class="grid grid--3">
+        {groepsverband.map(s => <ServiceCard {...s} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow" style="text-align: center;">
+      <h2>Niet zeker welke activiteit bij jou past?</h2>
+      <p class="lead" style="margin-bottom: var(--space-8);">
+        Neem gerust contact op. We denken graag met je mee welke begeleiding
+        het beste aansluit bij jouw situatie.
+      </p>
+      <a href="/contact/" class="btn btn--primary">Neem contact op</a>
+    </div>
+  </section>
+</PageLayout>

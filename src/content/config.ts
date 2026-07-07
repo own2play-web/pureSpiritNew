@@ -27,6 +27,31 @@ const diensten = defineCollection({
   }),
 });
 
+const activiteitVeld = {
+  titel:            z.string(),
+  // Alleen invullen als de paginatitel afwijkt van de cursusnaam in de
+  // Agenda (bv. een uitgebreidere titel) — anders vindt de "eerstvolgende
+  // datum"-widget geen match en valt hij terug op "nog geen datum gepland".
+  agenda_titel:     z.string().optional(),
+  volgorde:         z.number().default(99),
+  samenvatting:     z.string(),
+  meta_description: z.string().optional(),
+  sidebar_items: z.array(z.object({
+    label:  z.string(),
+    waarde: z.string(),
+  })).optional(),
+};
+
+const workshops = defineCollection({
+  type: 'content',
+  schema: z.object(activiteitVeld),
+});
+
+const meditatie = defineCollection({
+  type: 'content',
+  schema: z.object(activiteitVeld),
+});
+
 const ervaringen = defineCollection({
   type: 'content',
   schema: z.object({
@@ -38,4 +63,4 @@ const ervaringen = defineCollection({
   }),
 });
 
-export const collections = { nieuws, diensten, ervaringen };
+export const collections = { nieuws, diensten, workshops, meditatie, ervaringen };

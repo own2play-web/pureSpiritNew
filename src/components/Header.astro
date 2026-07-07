@@ -1,13 +1,17 @@
 ---
 const navLinks = [
-  { label: 'Diensten',          href: '/diensten/',
-    children: [
-      { label: 'Bachbloesemtherapie', href: '/diensten/bachbloesemtherapie/' },
-      { label: 'Meditatie',           href: '/diensten/meditatie/' },
-      { label: 'Coaching',            href: '/diensten/coaching/' },
-      { label: 'Begeleiding HSP',     href: '/diensten/begeleiding-hsp/' },
-      { label: 'Persoonlijke groei',  href: '/diensten/persoonlijke-groei/' },
-      { label: 'Privéconsult',        href: '/diensten/prive-consult/' },
+  { label: 'Activiteiten',      href: '/activiteiten/',
+    groepen: [
+      { label: '1 op 1', items: [
+        { label: 'Bachbloesemtherapie', href: '/activiteiten/bachbloesemtherapie/' },
+        { label: 'Begeleiding HSP',     href: '/activiteiten/begeleiding-hsp/' },
+        { label: 'Privéconsult',        href: '/activiteiten/prive-consult/' },
+        { label: 'Coaching',            href: '/activiteiten/coaching/' },
+      ]},
+      { label: 'Groepsverband', items: [
+        { label: 'Meditatie', href: '/activiteiten/meditatie/' },
+        { label: 'Workshops', href: '/activiteiten/workshops/' },
+      ]},
     ]
   },
   { label: 'Over mij',   href: '/over/' },
@@ -25,7 +29,8 @@ const currentPath = Astro.url.pathname;
 <header class="header">
   <div class="container header__inner">
     <a href="/" class="header__logo" aria-label="Pure Spirit – naar homepagina">
-      <img src="/uploads/pure-spirit-logo-95px-hoog.png" alt="Pure Spirit Oss" class="logo-img" width="220" height="95" />
+      <img src="/uploads/pure-spirit-logo-95px-hoog.png" alt="Pure Spirit Oss" class="logo-img logo-img--light" width="220" height="95" />
+      <img src="/uploads/pure-spirit-logo-95px-hoog-dark.png" alt="Pure Spirit Oss" class="logo-img logo-img--dark" width="220" height="95" />
     </a>
 
     <button class="header__toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Menu openen">
@@ -35,29 +40,36 @@ const currentPath = Astro.url.pathname;
     <nav id="main-nav" class="header__nav" aria-label="Hoofdnavigatie">
       <ul class="nav-list">
         {navLinks.map(link => (
-          <li class:list={['nav-item', link.children && 'nav-item--has-children']}>
+          <li class:list={['nav-item', link.groepen && 'nav-item--has-children']}>
             <a
               href={link.href}
               class:list={['nav-link', currentPath === link.href && 'nav-link--active']}
             >
               {link.label}
-              {link.children && <span class="nav-arrow" aria-hidden="true">▾</span>}
+              {link.groepen && <span class="nav-arrow" aria-hidden="true">▾</span>}
             </a>
-            {link.children && (
+            {link.groepen && (
               <button class="nav-toggle" aria-expanded="false" aria-label={`${link.label} submenu uitklappen`}>
                 <span class="nav-arrow" aria-hidden="true">▾</span>
               </button>
             )}
-            {link.children && (
+            {link.groepen && (
               <ul class="nav-dropdown">
-                {link.children.map(child => (
-                  <li>
-                    <a
-                      href={child.href}
-                      class:list={['nav-dropdown__link', currentPath === child.href && 'nav-link--active']}
-                    >
-                      {child.label}
-                    </a>
+                {link.groepen.map(groep => (
+                  <li class="nav-dropdown__groep">
+                    <span class="nav-dropdown__groep-label">{groep.label}</span>
+                    <ul class="nav-dropdown__groep-lijst">
+                      {groep.items.map(item => (
+                        <li>
+                          <a
+                            href={item.href}
+                            class:list={['nav-dropdown__link', currentPath === item.href && 'nav-link--active']}
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </li>
                 ))}
               </ul>
@@ -178,6 +190,25 @@ const currentPath = Astro.url.pathname;
     width: auto;
   }
 
+  /* Twee varianten: het logo zelf is een platte kleur (geen currentColor/
+     filter-truc mogelijk op een raster-PNG), dus wisselen we het hele
+     bestand per thema i.p.v. één afbeelding te hertekenen. */
+  .logo-img--light {
+    display: block;
+  }
+
+  .logo-img--dark {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .logo-img--light {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .logo-img--dark {
+    display: block;
+  }
+
   .header__nav {
     display: flex;
     align-items: center;
@@ -222,10 +253,6 @@ const currentPath = Astro.url.pathname;
     transition: transform var(--transition);
   }
 
-  .nav-item--has-children:hover .nav-arrow {
-    transform: rotate(180deg);
-  }
-
   .nav-dropdown {
     display: none;
     position: absolute;
@@ -243,8 +270,47 @@ const currentPath = Astro.url.pathname;
     z-index: 10;
   }
 
-  .nav-item--has-children:hover .nav-dropdown {
+  /* Alleen echte hover-apparaten (muis/trackpad) krijgen de hover-dropdown.
+     Zonder deze scoping blijft :hover op mobiel/touch "plakken" na een tap
+     — CSS-specificiteit van deze regel is hoger dan .nav-item--open hieronder,
+     dus de JS-toggle werkt dan wel maar het dropdown-menu blijft zichtbaar. */
+  @media (hover: hover) and (pointer: fine) {
+    .nav-item--has-children:hover .nav-arrow {
+      transform: rotate(180deg);
+    }
+
+    .nav-item--has-children:hover .nav-dropdown {
+      display: block;
+    }
+  }
+
+  .nav-dropdown__groep {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-dropdown__groep + .nav-dropdown__groep {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+  }
+
+  .nav-dropdown__groep-label {
     display: block;
+    padding: var(--space-1) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .nav-dropdown__groep-lijst {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   .nav-dropdown__link {

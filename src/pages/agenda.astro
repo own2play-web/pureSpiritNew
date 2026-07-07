@@ -2,9 +2,22 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import AgendaKalender from '../components/AgendaKalender.astro';
 import agendaData from '../data/agenda.json';
+import { getCollection } from 'astro:content';
 
 const vandaag = new Date();
 vandaag.setHours(0, 0, 0, 0);
+
+// Koppelt een agenda-cursusnaam aan de bijbehorende activiteitenpagina, zodat
+// elke agendakaart een "Meer info"-link naar de volledige beschrijving kan
+// tonen. Matcht op agenda_titel (indien ingevuld) of anders titel — zelfde
+// koppeling als VolgendeDatum.astro, maar dan omgekeerd.
+const [alleMeditatie, alleWorkshops] = await Promise.all([
+  getCollection('meditatie'),
+  getCollection('workshops'),
+]);
+const activiteitLink = new Map<string, string>();
+for (const c of alleMeditatie) activiteitLink.set(c.data.agenda_titel || c.data.titel, `/activiteiten/meditatie/${c.slug}/`);
+for (const w of alleWorkshops) activiteitLink.set(w.data.agenda_titel || w.data.titel, `/activiteiten/workshops/${w.slug}/`);
 
 const maandNamen = ['januari','februari','maart','april','mei','juni',
                     'juli','augustus','september','oktober','november','december'];
@@ -20,20 +33,30 @@ function formatDatum(datumStr: string) {
   return `${d.getDate()} ${maandNamen[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// Filter: cursus is relevant als de startdatum in de toekomst ligt
+// Filter: cursus is relevant zolang er nog een sessie (start of vervolgles)
+// in de toekomst ligt — niet alleen de startdatum. Anders verdwijnt een
+// langlopende cursus (bv. 5 maanden) uit dit overzicht zodra hij begonnen
+// is, ook al kun je nog instappen (zie instap_mogelijk hieronder).
 const komend = agendaData.cursussen
-  .filter(c => c.data.length > 0 && new Date(c.data[0]) >= vandaag)
-  .sort((a, b) => new Date(a.data[0]).getTime() - new Date(b.data[0]).getTime());
+  .filter(c => c.data.some(d => new Date(d) >= vandaag))
+  .sort((a, b) => volgendeDatum(a).getTime() - volgendeDatum(b).getTime());
+
+function volgendeDatum(cursus: { data: string[] }) {
+  const volgende = cursus.data.find(d => new Date(d) >= vandaag);
+  return new Date(volgende ?? cursus.data[0]);
+}
 
 // Binnenkort: activiteiten zonder geplande datum (animo, nieuwe data volgen)
 const binnenkort = agendaData.cursussen
   .filter(c => c.data.length === 0)
   .sort((a, b) => a.titel.localeCompare(b.titel, 'nl'));
 
-// Groepeer op maand van de startdatum
+// Groepeer op maand van de eerstvolgende (nog niet geweest) sessie, i.p.v.
+// altijd de oorspronkelijke startmaand — zo staat een al gestarte cursus
+// bij de maand die nu relevant is.
 const maanden: Record<string, typeof komend> = {};
 for (const cursus of komend) {
-  const d    = new Date(cursus.data[0]);
+  const d    = volgendeDatum(cursus);
   const sleu = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
   if (!maanden[sleu]) maanden[sleu] = [];
   maanden[sleu].push(cursus);
@@ -59,6 +82,27 @@ const typekleur: Record<string, string> = {
   <section class="section">
     <div class="container">
       {komend.length > 0 && (
+        <div class="cursus-overzicht">
+          <h2 class="cursus-overzicht__titel">Welke cursussen lopen er?</h2>
+          <p class="cursus-overzicht__toelichting">Bij de meeste cursussen kun je ook instappen als ze al gestart zijn. Klik op een cursus voor meer info.</p>
+          <ul class="cursus-overzicht__lijst">
+            {komend.map(cursus => {
+              const c = cursus as any;
+              const badgeKlasse = c.type ? (typekleur[c.type] ?? 'badge--overig') : '';
+              return (
+                <li>
+                  <a href={`#cursus-${slugify(c.titel)}`} class="cursus-overzicht__item">
+                    {c.type && <span class:list={['badge', badgeKlasse]}>{c.type}</span>}
+                    {c.titel}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {komend.length > 0 && (
         <AgendaKalender cursussen={agendaData.cursussen} />
       )}
 
@@ -74,10 +118,16 @@ const typekleur: Record<string, string> = {
               <ul class="cursus-lijst">
                 {cursussen.map(cursus => {
                   const { titel, type, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, instap_mogelijk, beschrijving, data } = cursus as any;
-                  const startDatum  = data[0];
-                  const overigData  = data.slice(1);
+                  const startDatum   = data[0];
+                  const alGestart    = new Date(startDatum) < vandaag;
+                  // Bij een al gestarte (maar nog lopende) cursus tonen we de
+                  // eerstvolgende les groot i.p.v. de allang gepasseerde
+                  // startdatum, en de overige-lessen-lijst toont alleen wat
+                  // nog moet komen.
+                  const weergaveDatum = alGestart ? volgendeDatum(cursus).toISOString().slice(0,10) : startDatum;
+                  const overigData  = data.filter((d: string) => d !== weergaveDatum && new Date(d) >= vandaag);
                   const badgeKlasse = type ? (typekleur[type] ?? 'badge--overig') : '';
-                  const startD      = new Date(startDatum);
+                  const startD      = new Date(weergaveDatum);
                   return (
                     <li class="cursus-kaart" id={`cursus-${slugify(titel)}`}>
                       <div class="cursus-datum-blok">
@@ -88,8 +138,14 @@ const typekleur: Record<string, string> = {
                         <div class="cursus-header">
                           <h3 class="cursus-titel">{titel}</h3>
                           {type && <span class:list={['badge', badgeKlasse]}>{type}</span>}
+                          {alGestart && instap_mogelijk && (
+                            <span class="badge badge--instap">Loopt al · instappen mogelijk</span>
+                          )}
                         </div>
                         {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
+                        {activiteitLink.has(titel) && (
+                          <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze cursus →</a>
+                        )}
                         <ul class="cursus-meta">
                           {tijdstip && tijdstip !== 'Nader te bepalen' && (
                             <li>
@@ -193,6 +249,9 @@ const typekleur: Record<string, string> = {
                     {bc.type && <span class:list={['badge', badgeKlasse]}>{bc.type}</span>}
                   </div>
                   <p class="binnenkort-kaart__beschrijving">{bc.beschrijving}</p>
+                  {activiteitLink.has(bc.titel) && (
+                    <a href={activiteitLink.get(bc.titel)} class="cursus-lees-meer">Lees meer over deze cursus →</a>
+                  )}
                   <ul class="cursus-meta binnenkort-kaart__meta">
                     {bc.bijeenkomsten && (
                       <li>
@@ -231,6 +290,50 @@ const typekleur: Record<string, string> = {
 </PageLayout>
 
 <style>
+  .cursus-overzicht {
+    margin-bottom: var(--space-8);
+  }
+
+  .cursus-overzicht__titel {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-1);
+  }
+
+  .cursus-overzicht__toelichting {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .cursus-overzicht__lijst {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: 0;
+    margin: 0;
+  }
+
+  .cursus-overzicht__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: var(--space-2) var(--space-4);
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+
+  .cursus-overzicht__item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
   .geen-cursussen {
     color: var(--color-text-muted);
     font-size: var(--text-base);
@@ -332,6 +435,19 @@ const typekleur: Record<string, string> = {
     line-height: 1.6;
   }
 
+  .cursus-lees-meer {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-bottom: var(--space-3);
+  }
+
+  .cursus-lees-meer:hover {
+    text-decoration: underline;
+  }
+
   .cursus-meta {
     display: flex;
     flex-wrap: wrap;
@@ -412,6 +528,7 @@ const typekleur: Record<string, string> = {
   .badge--kinderen   { background-color: #fdf4ff; color: #7e22ce; }
   .badge--cursus     { background-color: #f0fdf4; color: #15803d; }
   .badge--overig     { background-color: var(--color-primary-light); color: var(--color-primary-dark); }
+  .badge--instap     { background-color: var(--color-surface-alt); color: var(--color-primary-dark); border: 1px solid var(--color-border); }
 
   :global(html[data-theme='dark']) .badge--meditatie { background-color: color-mix(in srgb, #00695c 18%, var(--color-surface)); color: color-mix(in srgb, #00695c 70%, white); }
   :global(html[data-theme='dark']) .badge--jongeren  { background-color: color-mix(in srgb, #e65100 18%, var(--color-surface)); color: color-mix(in srgb, #e65100 70%, white); }

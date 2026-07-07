@@ -1,0 +1,44 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { getCollection } from 'astro:content';
+
+const alleCursussen = await getCollection('meditatie');
+const cursussen = alleCursussen
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .map(c => ({
+    title: c.data.titel,
+    description: c.data.samenvatting,
+    href: `/activiteiten/meditatie/${c.slug}/`,
+    icon: '🧘',
+  }));
+---
+
+<PageLayout
+  title="Meditatie"
+  heroTitle="Meditatie"
+  heroSubtitle="Verschillende meditatiecursussen, voor kinderen tot volwassenen, in kleine groepjes van maximaal 6 personen."
+  description="Meditatiecursussen bij Pure Spirit Oss — voor kinderen, jongeren en volwassenen, in kleine groepjes."
+>
+  <section class="section">
+    <div class="container">
+      <a href="/activiteiten/" class="back-link">← Alle activiteiten</a>
+      <div class="grid grid--3">
+        {cursussen.map(c => <ServiceCard {...c} />)}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-bottom: var(--space-8);
+    font-weight: 700;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+</style>

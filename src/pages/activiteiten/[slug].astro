@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import site from '../../data/site.json';
 
 export async function getStaticPaths() {
   const diensten = await getCollection('diensten');
@@ -18,7 +19,7 @@ const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
 <BaseLayout title={titel} description={meta_description || samenvatting}>
   <section class="page-hero">
     <div class="container">
-      <a href="/diensten/" class="back-link">← Alle diensten</a>
+      <a href="/activiteiten/" class="back-link">← Alle activiteiten</a>
       <h1>{titel}</h1>
       <p class="lead">{samenvatting}</p>
     </div>
@@ -36,7 +37,7 @@ const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
             <h3>Afspraak maken</h3>
             <p>Neem contact op voor een vrijblijvend gesprek of om een afspraak te maken.</p>
             <a href="/contact/" class="btn btn--primary" style="width:100%;text-align:center;">Contact opnemen</a>
-            <a href="tel:0412692162" class="btn btn--outline" style="width:100%;text-align:center;margin-top:var(--space-3);">Bel 0412 69 21 62</a>
+            <a href={`tel:${site.telefoon.replace(/\s/g,'')}`} class="btn btn--outline" style="width:100%;text-align:center;margin-top:var(--space-3);">Bel {site.telefoon}</a>
           </div>
 
           {sidebar_items && sidebar_items.length > 0 && (

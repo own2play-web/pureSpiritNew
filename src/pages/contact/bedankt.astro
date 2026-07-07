@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import site from '../../data/site.json';
 ---
 
 <PageLayout
@@ -17,11 +18,11 @@ import PageLayout from '../../layouts/PageLayout.astro';
         voor het geval onze e-mail daar terecht komt.
       </p>
       <p style="color: var(--color-text-muted);">
-        Liever bellen? Dat kan ook: <a href="tel:0412692162">0412 69 21 62</a>
+        Liever bellen? Dat kan ook: <a href={`tel:${site.telefoon.replace(/\s/g,'')}`}>{site.telefoon}</a>
       </p>
       <div style="margin-top: var(--space-10); display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
         <a href="/" class="btn btn--primary">Terug naar de homepagina</a>
-        <a href="/diensten/" class="btn btn--outline">Bekijk onze diensten</a>
+        <a href="/activiteiten/" class="btn btn--outline">Bekijk onze activiteiten</a>
       </div>
     </div>
   </section>

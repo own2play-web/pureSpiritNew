@@ -9,6 +9,7 @@ import CtaBottom from '../components/CtaBottom.astro';
 import { getCollection } from 'astro:content';
 import homepage from '../data/homepage.json';
 import faqData from '../data/faq.json';
+import site from '../data/site.json';
 
 // Nieuws
 const allNieuws = await getCollection('nieuws');
@@ -16,16 +17,32 @@ const latestNieuws = allNieuws
   .sort((a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime())
   .slice(0, 3);
 
-// Diensten uit content collection
+// Activiteiten: 1-op-1 uit de content collection + de twee groepsverband-
+// categorieën (meditatie/workshops hebben elk hun eigen overzicht met
+// varianten, te veel om hier allemaal apart te tonen).
 const allDiensten = await getCollection('diensten');
-const services = allDiensten
-  .sort((a, b) => a.data.volgorde - b.data.volgorde)
-  .map(d => ({
-    title: d.data.titel,
-    description: d.data.samenvatting,
-    href: `/diensten/${d.slug}/`,
-    icon: d.data.icon,
-  }));
+const services = [
+  ...allDiensten
+    .sort((a, b) => a.data.volgorde - b.data.volgorde)
+    .map(d => ({
+      title: d.data.titel,
+      description: d.data.samenvatting,
+      href: `/activiteiten/${d.slug}/`,
+      icon: d.data.icon,
+    })),
+  {
+    title: 'Meditatie',
+    description: 'Verschillende meditatiecursussen, voor kinderen tot volwassenen, in kleine groepjes.',
+    href: '/activiteiten/meditatie/',
+    icon: '🧘',
+  },
+  {
+    title: 'Workshops',
+    description: 'Losse workshops rond hooggevoeligheid en het omgaan met prikkels.',
+    href: '/activiteiten/workshops/',
+    icon: '💡',
+  },
+];
 
 // FAQ uit JSON
 const faqItems = faqData.items.map(item => ({
@@ -73,7 +90,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   )}
 
   <!-- Diensten -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <div class="section__header">
         <h2>Onze diensten</h2>
@@ -87,7 +104,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   </section>
 
   <!-- HSP sectie -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <div class="hsp-grid">
         <div>
@@ -107,7 +124,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
             Herkenbare kenmerken zijn angsten, problemen met het zelfvertrouwen, een druk hoofd
             en moeilijk kunnen inslapen.
           </p>
-          <a href="/diensten/begeleiding-hsp/" class="btn btn--outline" style="margin-top: var(--space-4);">Meer over HSP-begeleiding</a>
+          <a href="/activiteiten/begeleiding-hsp/" class="btn btn--outline" style="margin-top: var(--space-4);">Meer over HSP-begeleiding</a>
         </div>
         <div class="hsp-quote">
           <blockquote>
@@ -121,7 +138,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   </section>
 
   <!-- Ervaringen -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <div class="section__header">
         <h2>Wat anderen zeggen</h2>
@@ -140,7 +157,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   </section>
 
   <!-- Over Sasja van Geel -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <div class="about-grid">
         <div class="about-photo">
@@ -204,8 +221,8 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
     lead="Neem vrijblijvend contact op. We denken graag met je mee welke begeleiding het beste bij jou past."
     primaryLabel="Neem contact op"
     primaryHref="/contact/"
-    secondaryLabel="Bel 0412 69 21 62"
-    secondaryHref="tel:0412692162"
+    secondaryLabel={`Bel ${site.telefoon}`}
+    secondaryHref={`tel:${site.telefoon.replace(/\s/g,'')}`}
   />
 </BaseLayout>
 
@@ -284,7 +301,12 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   }
 
   .hsp-quote {
-    background-color: var(--color-primary-light);
+    /* --color-surface i.p.v. --color-primary-light: deze kaart staat nu in
+       een section--alt (goud-getint), en een vaste blauwe tint erbovenop
+       botste met dat goud. Wit, net als de andere kaarten (Service/
+       Testimonial/News) die ook al op zowel gewone als --alt secties staan. */
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-10);
   }

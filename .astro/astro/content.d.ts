@@ -173,20 +173,6 @@ declare module 'astro:content' {
   collection: "diensten";
   data: InferEntrySchema<"diensten">
 } & { render(): Render[".md"] };
-"meditatie.md": {
-	id: "meditatie.md";
-  slug: "meditatie";
-  body: string;
-  collection: "diensten";
-  data: InferEntrySchema<"diensten">
-} & { render(): Render[".md"] };
-"persoonlijke-groei.md": {
-	id: "persoonlijke-groei.md";
-  slug: "persoonlijke-groei";
-  body: string;
-  collection: "diensten";
-  data: InferEntrySchema<"diensten">
-} & { render(): Render[".md"] };
 "prive-consult.md": {
 	id: "prive-consult.md";
   slug: "prive-consult";
@@ -1492,6 +1478,50 @@ declare module 'astro:content' {
   data: InferEntrySchema<"ervaringen">
 } & { render(): Render[".md"] };
 };
+"meditatie": {
+"eenvoudig-leren-mediteren.md": {
+	id: "eenvoudig-leren-mediteren.md";
+  slug: "eenvoudig-leren-mediteren";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+"meditatie-extra.md": {
+	id: "meditatie-extra.md";
+  slug: "meditatie-extra";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+"meditatie-voor-iedereen.md": {
+	id: "meditatie-voor-iedereen.md";
+  slug: "meditatie-voor-iedereen";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+"meditatie-voor-jong-volwassenen.md": {
+	id: "meditatie-voor-jong-volwassenen.md";
+  slug: "meditatie-voor-jong-volwassenen";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+"meditatie-voor-jongeren.md": {
+	id: "meditatie-voor-jongeren.md";
+  slug: "meditatie-voor-jongeren";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+"meditatie-voor-kinderen.md": {
+	id: "meditatie-voor-kinderen.md";
+  slug: "meditatie-voor-kinderen";
+  body: string;
+  collection: "meditatie";
+  data: InferEntrySchema<"meditatie">
+} & { render(): Render[".md"] };
+};
 "nieuws": {
 "229.md": {
 	id: "229.md";
@@ -2696,6 +2726,22 @@ declare module 'astro:content' {
   body: string;
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
+} & { render(): Render[".md"] };
+};
+"workshops": {
+"ben-ik-hsp.md": {
+	id: "ben-ik-hsp.md";
+  slug: "ben-ik-hsp";
+  body: string;
+  collection: "workshops";
+  data: InferEntrySchema<"workshops">
+} & { render(): Render[".md"] };
+"beter-omgaan-met-prikkels.md": {
+	id: "beter-omgaan-met-prikkels.md";
+  slug: "beter-omgaan-met-prikkels";
+  body: string;
+  collection: "workshops";
+  data: InferEntrySchema<"workshops">
 } & { render(): Render[".md"] };
 };
 

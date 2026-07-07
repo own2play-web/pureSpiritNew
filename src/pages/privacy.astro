@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import site from '../data/site.json';
+const telHref = `tel:${site.telefoon.replace(/\s/g,'')}`;
 ---
 
 <PageLayout
@@ -11,17 +13,17 @@ import PageLayout from '../layouts/PageLayout.astro';
   <section class="section">
     <div class="container container--narrow prose">
       <p>
-        Pure Spirit, gevestigd te Beethovengaarde 90, 5344 CK Oss, is verantwoordelijk
+        Pure Spirit, gevestigd te {site.adres}, {site.postcode} {site.stad}, is verantwoordelijk
         voor de verwerking van persoonsgegevens zoals weergegeven in dit privacybeleid.
       </p>
 
       <h2>Contactgegevens</h2>
       <p>
-        Pure Spirit<br />
-        Beethovengaarde 90, 5344 CK Oss<br />
-        Telefoon: 0412 69 21 62<br />
-        E-mail: info@purespirit-oss.nl<br />
-        KVK: 53415000
+        {site.naam}<br />
+        {site.adres}, {site.postcode} {site.stad}<br />
+        Telefoon: {site.telefoon}<br />
+        E-mail: {site.email}<br />
+        KVK: {site.kvk}
       </p>
 
       <h2>Persoonsgegevens die wij verwerken</h2>
@@ -62,14 +64,14 @@ import PageLayout from '../layouts/PageLayout.astro';
       <h2>Jouw rechten</h2>
       <p>
         Je hebt het recht om jouw persoonsgegevens in te zien, te corrigeren of te laten
-        verwijderen. Neem hiervoor contact op via info@purespirit-oss.nl.
+        verwijderen. Neem hiervoor contact op via {site.email}.
       </p>
 
       <h2>Vragen?</h2>
       <p>
         Heb je vragen over dit privacybeleid? Neem dan contact op via
-        <a href="mailto:info@purespirit-oss.nl">info@purespirit-oss.nl</a> of
-        <a href="tel:0412692162">0412 69 21 62</a>.
+        <a href={`mailto:${site.email}`}>{site.email}</a> of
+        <a href={telHref}>{site.telefoon}</a>.
       </p>
     </div>
   </section>

@@ -135,10 +135,11 @@ const legendaTypes = Array.from(
     if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
 
     const info = knop.dataset.tooltip ?? '';
+    const cursusId = knop.dataset.cursusId ?? '';
     tooltip.innerHTML = info
       .split('\n')
       .map(r => `<span>${r}</span>`)
-      .join('');
+      .join('') + (cursusId ? `<button type="button" class="kal-tooltip__meer" data-cursus-id="${cursusId}">Meer info →</button>` : '');
     tooltip.classList.add('kal-tooltip--zichtbaar');
 
     // Positioneer onder de knop
@@ -155,6 +156,14 @@ const legendaTypes = Array.from(
     hideTimer = setTimeout(() => {
       tooltip.classList.remove('kal-tooltip--zichtbaar');
     }, vertraging);
+  }
+
+  function scrollNaarCursus(id: string) {
+    const kaart = document.getElementById(id);
+    if (!kaart) return;
+    kaart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    kaart.classList.add('cursus-kaart--highlight');
+    setTimeout(() => kaart.classList.remove('cursus-kaart--highlight'), 1400);
   }
 
   const toggleBtn = document.getElementById('kalender-toggle') as HTMLButtonElement | null;
@@ -199,15 +208,13 @@ const legendaTypes = Array.from(
     knop.addEventListener('mouseenter', () => toon(knop));
     knop.addEventListener('mouseleave', () => verberg(120));
 
-    knop.addEventListener('click', () => {
-      verberg(0);
-      const id = knop.dataset.cursusId;
-      if (!id) return;
-      const kaart = document.getElementById(id);
-      if (!kaart) return;
-      kaart.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      kaart.classList.add('cursus-kaart--highlight');
-      setTimeout(() => kaart.classList.remove('cursus-kaart--highlight'), 1400);
+    // Klik/tap opent (of ververst) alleen de quick-view — op desktop toont
+    // hover 'm al, dus daar verandert een klik verder niets; op mobiel
+    // (geen hover) is dit de enige manier om 'm open te krijgen. Navigeren
+    // naar de cursus gebeurt alleen via de "Meer info"-knop in de tooltip.
+    knop.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toon(knop);
     });
   });
 
@@ -215,6 +222,20 @@ const legendaTypes = Array.from(
     if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
   });
   tooltip.addEventListener('mouseleave', () => verberg(80));
+
+  // "Meer info" knop in de tooltip: content wordt telkens vervangen, dus
+  // delegeren i.p.v. losse listeners per keer toon() draait.
+  tooltip.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const knop = (e.target as HTMLElement).closest('.kal-tooltip__meer') as HTMLButtonElement | null;
+    if (!knop?.dataset.cursusId) return;
+    verberg(0);
+    scrollNaarCursus(knop.dataset.cursusId);
+  });
+
+  // Tik/klik buiten de tooltip sluit 'm — vooral op mobiel nodig, want daar
+  // is er geen mouseleave die 'm anders zou verbergen.
+  document.addEventListener('click', () => verberg(0));
 </script>
 
 <style>
@@ -339,6 +360,28 @@ const legendaTypes = Array.from(
   .kal-tooltip--zichtbaar {
     display: flex;
     pointer-events: auto;
+  }
+
+  .kal-tooltip__meer {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    background-color: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+
+  .kal-tooltip__meer:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 85%, white);
   }
 
   /* Legenda */
