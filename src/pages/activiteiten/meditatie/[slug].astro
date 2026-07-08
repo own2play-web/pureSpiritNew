@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import VolgendeDatum from '../../../components/VolgendeDatum.astro';
+import HeroVisual from '../../../components/HeroVisual.astro';
 import { getCollection } from 'astro:content';
 import site from '../../../data/site.json';
 
@@ -19,10 +20,15 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
 
 <BaseLayout title={titel} description={meta_description || samenvatting}>
   <section class="page-hero">
-    <div class="container">
-      <a href="/activiteiten/meditatie/" class="back-link">← Alle meditatiecursussen</a>
-      <h1>{titel}</h1>
-      <p class="lead">{samenvatting}</p>
+    <div class="container page-hero__inner">
+      <div class="page-hero__content">
+        <a href="/activiteiten/meditatie/" class="back-link">← Alle meditatiecursussen</a>
+        <h1>{titel}</h1>
+        <p class="lead">{samenvatting}</p>
+      </div>
+      <div class="page-hero__visual">
+        <HeroVisual icon="lotusbloei" subtle />
+      </div>
     </div>
   </section>
 
@@ -71,6 +77,22 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
     background-color: var(--color-primary-light);
     padding-block: var(--space-16);
     border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+  }
+
+  .page-hero__visual {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero__visual { display: none; }
   }
 
   .back-link {

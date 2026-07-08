@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import HeroVisual from '../components/HeroVisual.astro';
 
 interface Props {
   title: string;
@@ -7,18 +8,29 @@ interface Props {
   hero?: boolean;
   heroTitle?: string;
   heroSubtitle?: string;
+  /** Zelfde ademende-cirkels-animatie als de homepage-hero, met een icoon
+      passend bij het onderwerp van de pagina — altijd de subtiele variant
+      hier, de volle homepage-versie zit alleen in Hero.astro. */
+  heroIcon?: 'lotus' | 'lotusbloem' | 'spastenen' | 'groep' | 'bloesem' | 'pad' | 'beek' | 'profiel' | 'hart' | 'kalender' | 'citaat' | 'kompas' | 'muntstuk';
 }
 
-const { title, description, hero = true, heroTitle, heroSubtitle } = Astro.props;
+const { title, description, hero = true, heroTitle, heroSubtitle, heroIcon } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
   {hero && (
     <section class="page-hero">
-      <div class="container">
-        <h1>{heroTitle || title}</h1>
-        {heroSubtitle && <p class="lead">{heroSubtitle}</p>}
-        <hr class="divider" style="margin: var(--space-4) 0;" />
+      <div class="container page-hero__inner">
+        <div class="page-hero__content">
+          <h1>{heroTitle || title}</h1>
+          {heroSubtitle && <p class="lead">{heroSubtitle}</p>}
+          <hr class="divider" style="margin: var(--space-4) 0;" />
+        </div>
+        {heroIcon && (
+          <div class="page-hero__visual">
+            <HeroVisual icon={heroIcon} subtle />
+          </div>
+        )}
       </div>
     </section>
   )}
@@ -30,6 +42,14 @@ const { title, description, hero = true, heroTitle, heroSubtitle } = Astro.props
     background-color: var(--color-primary-light);
     padding-block: var(--space-16);
     border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
   }
 
   .page-hero h1 {
@@ -40,5 +60,13 @@ const { title, description, hero = true, heroTitle, heroSubtitle } = Astro.props
   .page-hero .lead {
     max-width: 600px;
     color: var(--color-text-muted);
+  }
+
+  .page-hero__visual {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero__visual { display: none; }
   }
 </style>
