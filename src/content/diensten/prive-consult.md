@@ -1,7 +1,8 @@
 ---
 titel: "Privéconsult"
-volgorde: 6
+volgorde: 3
 icon: "🫂"
+vorm: "solo"
 samenvatting: "Sommige onderwerpen zijn te persoonlijk voor een groep. In een privéconsult krijg je individuele begeleiding op maat, in de praktijk, telefonisch of via Skype."
 meta_description: "Privéconsult bij Pure Spirit Oss. Persoonlijke begeleiding en advies op maat, in de praktijk, telefonisch of via Skype."
 sidebar_items:

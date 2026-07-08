@@ -1,6 +1,6 @@
 ---
 titel: "Meditatie voor jong volwassenen"
-volgorde: 5
+volgorde: 4
 samenvatting: "Voor 20 tot 27-jarigen: even tot rust komen in een gezellig groepje leeftijdsgenoten."
 meta_description: "Meditatiecursus voor jong volwassenen (20-27 jaar) bij Pure Spirit Oss — meer rust en zelfvertrouwen, 6 lessen."
 sidebar_items:
@@ -9,7 +9,7 @@ sidebar_items:
   - label: "Frequentie"
     waarde: "1× per maand"
   - label: "Prijs"
-    waarde: "€ 135,– (1,5 uur) / € 112,50 (1,25 uur)"
+    waarde: "Vanaf € 112,50"
   - label: "Leeftijd"
     waarde: "20 – 27 jaar"
 ---

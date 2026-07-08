@@ -36,7 +36,7 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
         <aside class="sidebar">
           <div class="sidebar-card">
             <h3>Aanmelden</h3>
-            <p>Interesse? Neem contact op voor beschikbaarheid en aanmelding.</p>
+            <p>Interesse? Neem contact op voor meer informatie, beschikbaarheid en aanmelding.</p>
             <a href="/contact/" class="btn btn--primary" style="width:100%;text-align:center;">Contact opnemen</a>
             <a href={`tel:${site.telefoon.replace(/\s/g,'')}`} class="btn btn--outline" style="width:100%;text-align:center;margin-top:var(--space-3);">Bel {site.telefoon}</a>
           </div>
@@ -52,9 +52,6 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
                   </>
                 ))}
               </dl>
-              <p style="margin-top:var(--space-4);">
-                <a href="/tarieven/">Bekijk de tarieven →</a>
-              </p>
             </div>
           )}
         </aside>
@@ -62,7 +59,7 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--alt no-reveal">
     <div class="container container--narrow">
       <VolgendeDatum titel={titel} agendaTitel={agenda_titel} />
     </div>
@@ -113,7 +110,7 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
   }
 
   .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
-  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-lg); margin-bottom: var(--space-4); }
   .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
   .sidebar-card--light { background: var(--color-primary-light); border-color: transparent; }
 

@@ -1,6 +1,6 @@
 ---
 titel: "Meditatie voor jongeren"
-volgorde: 4
+volgorde: 5
 samenvatting: "Meer rust in je hoofd: een gezellig groepje leeftijdsgenoten leert oefeningen die je makkelijk thuis en op school kunt toepassen."
 meta_description: "Meditatiecursus voor jongeren (12-19 jaar) bij Pure Spirit Oss — meer rust en zelfvertrouwen, 6 lessen."
 sidebar_items:
@@ -9,7 +9,7 @@ sidebar_items:
   - label: "Frequentie"
     waarde: "1× per maand"
   - label: "Prijs"
-    waarde: "€ 112,50 (75 min) / € 90,– (60 min)"
+    waarde: "€ 112,50"
   - label: "Leeftijd"
     waarde: "12 – 19 jaar"
 ---

@@ -2,6 +2,7 @@
 titel: "Bachbloesemtherapie"
 volgorde: 1
 icon: "🌸"
+vorm: "solo"
 samenvatting: "Een natuurlijke methode om weer balans te brengen. Zeer geschikt bij overprikkeling, vermoeidheid en emotionele klachten. Zonder bijwerkingen."
 meta_description: "Bachbloesemtherapie bij Pure Spirit Oss. Natuurlijke bloesemremedies voor emotioneel evenwicht, zonder bijwerkingen."
 sidebar_items:

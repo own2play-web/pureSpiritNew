@@ -1,7 +1,8 @@
 ---
 titel: "Begeleiding HSP"
-volgorde: 4
+volgorde: 2
 icon: "💛"
+vorm: "solo"
 samenvatting: "Hooggevoelig zijn is geen zwakte. Leer ermee omgaan en ontdek de kracht die erin zit. Individueel of in kleine groep, altijd op maat."
 meta_description: "HSP-begeleiding bij Pure Spirit Oss voor volwassenen, jongeren en kinderen. Individueel of in kleine groep, altijd op maat."
 sidebar_items:

@@ -35,7 +35,7 @@ const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
         <aside class="sidebar">
           <div class="sidebar-card">
             <h3>Afspraak maken</h3>
-            <p>Neem contact op voor een vrijblijvend gesprek of om een afspraak te maken.</p>
+            <p>Neem contact op om vrijblijvend informatie te vragen of om een afspraak te maken.</p>
             <a href="/contact/" class="btn btn--primary" style="width:100%;text-align:center;">Contact opnemen</a>
             <a href={`tel:${site.telefoon.replace(/\s/g,'')}`} class="btn btn--outline" style="width:100%;text-align:center;margin-top:var(--space-3);">Bel {site.telefoon}</a>
           </div>
@@ -106,7 +106,7 @@ const { titel, samenvatting, meta_description, sidebar_items } = dienst.data;
   }
 
   .sidebar-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
-  .sidebar-card h4 { font-size: var(--text-base); margin-bottom: var(--space-4); }
+  .sidebar-card h4 { font-size: var(--text-lg); margin-bottom: var(--space-4); }
   .sidebar-card p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); }
   .sidebar-card--light { background: var(--color-primary-light); border-color: transparent; }
 

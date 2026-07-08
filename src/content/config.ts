@@ -18,6 +18,8 @@ const diensten = defineCollection({
     titel:           z.string(),
     volgorde:        z.number().default(99),
     icon:            z.string().optional(),
+    // Voor het icoontje op de tile dat aangeeft of iets 1-op-1 of in groep is.
+    vorm:            z.enum(['solo', 'groep', 'beide']).optional(),
     samenvatting:    z.string(),
     meta_description: z.string().optional(),
     sidebar_items: z.array(z.object({

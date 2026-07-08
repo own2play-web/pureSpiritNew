@@ -144,7 +144,10 @@ const jsonLd = {
     // Secties zonder herkenbare deelblokken vallen terug op een fade van de
     // hele sectie (bv. een losse alinea-sectie zonder grid/kaarten).
     document.querySelectorAll('.section').forEach(section => {
-      if (!section.querySelector(REVEAL_SELECTOR)) {
+      // .no-reveal: belangrijke info (bv. eerstvolgende datum) die direct
+      // zichtbaar moet zijn, niet pas na scrollen — anders kan het gemist
+      // worden als iemand niet ver genoeg scrolt.
+      if (!section.querySelector(REVEAL_SELECTOR) && !section.classList.contains('no-reveal')) {
         section.setAttribute('data-reveal', '');
       }
     });

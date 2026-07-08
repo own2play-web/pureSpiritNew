@@ -1,7 +1,8 @@
 ---
 titel: "Coaching"
-volgorde: 3
+volgorde: 4
 icon: "💬"
+vorm: "solo"
 samenvatting: "Zowel voor privé als zakelijk. Een luisterend oor van iemand buiten je directe omgeving, met praktische handvatten om verder te komen."
 meta_description: "Coaching bij Pure Spirit Oss, voor privé en zakelijk. Persoonlijke trajecten op maat voor volwassenen en werknemers."
 sidebar_items:

@@ -15,23 +15,19 @@ function renderTekst(tekst: string): string[] {
 // twee plekken op den duur uit elkaar, zoals eerder al gebeurde bij de
 // diensten-lijst.
 //
-// De prijs zelf blijft het totaalbedrag voor de hele cursus (zoals overal
-// elders op de site, bv. de agenda) — bedragen per losse les tonen zou hier
-// afwijken van die conventie en is bij een cursus met meerdere lesduren
-// (bv. "€ 112,50 (75 min) / € 90,– (60 min)") ook dubbelzinnig om te delen.
-// In plaats daarvan zetten we het aantal bijeenkomsten erbij, zodat
-// duidelijk is dat het bedrag voor de hele reeks is.
-function prijsRij(items: { data: { titel: string; sidebar_items?: { label: string; waarde: string }[] } }[]) {
-  return items.map(item => {
-    const prijs    = item.data.sidebar_items?.find(f => f.label === 'Prijs')?.waarde ?? 'Op aanvraag';
-    const aantal   = item.data.sidebar_items?.find(f => f.label === 'Aantal bijeenkomsten')?.waarde;
-    const n        = aantal ? parseInt(aantal, 10) : null;
-    const suffix   = n ? ` (${n} ${n === 1 ? 'les' : 'lessen'})` : '';
-    return {
-      label:  item.data.titel,
-      waarde: `${prijs}${suffix}`,
-    };
-  });
+// De prijs zelf is het totaalbedrag voor de hele cursus (zoals overal elders
+// op de site, bv. de agenda) — dat wordt hier niet nogmaals per rij vermeld
+// (bv. "(6 lessen)"), dat maakte de tabel te vol. In plaats daarvan staat
+// het één keer bij de groepstitel ("volledige cursus").
+//
+// Titel: agenda_titel (indien ingevuld) i.p.v. de volledige paginatitel —
+// zelfde veld als VolgendeDatum/agenda gebruiken, hier puur om een lange
+// titel (bv. "Ben ik HSP? En hoe ga ik daar dan mee om...") kort te houden.
+function prijsRij(items: { data: { titel: string; agenda_titel?: string; sidebar_items?: { label: string; waarde: string }[] } }[]) {
+  return items.map(item => ({
+    label:  item.data.agenda_titel || item.data.titel,
+    waarde: item.data.sidebar_items?.find(f => f.label === 'Prijs')?.waarde ?? 'Op aanvraag',
+  }));
 }
 
 const [alleMeditatie, alleWorkshops] = await Promise.all([
@@ -41,8 +37,8 @@ const [alleMeditatie, alleWorkshops] = await Promise.all([
 
 const groepen = [
   ...tarieven.groepen,
-  { naam: 'Meditatiecursussen', rijen: prijsRij(alleMeditatie.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
-  { naam: 'Workshops',          rijen: prijsRij(alleWorkshops.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
+  { naam: 'Meditatiecursussen (6 lessen)', rijen: prijsRij(alleMeditatie.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
+  { naam: 'Workshops',                     rijen: prijsRij(alleWorkshops.sort((a, b) => a.data.volgorde - b.data.volgorde)) },
 ];
 ---
 
@@ -90,7 +86,7 @@ const groepen = [
                   <div class="tabel-groephdr">{groep.naam}</div>
                   {groep.rijen.map((rij, ri) => {
                     const isLast = gi === groepen.length - 1 && ri === groep.rijen.length - 1;
-                    const isPrijs = rij.waarde.startsWith('€');
+                    const isPrijs = rij.waarde.includes('€');
                     return (
                       <div class:list={['tabel-rij', isLast && 'tabel-rij--last']}>
                         <span>{rij.label}</span>

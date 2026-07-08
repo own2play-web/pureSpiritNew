@@ -29,18 +29,21 @@ const services = [
       description: d.data.samenvatting,
       href: `/activiteiten/${d.slug}/`,
       icon: d.data.icon,
+      vorm: d.data.vorm,
     })),
   {
     title: 'Meditatie',
     description: 'Verschillende meditatiecursussen, voor kinderen tot volwassenen, in kleine groepjes.',
     href: '/activiteiten/meditatie/',
     icon: '🧘',
+    vorm: 'groep' as const,
   },
   {
     title: 'Workshops',
     description: 'Losse workshops rond hooggevoeligheid en het omgaan met prikkels.',
     href: '/activiteiten/workshops/',
     icon: '💡',
+    vorm: 'groep' as const,
   },
 ];
 
@@ -93,7 +96,7 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
   <section class="section">
     <div class="container">
       <div class="section__header">
-        <h2>Onze diensten</h2>
+        <h2>Onze activiteiten</h2>
         <hr class="divider" />
         <p class="lead">Voor alle leeftijden: kinderen, jongeren en volwassenen. Altijd praktisch en op jouw maat.</p>
       </div>

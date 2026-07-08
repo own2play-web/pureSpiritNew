@@ -80,6 +80,7 @@ collections:
       - { label: Titel,            name: titel,            widget: string }
       - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
       - { label: Icoon (emoji),    name: icon,             widget: string, required: false, hint: "Bijv. 🌸 of 🧘" }
+      - { label: "1 op 1 of in groep", name: vorm, widget: select, options: [{ label: "1 op 1", value: solo }, { label: "In groep", value: groep }, { label: "Beide mogelijk", value: beide }], required: false }
       - { label: Samenvatting,     name: samenvatting,     widget: text }
       - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
       - label: Sidebar – In één oogopslag
