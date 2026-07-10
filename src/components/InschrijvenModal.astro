@@ -1,9 +1,37 @@
 ---
+import { getCollection } from 'astro:content';
 import agenda from '../data/agenda.json';
-import nav from '../data/navigatie.json';
 
-const openCursussen = agenda.cursussen.filter(c => c.status !== 'gesloten');
-const diensten = nav.footer_diensten;
+// Alleen de 1-op-1 activiteiten hier — Meditatie en Workshops zijn
+// groepsactiviteiten en horen bij "Cursus of workshop inschrijven", niet bij
+// een individuele afspraak. De diensten-collectie bevat precies de 4 solo-
+// activiteiten, dus geen losse (foutgevoelige) filter op label nodig.
+const alleDiensten = await getCollection('diensten');
+const diensten = alleDiensten
+  .sort((a, b) => a.data.volgorde - b.data.volgorde)
+  .map(d => ({ label: d.data.titel }));
+
+// Cursus zonder geplande data (animo) heeft geen chronologische datum —
+// die zetten we achteraan i.p.v. mee te sorteren, en tonen we met eigen
+// tekst i.p.v. "Start Invalid Date" (data[0] bestond dan niet).
+function volgendeOfEersteDatum(c: { data: string[] }): Date | null {
+  if (c.data.length === 0) return null;
+  const vandaag = new Date();
+  vandaag.setHours(0, 0, 0, 0);
+  const volgende = c.data.find(d => new Date(d) >= vandaag);
+  return new Date(volgende ?? c.data[0]);
+}
+
+const openCursussen = agenda.cursussen
+  .filter(c => c.status !== 'gesloten')
+  .sort((a, b) => {
+    const da = volgendeOfEersteDatum(a);
+    const db = volgendeOfEersteDatum(b);
+    if (da && db) return da.getTime() - db.getTime();
+    if (da && !db) return -1;
+    if (!da && db) return 1;
+    return a.titel.localeCompare(b.titel, 'nl');
+  });
 
 function formatDatum(iso: string) {
   return new Date(iso).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -35,8 +63,8 @@ function formatDatum(iso: string) {
       <div class="optie-lijst">
         <button class="optie" data-keuze="cursus">
           <div class="optie__tekst">
-            <strong>Cursus inschrijven</strong>
-            <span>Meld je aan voor een van onze groepscursussen</span>
+            <strong>Cursus of workshop inschrijven</strong>
+            <span>Meld je aan voor een van onze groepsactiviteiten</span>
           </div>
           <svg class="optie__pijl" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/>
@@ -44,8 +72,8 @@ function formatDatum(iso: string) {
         </button>
         <button class="optie" data-keuze="sessie">
           <div class="optie__tekst">
-            <strong>Individuele sessie</strong>
-            <span>Plan een persoonlijk gesprek of behandeling</span>
+            <strong>Individuele afspraak</strong>
+            <span>Neem contact op om een afspraak in te plannen</span>
           </div>
           <svg class="optie__pijl" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/>
@@ -73,22 +101,29 @@ function formatDatum(iso: string) {
       </button>
       {openCursussen.length > 0 ? (
         <div class="cursus-lijst">
-          {openCursussen.map(c => (
-            <button
-              class="cursus-rij"
-              data-cursus={c.titel}
-              data-startdatum={formatDatum(c.data[0])}
-              data-status={c.status}
-            >
-              <div class="cursus-rij__info">
-                <strong>{c.titel}</strong>
-                <span>Start {formatDatum(c.data[0])} &middot; {c.tijdstip}</span>
-              </div>
-              <span class={`badge badge--${c.status}`}>
-                {c.status === 'open' ? 'Open' : 'Op interesse'}
-              </span>
-            </button>
-          ))}
+          {openCursussen.map(c => {
+            const eersteDatum = c.data[0] ? formatDatum(c.data[0]) : '';
+            return (
+              <button
+                class="cursus-rij"
+                data-cursus={c.titel}
+                data-startdatum={eersteDatum}
+                data-status={c.status}
+              >
+                <div class="cursus-rij__info">
+                  <strong>{c.titel}</strong>
+                  <span>
+                    {eersteDatum
+                      ? <>Start {eersteDatum} &middot; {c.tijdstip}</>
+                      : 'Nog geen datum gepland'}
+                  </span>
+                </div>
+                <span class={`badge badge--${c.status}`}>
+                  {c.status === 'open' ? 'Open' : 'Op interesse'}
+                </span>
+              </button>
+            );
+          })}
         </div>
       ) : (
         <p class="modal__leeg">
