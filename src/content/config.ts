@@ -6,7 +6,9 @@ const nieuws = defineCollection({
     titel:        z.string(),
     datum:        z.string(),
     categorie:    z.string().optional(),
-    samenvatting: z.string(),
+    // Optioneel: zonder handmatige samenvatting valt de nieuwslijst terug op
+    // een afgekapte versie van de inhoud (zie src/lib/nieuwsExcerpt.ts).
+    samenvatting: z.string().optional(),
     auteur:       z.string().default('Sasja van Geel'),
     afbeelding:   z.string().optional(),
   }),

@@ -1,5 +1,5 @@
 ---
-type DagInfo = { titel: string; types: string[]; isStart: boolean; cursusId: string };
+type DagInfo = { titel: string; activiteit?: string; leeftijd?: string; isStart: boolean; cursusId: string };
 
 interface Props {
   jaar: number;
@@ -48,20 +48,35 @@ const cellen = buildCellen(jaar, maand);
       const heeftStart = items.some(d => d.isStart);
       const cursusId   = items[0]?.cursusId ?? '';
 
-      // Kleur van de cel: bij één type een vlakke kleur, bij twee (bv.
-      // Workshop + HSP) een diagonale tweekleurige vlak — anders was een
-      // cursus met meerdere tags niet te onderscheiden van eentje met maar
-      // één ervan (zie --cel-c2 fallback in de stijl hieronder).
-      const eersteTypes = items[0]?.types ?? [];
-      const c1 = eersteTypes[0] ? typeBg[eersteTypes[0]] : null;
-      const c2 = eersteTypes[1] ? typeBg[eersteTypes[1]] : null;
-      const kleur = eersteTypes[0] ? typeKleur[eersteTypes[0]] : null;
-      const stijl = c1 ? `--cel-c1:${c1};${c2 ? `--cel-c2:${c2};` : ''}--cel-kleur:${kleur}` : '';
+      // Voor de filterbalk: alle activiteiten/leeftijden van alle cursussen
+      // die deze dag spelen (start of vervolgles), zodat een cel meetelt
+      // als je op een van die tags filtert.
+      const dagActiviteiten = Array.from(new Set(items.map(it => it.activiteit).filter(Boolean)));
+      const dagLeeftijden   = Array.from(new Set(items.map(it => it.leeftijd).filter(Boolean)));
 
-      // Voor de filterbalk: alle tags van alle cursussen die deze dag
-      // spelen (start of vervolgles), zodat een cel meetelt als je op
-      // een van die tags filtert.
-      const dagTypes = Array.from(new Set(items.flatMap(it => it.types)));
+      // Kleur van de cel: als er op deze dag twee verschillende cursussen
+      // spelen (bv. een startdatum + een vervolgles van iets anders) is het
+      // onderscheid tussen die twee activiteiten belangrijker om te tonen
+      // dan activiteit+leeftijd van slechts de eerste — anders verdween de
+      // tweede cursus onzichtbaar uit de kleur. Bij maar één activiteit die
+      // dag valt de cel terug op activiteit + leeftijd zoals voorheen.
+      let c1: string | null = null;
+      let c2: string | null = null;
+      let kleur: string | null = null;
+      if (dagActiviteiten.length >= 2) {
+        c1 = typeBg[dagActiviteiten[0]];
+        c2 = typeBg[dagActiviteiten[1]];
+        kleur = typeKleur[dagActiviteiten[0]];
+      } else if (dagActiviteiten.length === 1) {
+        c1 = typeBg[dagActiviteiten[0]];
+        c2 = dagLeeftijden[0] ? typeBg[dagLeeftijden[0]] : null;
+        kleur = typeKleur[dagActiviteiten[0]];
+      } else if (dagLeeftijden.length > 0) {
+        c1 = typeBg[dagLeeftijden[0]];
+        c2 = dagLeeftijden[1] ? typeBg[dagLeeftijden[1]] : null;
+        kleur = typeKleur[dagLeeftijden[0]];
+      }
+      const stijl = c1 ? `--cel-c1:${c1};${c2 ? `--cel-c2:${c2};` : ''}--cel-kleur:${kleur}` : '';
 
       const tooltip = items
         .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
@@ -73,7 +88,8 @@ const cellen = buildCellen(jaar, maand);
           style={stijl}
           data-tooltip={tooltip}
           data-cursus-id={cursusId}
-          data-types={dagTypes.join(' ')}
+          data-activiteit={dagActiviteiten.join('|')}
+          data-leeftijd={dagLeeftijden.join('|')}
           type="button"
         >
           {dag}
@@ -153,7 +169,7 @@ const cellen = buildCellen(jaar, maand);
      gewoon een vlakke kleur krijgt — de gradient-syntax is dan alleen
      intern nog aanwezig, niet zichtbaar als aparte kleuren. */
   .cel--start {
-    background: linear-gradient(135deg, var(--cel-c1) 50%, var(--cel-c2, var(--cel-c1)) 50%);
+    background: linear-gradient(to bottom, var(--cel-c1) 50%, var(--cel-c2, var(--cel-c1)) 50%);
     color: var(--cel-kleur);
     font-weight: 700;
     cursor: pointer;
@@ -161,7 +177,7 @@ const cellen = buildCellen(jaar, maand);
 
   :global(html[data-theme='dark']) .cel--start {
     background: linear-gradient(
-      135deg,
+      to bottom,
       color-mix(in srgb, var(--cel-c1) 25%, var(--color-surface)) 50%,
       color-mix(in srgb, var(--cel-c2, var(--cel-c1)) 25%, var(--color-surface)) 50%
     );

@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import { getCollection } from 'astro:content';
+import { nieuwsExcerpt } from '../../lib/nieuwsExcerpt';
 
 export async function getStaticPaths({ paginate }) {
   const allNieuws = await getCollection('nieuws');
@@ -41,7 +42,7 @@ for (let i = 1; i <= page.lastPage; i++) {
           <NewsCard
             title={post.data.titel}
             date={post.data.datum}
-            excerpt={post.data.samenvatting}
+            excerpt={nieuwsExcerpt(post.data.samenvatting, post.body)}
             href={`/nieuws/${post.slug}/`}
             category={post.data.categorie}
           />

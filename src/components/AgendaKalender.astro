@@ -3,7 +3,8 @@ import KalenderMaand from './KalenderMaand.astro';
 
 interface Cursus {
   titel: string;
-  types?: string[];
+  activiteit?: string;
+  leeftijd?: string;
   status: string;
   data: string[];
 }
@@ -18,7 +19,7 @@ function slugify(s: string) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-type DagInfo = { titel: string; types: string[]; isStart: boolean; cursusId: string };
+type DagInfo = { titel: string; activiteit?: string; leeftijd?: string; isStart: boolean; cursusId: string };
 
 const dagMap: Record<string, DagInfo[]> = {};
 for (const cursus of cursussen) {
@@ -26,10 +27,11 @@ for (const cursus of cursussen) {
     const datum = cursus.data[i];
     if (!dagMap[datum]) dagMap[datum] = [];
     dagMap[datum].push({
-      titel:    cursus.titel,
-      types:    cursus.types ?? [],
-      isStart:  i === 0,
-      cursusId: `cursus-${slugify(cursus.titel)}`,
+      titel:      cursus.titel,
+      activiteit: cursus.activiteit,
+      leeftijd:   cursus.leeftijd,
+      isStart:    i === 0,
+      cursusId:   `cursus-${slugify(cursus.titel)}`,
     });
   }
 }
@@ -54,23 +56,29 @@ const maandNamen = ['Januari','Februari','Maart','April','Mei','Juni',
                     'Juli','Augustus','September','Oktober','November','December'];
 const dagKort    = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
 
+// Eén gedeelde kleurenset voor beide assen (activiteit + leeftijd) — de
+// waarden zijn uniek genoeg dat ze geen aparte mappings nodig hebben.
 const typeKleur: Record<string, string> = {
-  'Meditatie': '#00695c',
-  'Jongeren':  '#e65100',
-  'Coaching':  '#512da8',
-  'HSP':       '#c62828',
-  'Workshop':  '#2e7d32',
-  'Kinderen':  '#7e22ce',
-  'Cursus':    '#15803d',
+  'Meditatie':        '#00695c',
+  'HSP':               '#c62828',
+  'Prikkels':          '#e65100',
+  'Volwassenen':       '#1565c0',
+  'Jong volwassenen':  '#6a1b9a',
+  'Jongeren':          '#b45309',
+  'Kinderen':          '#2e7d32',
 };
+// Zelfde subtiele, bijna-witte pastels als de badges elders op de pagina.
+// "Volwassenen" is verschoven van lichtblauw (te dicht bij Meditatie's
+// lichtteal, beide bijna dezelfde helderheid) naar een duidelijker
+// indigo-blauw, zodat de twee nog steeds als losse kleuren te zien zijn.
 const typeBg: Record<string, string> = {
-  'Meditatie': '#e0f2f1',
-  'Jongeren':  '#fff3e0',
-  'Coaching':  '#ede7f6',
-  'HSP':       '#fce4ec',
-  'Workshop':  '#e8f5e9',
-  'Kinderen':  '#fdf4ff',
-  'Cursus':    '#f0fdf4',
+  'Meditatie':        '#e0f2f1',
+  'HSP':               '#fce4ec',
+  'Prikkels':          '#fff3e0',
+  'Volwassenen':       '#e8eaf6',
+  'Jong volwassenen':  '#f3e5f5',
+  'Jongeren':          '#fef3c7',
+  'Kinderen':          '#e8f5e9',
 };
 
 function datumSleutel(jaar: number, maand: number, dag: number) {
@@ -114,6 +122,10 @@ const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate(
       <li><span class="legenda-start">9</span> Startdatum</li>
       <li><span class="legenda-vervolg">9</span> Vervolgles</li>
     </ul>
+    <!-- Bewust geen per-cursus ja/nee-check hier — dat zou continu
+         bijgehouden moeten worden in de CMS. Eén algemene zin die
+         verwijst naar contact dekt alle cursussen, ook toekomstige. -->
+    <p class="kalender-legenda-instap">Cursus al gestart? <a href="/contact/">Neem contact op</a> om te vragen of instappen nog mogelijk is.</p>
   </div>
 </div>
 
@@ -404,7 +416,7 @@ const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate(
   .kalender-legenda-rij {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     gap: var(--space-6);
   }
 
@@ -424,6 +436,22 @@ const vandaagSleutel = datumSleutel(nu.getFullYear(), nu.getMonth(), nu.getDate(
     font-family: var(--font-body);
     font-size: var(--text-xs);
     color: var(--color-text-muted);
+  }
+
+  .kalender-legenda-instap {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .kalender-legenda-instap a {
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .kalender-legenda-instap a:hover {
+    text-decoration: underline;
   }
 
   .legenda-start {

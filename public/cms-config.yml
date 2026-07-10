@@ -45,7 +45,7 @@ collections:
       - { label: Titel,        name: titel,        widget: string }
       - { label: Datum,        name: datum,        widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
       - { label: Categorie,    name: categorie,    widget: select, options: [Bachbloesem, Meditatie, Coaching, HSP, Cursus, Jongeren, Volwassenen, Summerschool], required: false }
-      - { label: Samenvatting, name: samenvatting, widget: text }
+      - { label: Samenvatting, name: samenvatting, widget: text, required: false, hint: "Optioneel: tekst voor de kaart op de nieuwspagina. Laat je dit leeg, dan wordt automatisch het begin van de inhoud hieronder gebruikt." }
       - { label: Auteur,       name: auteur,       widget: string, default: Sasja van Geel }
       - { label: Afbeelding,   name: afbeelding,   widget: image, required: false }
       - { label: Inhoud,       name: body,         widget: markdown }
@@ -302,7 +302,9 @@ collections:
             summary: "{{fields.titel}} – start {{fields.data}}"
             fields:
               - { label: Naam cursus,   name: titel,      widget: string }
-              - { label: "Type(s)",     name: types,      widget: select, options: [Meditatie, Jongeren, Coaching, HSP, Workshop, Kinderen, Cursus], multiple: true, required: false, hint: "Je kunt meerdere types kiezen, bv. Meditatie + Jongeren." }
+              - { label: Activiteit,    name: activiteit, widget: select, options: [Meditatie, HSP, Prikkels], required: false, hint: "Bepaalt de kleur in de kalender en de filter. HSP en Prikkels zijn altijd voor volwassenen." }
+              - { label: Leeftijd,      name: leeftijd,   widget: select, options: [Volwassenen, "Jong volwassenen", Jongeren, Kinderen], required: false }
+              - { label: Vorm,          name: vorm,       widget: select, options: [Cursus, Workshop], required: false, hint: "Alleen zichtbaar in de details, telt niet mee voor de kalenderkleur of filter." }
               - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
               - { label: Locatie,       name: locatie,    widget: string, default: Oss }
               - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }

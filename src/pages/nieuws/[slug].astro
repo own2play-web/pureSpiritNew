@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroVisual from '../../components/HeroVisual.astro';
 import { getCollection } from 'astro:content';
+import { nieuwsExcerpt } from '../../lib/nieuwsExcerpt';
 
 export async function getStaticPaths() {
   const posts = await getCollection('nieuws');
@@ -20,16 +22,20 @@ const formatted = new Date(post.data.datum).toLocaleDateString('nl-NL', {
 });
 ---
 
-<BaseLayout title={post.data.titel} description={post.data.samenvatting}>
+<BaseLayout title={post.data.titel} description={nieuwsExcerpt(post.data.samenvatting, post.body)}>
   <article class="news-article">
     <header class="news-article__header">
-      <div class="container container--narrow">
-        <div class="news-article__meta">
-          {post.data.categorie && <span class="cat">{post.data.categorie}</span>}
-          <time datetime={post.data.datum}>{formatted}</time>
+      <div class="container page-hero__inner">
+        <div class="page-hero__content">
+          <div class="news-article__meta">
+            {post.data.categorie && <span class="cat">{post.data.categorie}</span>}
+            <time datetime={post.data.datum}>{formatted}</time>
+          </div>
+          <h1>{post.data.titel}</h1>
         </div>
-        <h1>{post.data.titel}</h1>
-        <p class="lead">{post.data.samenvatting}</p>
+        <div class="page-hero__visual">
+          <HeroVisual icon="lotus" subtle />
+        </div>
       </div>
     </header>
 
@@ -52,6 +58,22 @@ const formatted = new Date(post.data.datum).toLocaleDateString('nl-NL', {
     background-color: var(--color-primary-light);
     padding-block: var(--space-16);
     border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+  }
+
+  .page-hero__visual {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero__visual { display: none; }
   }
 
   .news-article__meta {
