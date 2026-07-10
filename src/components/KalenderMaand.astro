@@ -42,11 +42,13 @@ const cellen = buildCellen(jaar, maand);
     {cellen.map(dag => {
       if (!dag) return <span class="cel cel--leeg" />;
 
-      const sleutel    = datumSleutel(jaar, maand, dag);
-      const items      = dagMap[sleutel] ?? [];
-      const isVandaag  = sleutel === vandaagSleutel;
-      const heeftStart = items.some(d => d.isStart);
-      const cursusId   = items[0]?.cursusId ?? '';
+      const sleutel     = datumSleutel(jaar, maand, dag);
+      const items       = dagMap[sleutel] ?? [];
+      const isVandaag   = sleutel === vandaagSleutel;
+      const startItems  = items.filter(d => d.isStart);
+      const vervolgItems = items.filter(d => !d.isStart);
+      const heeftStart  = startItems.length > 0;
+      const cursusId    = items[0]?.cursusId ?? '';
 
       // Voor de filterbalk: alle activiteiten/leeftijden van alle cursussen
       // die deze dag spelen (start of vervolgles), zodat een cel meetelt
@@ -54,29 +56,45 @@ const cellen = buildCellen(jaar, maand);
       const dagActiviteiten = Array.from(new Set(items.map(it => it.activiteit).filter(Boolean)));
       const dagLeeftijden   = Array.from(new Set(items.map(it => it.leeftijd).filter(Boolean)));
 
-      // Kleur van de cel: als er op deze dag twee verschillende cursussen
-      // spelen (bv. een startdatum + een vervolgles van iets anders) is het
-      // onderscheid tussen die twee activiteiten belangrijker om te tonen
-      // dan activiteit+leeftijd van slechts de eerste — anders verdween de
-      // tweede cursus onzichtbaar uit de kleur. Bij maar één activiteit die
-      // dag valt de cel terug op activiteit + leeftijd zoals voorheen.
+      // Kleur van de cel: als er een startdatum is, komt de kleur altijd van
+      // de gestartE cursus — ook als dezelfde dag toevallig een vervolgles
+      // van een andere cursus valt. Die andere cursus krijgt in plaats
+      // daarvan een eigen gekleurd stipje (zie vervolgKleur), zodat de
+      // startkleur niet vermengd (voorheen: half-om-half gradient) hoeft te
+      // worden met een cursus die vandaag niet eens start.
+      const kleurBron         = heeftStart ? startItems : items;
+      const kleurActiviteiten = Array.from(new Set(kleurBron.map(it => it.activiteit).filter(Boolean)));
+      const kleurLeeftijden   = Array.from(new Set(kleurBron.map(it => it.leeftijd).filter(Boolean)));
+
       let c1: string | null = null;
       let c2: string | null = null;
       let kleur: string | null = null;
-      if (dagActiviteiten.length >= 2) {
-        c1 = typeBg[dagActiviteiten[0]];
-        c2 = typeBg[dagActiviteiten[1]];
-        kleur = typeKleur[dagActiviteiten[0]];
-      } else if (dagActiviteiten.length === 1) {
-        c1 = typeBg[dagActiviteiten[0]];
-        c2 = dagLeeftijden[0] ? typeBg[dagLeeftijden[0]] : null;
-        kleur = typeKleur[dagActiviteiten[0]];
-      } else if (dagLeeftijden.length > 0) {
-        c1 = typeBg[dagLeeftijden[0]];
-        c2 = dagLeeftijden[1] ? typeBg[dagLeeftijden[1]] : null;
-        kleur = typeKleur[dagLeeftijden[0]];
+      if (kleurActiviteiten.length >= 2) {
+        c1 = typeBg[kleurActiviteiten[0]];
+        c2 = typeBg[kleurActiviteiten[1]];
+        kleur = typeKleur[kleurActiviteiten[0]];
+      } else if (kleurActiviteiten.length === 1) {
+        c1 = typeBg[kleurActiviteiten[0]];
+        c2 = kleurLeeftijden[0] ? typeBg[kleurLeeftijden[0]] : null;
+        kleur = typeKleur[kleurActiviteiten[0]];
+      } else if (kleurLeeftijden.length > 0) {
+        c1 = typeBg[kleurLeeftijden[0]];
+        c2 = kleurLeeftijden[1] ? typeBg[kleurLeeftijden[1]] : null;
+        kleur = typeKleur[kleurLeeftijden[0]];
       }
-      const stijl = c1 ? `--cel-c1:${c1};${c2 ? `--cel-c2:${c2};` : ''}--cel-kleur:${kleur}` : '';
+
+      // Stipje voor een vervolgles van een andere cursus op een startdag:
+      // eigen kleur (van die vervolgcursus zelf), los van --cel-kleur
+      // hierboven (dat blijft de kleur van de gestarte cursus).
+      const vervolgActiviteiten = Array.from(new Set(vervolgItems.map(it => it.activiteit).filter(Boolean)));
+      const vervolgLeeftijden   = Array.from(new Set(vervolgItems.map(it => it.leeftijd).filter(Boolean)));
+      const vervolgKleur = heeftStart && vervolgItems.length > 0
+        ? (typeKleur[vervolgActiviteiten[0]] ?? typeKleur[vervolgLeeftijden[0]] ?? null)
+        : null;
+
+      const stijl = c1
+        ? `--cel-c1:${c1};${c2 ? `--cel-c2:${c2};` : ''}--cel-kleur:${kleur};${vervolgKleur ? `--cel-vervolg-kleur:${vervolgKleur};` : ''}`
+        : '';
 
       const tooltip = items
         .map(d => `${d.isStart ? '▶ Start' : '· Vervolgles'}: ${d.titel}`)
@@ -84,7 +102,7 @@ const cellen = buildCellen(jaar, maand);
 
       return items.length > 0 ? (
         <button
-          class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg']}
+          class:list={['cel', isVandaag && 'cel--vandaag', heeftStart ? 'cel--start' : 'cel--vervolg', heeftStart && vervolgItems.length > 0 && 'cel--met-vervolg']}
           style={stijl}
           data-tooltip={tooltip}
           data-cursus-id={cursusId}
@@ -215,5 +233,20 @@ const cellen = buildCellen(jaar, maand);
     height: 4px;
     border-radius: 50%;
     background-color: var(--cel-kleur, var(--color-primary));
+  }
+
+  /* Startcel die dezelfde dag ook een vervolgles van een andere cursus
+     heeft: eigen gekleurd stipje bovenop de startkleur (i.p.v. de
+     startkleur te vermengen met een cursus die vandaag niet start). */
+  .cel--start.cel--met-vervolg::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--cel-vervolg-kleur, var(--cel-kleur));
   }
 </style>

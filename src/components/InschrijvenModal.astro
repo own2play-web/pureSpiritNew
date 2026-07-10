@@ -11,27 +11,34 @@ const diensten = alleDiensten
   .sort((a, b) => a.data.volgorde - b.data.volgorde)
   .map(d => ({ label: d.data.titel }));
 
-// Cursus zonder geplande data (animo) heeft geen chronologische datum —
-// die zetten we achteraan i.p.v. mee te sorteren, en tonen we met eigen
-// tekst i.p.v. "Start Invalid Date" (data[0] bestond dan niet).
-function volgendeOfEersteDatum(c: { data: string[] }): Date | null {
-  if (c.data.length === 0) return null;
-  const vandaag = new Date();
-  vandaag.setHours(0, 0, 0, 0);
-  const volgende = c.data.find(d => new Date(d) >= vandaag);
-  return new Date(volgende ?? c.data[0]);
+const vandaag = new Date();
+vandaag.setHours(0, 0, 0, 0);
+
+// Zelfde "lopend"-onderscheid als agenda.astro: een cursus die al gestart is
+// maar nog doorloopt moet hier niet als gewone "Open, start [datum]"-rij
+// verschijnen — dat is een allang gepasseerde datum, en "aanmelden" klopt
+// niet meer. i.p.v. de rauwe status tonen/gebruiken we dan "lopend".
+function isAlGestart(c: { data: string[] }): boolean {
+  return c.data.length > 0 && new Date(c.data[0]) < vandaag;
 }
 
-const openCursussen = agenda.cursussen
-  .filter(c => c.status !== 'gesloten')
-  .sort((a, b) => {
-    const da = volgendeOfEersteDatum(a);
-    const db = volgendeOfEersteDatum(b);
-    if (da && db) return da.getTime() - db.getTime();
-    if (da && !db) return -1;
-    if (!da && db) return 1;
-    return a.titel.localeCompare(b.titel, 'nl');
-  });
+const alleOpen = agenda.cursussen.filter(c => c.status !== 'gesloten');
+
+// Zelfde drie groepen, in dezelfde volgorde, als op de agenda-pagina: nog te
+// starten cursussen eerst, dan lopende activiteiten, dan animo (nog geen
+// datum). Dat maakt de lijst hier alvast herkenbaar voor wie eerder de
+// agenda bekeken heeft.
+const komendeCursussen = alleOpen
+  .filter(c => c.data.length > 0 && !isAlGestart(c))
+  .sort((a, b) => new Date(a.data[0]).getTime() - new Date(b.data[0]).getTime());
+
+const lopendeCursussen = alleOpen
+  .filter(c => isAlGestart(c) && c.data.some(d => new Date(d) >= vandaag))
+  .sort((a, b) => new Date(a.data[0]).getTime() - new Date(b.data[0]).getTime());
+
+const binnenkortCursussen = alleOpen
+  .filter(c => c.data.length === 0)
+  .sort((a, b) => a.titel.localeCompare(b.titel, 'nl'));
 
 function formatDatum(iso: string) {
   return new Date(iso).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -99,32 +106,76 @@ function formatDatum(iso: string) {
         </svg>
         Terug
       </button>
-      {openCursussen.length > 0 ? (
-        <div class="cursus-lijst">
-          {openCursussen.map(c => {
-            const eersteDatum = c.data[0] ? formatDatum(c.data[0]) : '';
-            return (
-              <button
-                class="cursus-rij"
-                data-cursus={c.titel}
-                data-startdatum={eersteDatum}
-                data-status={c.status}
-              >
-                <div class="cursus-rij__info">
-                  <strong>{c.titel}</strong>
-                  <span>
-                    {eersteDatum
-                      ? <>Start {eersteDatum} &middot; {c.tijdstip}</>
-                      : 'Nog geen datum gepland'}
-                  </span>
-                </div>
-                <span class={`badge badge--${c.status}`}>
-                  {c.status === 'open' ? 'Open' : 'Op interesse'}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+      {(komendeCursussen.length + lopendeCursussen.length + binnenkortCursussen.length) > 0 ? (
+        <>
+          {komendeCursussen.length > 0 && (
+            <div class="cursus-sectie">
+              <h3 class="cursus-sectie-titel">Binnenkort van start</h3>
+              <div class="cursus-lijst">
+                {komendeCursussen.map(c => {
+                  const eersteDatum = formatDatum(c.data[0]);
+                  return (
+                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status={c.status}>
+                      <div class="cursus-rij__info">
+                        <strong>{c.titel}</strong>
+                        <span>Start {eersteDatum} &middot; {c.tijdstip}</span>
+                      </div>
+                      <span class={`badge badge--${c.status}`}>
+                        {c.status === 'open' ? 'Open' : 'Op interesse'}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {komendeCursussen.length > 4 && (
+                <button type="button" class="cursus-sectie-toggle" aria-expanded="false">Toon meer →</button>
+              )}
+            </div>
+          )}
+
+          {lopendeCursussen.length > 0 && (
+            <div class="cursus-sectie">
+              <h3 class="cursus-sectie-titel">Lopende activiteiten</h3>
+              <div class="cursus-lijst">
+                {lopendeCursussen.map(c => {
+                  const eersteDatum = formatDatum(c.data[0]);
+                  return (
+                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status="lopend">
+                      <div class="cursus-rij__info">
+                        <strong>{c.titel}</strong>
+                        <span>Gestart {eersteDatum} &middot; loopt nog door</span>
+                      </div>
+                      <span class="badge badge--lopend">Loopt al</span>
+                    </button>
+                  );
+                })}
+              </div>
+              {lopendeCursussen.length > 4 && (
+                <button type="button" class="cursus-sectie-toggle" aria-expanded="false">Toon meer →</button>
+              )}
+            </div>
+          )}
+
+          {binnenkortCursussen.length > 0 && (
+            <div class="cursus-sectie">
+              <h3 class="cursus-sectie-titel">Binnenkort op het programma</h3>
+              <div class="cursus-lijst">
+                {binnenkortCursussen.map(c => (
+                  <button class="cursus-rij" data-cursus={c.titel} data-startdatum="" data-status={c.status}>
+                    <div class="cursus-rij__info">
+                      <strong>{c.titel}</strong>
+                      <span>Nog geen datum gepland</span>
+                    </div>
+                    <span class="badge badge--animo">Op interesse</span>
+                  </button>
+                ))}
+              </div>
+              {binnenkortCursussen.length > 4 && (
+                <button type="button" class="cursus-sectie-toggle" aria-expanded="false">Toon meer →</button>
+              )}
+            </div>
+          )}
+        </>
       ) : (
         <p class="modal__leeg">
           Er zijn momenteel geen cursussen beschikbaar.
@@ -278,11 +329,20 @@ function formatDatum(iso: string) {
     document.body.style.overflow = '';
   }
 
-  function kiesCursus(titel: string, datum: string, isAnimo: boolean) {
+  // "lopend" (zie agenda.astro): cursus is al gestart maar loopt nog door —
+  // eigen bericht dat vraagt of instappen nog kan, i.p.v. de animo-tekst
+  // ("start bij voldoende interesse") die hier niet meer klopt, of de
+  // gewone aanmeld-tekst die net doet of de cursus nog moet beginnen.
+  const berichtPerStatus: Record<string, (titel: string, datum: string) => string> = {
+    animo:  (titel, datum) => `Ik heb interesse in de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.\n\nGraag meer informatie als er voldoende animo is.`,
+    lopend: (titel, datum) => `Ik wil graag weten of instappen nog mogelijk is bij de cursus "${titel}"${datum ? ` (gestart op ${datum})` : ''}.`,
+    open:   (titel, datum) => `Ik wil me graag aanmelden voor de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.`,
+  };
+
+  function kiesCursus(titel: string, datum: string, status: string) {
     huidigKeuze = 'cursus';
-    (document.getElementById('mi-bericht') as HTMLTextAreaElement).value = isAnimo
-      ? `Ik heb interesse in de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.\n\nGraag meer informatie als er voldoende animo is.`
-      : `Ik wil me graag aanmelden voor de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.`;
+    (document.getElementById('mi-bericht') as HTMLTextAreaElement).value =
+      (berichtPerStatus[status] ?? berichtPerStatus.open)(titel, datum);
     (document.getElementById('hidden-keuze') as HTMLInputElement).value = `Cursus: ${titel}`;
     setOnderwerp('aanmelden');
     naarStap('3');
@@ -297,7 +357,7 @@ function formatDatum(iso: string) {
       openModal();
       const cursusTitel = trigger.dataset.cursusTitel;
       if (cursusTitel) {
-        kiesCursus(cursusTitel, trigger.dataset.cursusDatum ?? '', trigger.dataset.cursusStatus === 'animo');
+        kiesCursus(cursusTitel, trigger.dataset.cursusDatum ?? '', trigger.dataset.cursusStatus ?? 'open');
       }
     }
   });
@@ -341,7 +401,20 @@ function formatDatum(iso: string) {
   modal.querySelectorAll('.cursus-rij').forEach(btn => {
     btn.addEventListener('click', () => {
       const el = btn as HTMLElement;
-      kiesCursus(el.dataset.cursus ?? '', el.dataset.startdatum ?? '', el.dataset.status === 'animo');
+      kiesCursus(el.dataset.cursus ?? '', el.dataset.startdatum ?? '', el.dataset.status ?? 'open');
+    });
+  });
+
+  // Stap 2a: "Toon meer" per sectie (max 4 rijen zichtbaar, zelfde patroon
+  // als "Toon meer maanden" in AgendaKalender.astro).
+  modal.querySelectorAll<HTMLButtonElement>('.cursus-sectie-toggle').forEach(toggleBtn => {
+    const labelMeer = toggleBtn.textContent ?? '';
+    toggleBtn.addEventListener('click', () => {
+      const sectie = toggleBtn.closest('.cursus-sectie');
+      const open   = toggleBtn.getAttribute('aria-expanded') === 'true';
+      sectie?.classList.toggle('cursus-sectie--uitgeklapt', !open);
+      toggleBtn.setAttribute('aria-expanded', String(!open));
+      toggleBtn.textContent = open ? labelMeer : 'Toon minder ↑';
     });
   });
 
@@ -576,6 +649,47 @@ function formatDatum(iso: string) {
     transform: translateX(0);
   }
 
+  /* ── Cursus secties (stap 2a) ────────────────────────────── */
+  .cursus-sectie {
+    margin-bottom: var(--space-6);
+  }
+  .cursus-sectie:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Zelfde stijl als .maand-titel op de agenda-pagina: grotere kop + lijn
+     eronder, zodat de secties duidelijk van elkaar gescheiden zijn. */
+  .cursus-sectie-titel {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin: 0 0 var(--space-4);
+  }
+
+  /* Max. 4 rijen zichtbaar tot "Toon meer" is aangeklikt — zelfde patroon
+     als .kalender-grid--collapsed in AgendaKalender.astro. */
+  .cursus-sectie:not(.cursus-sectie--uitgeklapt) .cursus-rij:nth-child(n + 5) {
+    display: none;
+  }
+
+  .cursus-sectie-toggle {
+    display: inline-block;
+    margin-top: var(--space-3);
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+    cursor: pointer;
+  }
+  .cursus-sectie-toggle:hover {
+    text-decoration: underline;
+  }
+
   /* ── Cursus lijst (stap 2a) ──────────────────────────────── */
   .cursus-lijst {
     display: flex;
@@ -625,8 +739,9 @@ function formatDatum(iso: string) {
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .badge--open  { background-color: #d1f0e8; color: #0d5c42; }
-  .badge--animo { background-color: #fef3c7; color: #78420a; }
+  .badge--open   { background-color: #d1f0e8; color: #0d5c42; }
+  .badge--animo  { background-color: #fef3c7; color: #78420a; }
+  .badge--lopend { background-color: var(--color-primary-light); color: var(--color-primary-dark); }
 
   :global(html[data-theme='dark']) .badge--open  { background-color: color-mix(in srgb, #0d5c42 18%, var(--color-surface)); color: color-mix(in srgb, #0d5c42 70%, white); }
   :global(html[data-theme='dark']) .badge--animo { background-color: color-mix(in srgb, #78420a 18%, var(--color-surface)); color: color-mix(in srgb, #78420a 70%, white); }
