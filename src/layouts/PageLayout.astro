@@ -10,11 +10,13 @@ interface Props {
   heroSubtitle?: string;
   /** Zelfde ademende-cirkels-animatie als de homepage-hero, met een icoon
       passend bij het onderwerp van de pagina — altijd de subtiele variant
-      hier, de volle homepage-versie zit alleen in Hero.astro. */
-  heroIcon?: 'lotus' | 'lotusbloem' | 'spastenen' | 'groep' | 'bloesem' | 'pad' | 'beek' | 'profiel' | 'hart' | 'kalender' | 'citaat' | 'kompas' | 'muntstuk';
+      hier, de volle homepage-versie zit alleen in Hero.astro. Standaard
+      'lotus' (zelfde icoon als de homepage) als een pagina geen eigen
+      icoon opgeeft, zodat elke pagina met een hero er een heeft. */
+  heroIcon?: 'lotus' | 'lotusbloem' | 'lotusbloei' | 'spastenen' | 'groep' | 'bloesem' | 'pad' | 'beek' | 'profiel' | 'hart' | 'kalender' | 'citaat' | 'kompas' | 'muntstuk';
 }
 
-const { title, description, hero = true, heroTitle, heroSubtitle, heroIcon } = Astro.props;
+const { title, description, hero = true, heroTitle, heroSubtitle, heroIcon = 'lotus' } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
