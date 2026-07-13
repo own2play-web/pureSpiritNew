@@ -13,7 +13,7 @@
   <link href="/cms-config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
-  <a href="/admin/publiceer/" style="
+  <a id="publiceer-link" href="/admin/publiceer/" hidden style="
     position: fixed; bottom: 24px; right: 24px; z-index: 9999;
     background: #246482; color: #fff; text-decoration: none;
     padding: 0.75rem 1.5rem; border-radius: 10px;
@@ -23,6 +23,15 @@
   <script is:inline src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   <script is:inline>
     CMS.registerPreviewStyle('/admin/preview.css');
+
+    // Toon de publiceer-link pas na een bevestigde ingelogde sessie — zelfde
+    // reden als op /admin/publiceer/ zelf: niemand die nog niet is ingelogd
+    // hoort deze knop zelfs maar te zien.
+    const publiceerLink = document.getElementById('publiceer-link');
+    netlifyIdentity.on('init',   user => { publiceerLink.hidden = !user; });
+    netlifyIdentity.on('login',  () => { publiceerLink.hidden = false; });
+    netlifyIdentity.on('logout', () => { publiceerLink.hidden = true; });
+    netlifyIdentity.init();
   </script>
 </body>
 </html>

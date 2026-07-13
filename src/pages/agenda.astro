@@ -166,7 +166,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                         </div>
                         {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
                         {activiteitLink.has(titel) && (
-                          <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze cursus →</a>
+                          <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                         )}
                         <ul class="cursus-meta">
                           {tijdstip && tijdstip !== 'Nader te bepalen' && (
@@ -227,6 +227,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                             data-cursus-titel={titel}
                             data-cursus-datum={formatDatum(startDatum)}
                             data-cursus-status={status}
+                            data-cursus-vorm={vorm}
                           >Schrijf je in</button>
                         )}
                         {status === 'animo' && (
@@ -238,6 +239,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                               data-cursus-titel={titel}
                               data-cursus-datum={formatDatum(startDatum)}
                               data-cursus-status={status}
+                              data-cursus-vorm={vorm}
                             >Geef interesse aan</button>
                             <p class="animo-toelichting">Start bij voldoende animo</p>
                           </div>
@@ -281,7 +283,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                     </div>
                     {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
                     {activiteitLink.has(titel) && (
-                      <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze cursus →</a>
+                      <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                     )}
                     <ul class="cursus-meta">
                       {tijdstip && tijdstip !== 'Nader te bepalen' && (
@@ -341,6 +343,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                       data-cursus-titel={titel}
                       data-cursus-datum={formatDatum(startDatum)}
                       data-cursus-status="lopend"
+                      data-cursus-vorm={vorm}
                     >Controleer beschikbaarheid</button>
                   </div>
                 </li>
@@ -368,7 +371,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                   </div>
                   <p class="binnenkort-kaart__beschrijving">{bc.beschrijving}</p>
                   {activiteitLink.has(bc.titel) && (
-                    <a href={activiteitLink.get(bc.titel)} class="cursus-lees-meer">Lees meer over deze cursus →</a>
+                    <a href={activiteitLink.get(bc.titel)} class="cursus-lees-meer">Lees meer over deze {bc.vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                   )}
                   <ul class="cursus-meta binnenkort-kaart__meta">
                     {bc.bijeenkomsten && (
@@ -396,6 +399,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                     data-open-modal="inschrijven"
                     data-cursus-titel={bc.titel}
                     data-cursus-status="animo"
+                    data-cursus-vorm={bc.vorm}
                   >Geef interesse aan</button>
                 </div>
               );

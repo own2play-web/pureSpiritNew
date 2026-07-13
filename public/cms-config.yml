@@ -355,6 +355,10 @@ collections:
         file: src/data/inschrijven.json
         fields:
           - { label: "Stap 1 – Titel", name: stap1_titel, widget: string, hint: "Titel bovenaan als het venster opent." }
+          - { label: "Stap 2 – Titel bij 'Cursus of workshop'", name: stap2_cursus_titel, widget: string, hint: "Titel bovenaan bij het kiezen van een cursus/workshop." }
+          - { label: "Stap 2 – Titel bij 'Individuele afspraak'", name: stap2_sessie_titel, widget: string, hint: "Titel bovenaan bij het kiezen van een dienst." }
+          - { label: "Stap 3 – Titel", name: stap3_titel, widget: string, hint: "Titel bovenaan bij het invulformulier." }
+          - { label: "Stap 4 – Titel", name: stap4_titel, widget: string, hint: "Titel bovenaan het bevestigingsscherm (klein label, niet de grote kop — zie 'Bevestiging – Titel' hieronder)." }
           - { label: "Optie 'Cursus of workshop' – Titel",       name: optie_cursus_titel,        widget: string }
           - { label: "Optie 'Cursus of workshop' – Omschrijving", name: optie_cursus_omschrijving, widget: string }
           - { label: "Optie 'Individuele afspraak' – Titel",       name: optie_sessie_titel,        widget: string }

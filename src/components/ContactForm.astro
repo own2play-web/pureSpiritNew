@@ -36,11 +36,13 @@
     <select id="onderwerp" name="onderwerp" required>
       <option value="" disabled selected>Kies een onderwerp</option>
       <option value="bachbloesemtherapie">Bachbloesemtherapie</option>
-      <option value="meditatie">Meditatie</option>
-      <option value="coaching">Coaching</option>
       <option value="hsp">Begeleiding HSP</option>
       <option value="priveconsult">Privéconsult</option>
+      <option value="coaching">Coaching</option>
+      <option value="meditatie">Meditatie</option>
+      <option value="workshops">Workshops</option>
       <option value="aanmelden">Aanmelden cursus / workshop</option>
+      <option value="informatie">Informatie aanvragen</option>
       <option value="overig">Overig</option>
     </select>
   </div>
@@ -68,7 +70,7 @@
     if (bericht) {
       const omschrijving = datum ? `${sessie} op ${datum}` : sessie;
       bericht.value = isAnimo
-        ? `Ik heb interesse in: ${omschrijving}.\n\nGraag meer informatie als er voldoende animo is.`
+        ? `Ik heb interesse in: ${omschrijving}.\n\nGraag meer informatie als de startdatum bekend is.`
         : `Ik wil me graag aanmelden voor: ${omschrijving}.`;
     }
   }

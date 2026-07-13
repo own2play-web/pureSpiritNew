@@ -46,7 +46,19 @@ function formatDatum(iso: string) {
 }
 ---
 
-<div id="inschrijven-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-heading" transition:persist>
+<div
+  id="inschrijven-modal"
+  class="modal"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-heading"
+  transition:persist
+  data-titel-cursus={modalCopy.stap2_cursus_titel}
+  data-titel-sessie={modalCopy.stap2_sessie_titel}
+  data-titel-gegevens={modalCopy.stap3_titel}
+  data-titel-bevestiging={modalCopy.stap4_titel}
+>
   <div class="modal__backdrop"></div>
   <div class="modal__box">
 
@@ -116,13 +128,13 @@ function formatDatum(iso: string) {
                 {komendeCursussen.map(c => {
                   const eersteDatum = formatDatum(c.data[0]);
                   return (
-                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status={c.status}>
+                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status={c.status} data-vorm={c.vorm}>
                       <div class="cursus-rij__info">
                         <strong>{c.titel}</strong>
                         <span>Start {eersteDatum} &middot; {c.tijdstip}</span>
                       </div>
                       <span class={`badge badge--${c.status}`}>
-                        {c.status === 'open' ? 'Open' : 'Op interesse'}
+                        {c.status === 'open' ? 'Open' : 'Interesse'}
                       </span>
                     </button>
                   );
@@ -141,7 +153,7 @@ function formatDatum(iso: string) {
                 {lopendeCursussen.map(c => {
                   const eersteDatum = formatDatum(c.data[0]);
                   return (
-                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status="lopend">
+                    <button class="cursus-rij" data-cursus={c.titel} data-startdatum={eersteDatum} data-status="lopend" data-vorm={c.vorm}>
                       <div class="cursus-rij__info">
                         <strong>{c.titel}</strong>
                         <span>Gestart {eersteDatum} &middot; loopt nog door</span>
@@ -162,12 +174,12 @@ function formatDatum(iso: string) {
               <h3 class="cursus-sectie-titel">Binnenkort op het programma</h3>
               <div class="cursus-lijst">
                 {binnenkortCursussen.map(c => (
-                  <button class="cursus-rij" data-cursus={c.titel} data-startdatum="" data-status={c.status}>
+                  <button class="cursus-rij" data-cursus={c.titel} data-startdatum="" data-status={c.status} data-vorm={c.vorm}>
                     <div class="cursus-rij__info">
                       <strong>{c.titel}</strong>
                       <span>Nog geen datum gepland</span>
                     </div>
-                    <span class="badge badge--animo">Op interesse</span>
+                    <span class="badge badge--animo">Interesse</span>
                   </button>
                 ))}
               </div>
@@ -238,11 +250,13 @@ function formatDatum(iso: string) {
           <select id="mi-onderwerp" name="onderwerp" required>
             <option value="" disabled selected>Kies een onderwerp</option>
             <option value="bachbloesemtherapie">Bachbloesemtherapie</option>
-            <option value="meditatie">Meditatie</option>
-            <option value="coaching">Coaching</option>
             <option value="hsp">Begeleiding HSP</option>
             <option value="priveconsult">Privéconsult</option>
+            <option value="coaching">Coaching</option>
+            <option value="meditatie">Meditatie</option>
+            <option value="workshops">Workshops</option>
             <option value="aanmelden">Aanmelden cursus / workshop</option>
+            <option value="informatie">Informatie aanvragen</option>
             <option value="overig">Overig</option>
           </select>
         </div>
@@ -280,16 +294,17 @@ function formatDatum(iso: string) {
   let huidigKeuze = '';
   let huidigStap  = 1;
 
-  // Stap 1 komt uit de CMS (zie inschrijven.json) — titleEl bevat op dit
-  // punt nog de server-gerenderde tekst, dus die lezen we hier uit i.p.v.
-  // de titel nogmaals hard te coderen (en zo per ongeluk de CMS-tekst te
-  // overschrijven zodra het venster opent en terug naar stap 1 springt).
+  // Alle stap-titels komen uit de CMS (zie inschrijven.json). Stap 1 leest
+  // titleEl.textContent (bevat op dit punt nog de server-gerenderde tekst);
+  // de rest staat als data-attributen op de modal zelf (zie hierboven) — dat
+  // voorkomt dat we de tekst nogmaals hard moeten coderen (en zo per ongeluk
+  // de CMS-tekst overschrijven zodra het venster terug naar een stap springt).
   const titels: Record<string, string> = {
     '1':         titleEl.textContent ?? '',
-    '2-cursus':  'Welke cursus?',
-    '2-sessie':  'Welke dienst?',
-    '3':         'Jouw gegevens',
-    '4':         'Aanmelding ontvangen',
+    '2-cursus':  modal.dataset.titelCursus ?? '',
+    '2-sessie':  modal.dataset.titelSessie ?? '',
+    '3':         modal.dataset.titelGegevens ?? '',
+    '4':         modal.dataset.titelBevestiging ?? '',
   };
 
   const stapNummers: Record<string, string> = {
@@ -338,16 +353,17 @@ function formatDatum(iso: string) {
   // eigen bericht dat vraagt of instappen nog kan, i.p.v. de animo-tekst
   // ("start bij voldoende interesse") die hier niet meer klopt, of de
   // gewone aanmeld-tekst die net doet of de cursus nog moet beginnen.
-  const berichtPerStatus: Record<string, (titel: string, datum: string) => string> = {
-    animo:  (titel, datum) => `Ik heb interesse in de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.\n\nGraag meer informatie als er voldoende animo is.`,
-    lopend: (titel, datum) => `Ik wil graag weten of instappen nog mogelijk is bij de cursus "${titel}"${datum ? ` (gestart op ${datum})` : ''}.`,
-    open:   (titel, datum) => `Ik wil me graag aanmelden voor de cursus "${titel}"${datum ? ` (start ${datum})` : ''}.`,
+  const berichtPerStatus: Record<string, (titel: string, datum: string, woord: string) => string> = {
+    animo:  (titel, datum, woord) => `Ik heb interesse in de ${woord} "${titel}"${datum ? ` (start ${datum})` : ''}.\n\nGraag meer informatie als de startdatum bekend is.`,
+    lopend: (titel, datum, woord) => `Ik wil graag weten of instappen nog mogelijk is bij de ${woord} "${titel}"${datum ? ` (gestart op ${datum})` : ''}.`,
+    open:   (titel, datum, woord) => `Ik wil me graag aanmelden voor de ${woord} "${titel}"${datum ? ` (start ${datum})` : ''}.`,
   };
 
-  function kiesCursus(titel: string, datum: string, status: string) {
+  function kiesCursus(titel: string, datum: string, status: string, vorm: string) {
     huidigKeuze = 'cursus';
+    const woord = vorm === 'Workshop' ? 'workshop' : 'cursus';
     (document.getElementById('mi-bericht') as HTMLTextAreaElement).value =
-      (berichtPerStatus[status] ?? berichtPerStatus.open)(titel, datum);
+      (berichtPerStatus[status] ?? berichtPerStatus.open)(titel, datum, woord);
     (document.getElementById('hidden-keuze') as HTMLInputElement).value = `Cursus: ${titel}`;
     setOnderwerp('aanmelden');
     naarStap('3');
@@ -362,7 +378,7 @@ function formatDatum(iso: string) {
       openModal();
       const cursusTitel = trigger.dataset.cursusTitel;
       if (cursusTitel) {
-        kiesCursus(cursusTitel, trigger.dataset.cursusDatum ?? '', trigger.dataset.cursusStatus ?? 'open');
+        kiesCursus(cursusTitel, trigger.dataset.cursusDatum ?? '', trigger.dataset.cursusStatus ?? 'open', trigger.dataset.cursusVorm ?? '');
       }
     }
   });
@@ -406,7 +422,7 @@ function formatDatum(iso: string) {
   modal.querySelectorAll('.cursus-rij').forEach(btn => {
     btn.addEventListener('click', () => {
       const el = btn as HTMLElement;
-      kiesCursus(el.dataset.cursus ?? '', el.dataset.startdatum ?? '', el.dataset.status ?? 'open');
+      kiesCursus(el.dataset.cursus ?? '', el.dataset.startdatum ?? '', el.dataset.status ?? 'open', el.dataset.vorm ?? '');
     });
   });
 
