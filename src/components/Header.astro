@@ -1,28 +1,6 @@
 ---
-const navLinks = [
-  { label: 'Activiteiten',      href: '/activiteiten/',
-    groepen: [
-      { label: '1 op 1', items: [
-        { label: 'Bachbloesemtherapie', href: '/activiteiten/bachbloesemtherapie/' },
-        { label: 'Begeleiding HSP',     href: '/activiteiten/begeleiding-hsp/' },
-        { label: 'Privéconsult',        href: '/activiteiten/prive-consult/' },
-        { label: 'Coaching',            href: '/activiteiten/coaching/' },
-      ]},
-      { label: 'Groepsverband', items: [
-        { label: 'Meditatie', href: '/activiteiten/meditatie/' },
-        { label: 'Workshops', href: '/activiteiten/workshops/' },
-      ]},
-    ]
-  },
-  { label: 'Over mij',   href: '/over/' },
-  { label: 'Agenda',     href: '/agenda/' },
-  { label: 'Tarieven',   href: '/tarieven/' },
-  { label: 'Ervaringen', href: '/ervaringen/' },
-  { label: 'Nieuws',     href: '/nieuws/' },
-  { label: 'Contact',    href: '/contact/' },
-];
-
 import nav from '../data/navigatie.json';
+const navLinks = nav.header_navigatie;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -40,20 +18,20 @@ const currentPath = Astro.url.pathname;
     <nav id="main-nav" class="header__nav" aria-label="Hoofdnavigatie">
       <ul class="nav-list">
         {navLinks.map(link => (
-          <li class:list={['nav-item', link.groepen && 'nav-item--has-children']}>
+          <li class:list={['nav-item', link.groepen?.length > 0 && 'nav-item--has-children']}>
             <a
               href={link.href}
               class:list={['nav-link', currentPath === link.href && 'nav-link--active']}
             >
               {link.label}
-              {link.groepen && <span class="nav-arrow" aria-hidden="true">▾</span>}
+              {link.groepen?.length > 0 && <span class="nav-arrow" aria-hidden="true">▾</span>}
             </a>
-            {link.groepen && (
+            {link.groepen?.length > 0 && (
               <button class="nav-toggle" aria-expanded="false" aria-label={`${link.label} submenu uitklappen`}>
                 <span class="nav-arrow" aria-hidden="true">▾</span>
               </button>
             )}
-            {link.groepen && (
+            {link.groepen?.length > 0 && (
               <ul class="nav-dropdown">
                 {link.groepen.map(groep => (
                   <li class="nav-dropdown__groep">

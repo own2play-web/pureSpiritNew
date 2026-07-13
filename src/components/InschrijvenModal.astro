@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import agenda from '../data/agenda.json';
+import modalCopy from '../data/inschrijven.json';
 
 // Alleen de 1-op-1 activiteiten hier — Meditatie en Workshops zijn
 // groepsactiviteiten en horen bij "Cursus of workshop inschrijven", niet bij
@@ -57,7 +58,7 @@ function formatDatum(iso: string) {
     <!-- Header -->
     <div class="modal__head">
       <span class="modal__stap-label" id="modal-stap-label">Stap 1 van 3</span>
-      <h2 id="modal-heading" class="modal__title">Hoe kan ik je helpen?</h2>
+      <h2 id="modal-heading" class="modal__title">{modalCopy.stap1_titel}</h2>
       <button class="modal__close" aria-label="Sluiten">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="2" y1="2" x2="16" y2="16"/><line x1="16" y1="2" x2="2" y2="16"/>
@@ -70,8 +71,8 @@ function formatDatum(iso: string) {
       <div class="optie-lijst">
         <button class="optie" data-keuze="cursus">
           <div class="optie__tekst">
-            <strong>Cursus of workshop inschrijven</strong>
-            <span>Meld je aan voor een van onze groepsactiviteiten</span>
+            <strong>{modalCopy.optie_cursus_titel}</strong>
+            <span>{modalCopy.optie_cursus_omschrijving}</span>
           </div>
           <svg class="optie__pijl" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/>
@@ -79,8 +80,8 @@ function formatDatum(iso: string) {
         </button>
         <button class="optie" data-keuze="sessie">
           <div class="optie__tekst">
-            <strong>Individuele afspraak</strong>
-            <span>Neem contact op om een afspraak in te plannen</span>
+            <strong>{modalCopy.optie_sessie_titel}</strong>
+            <span>{modalCopy.optie_sessie_omschrijving}</span>
           </div>
           <svg class="optie__pijl" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/>
@@ -88,8 +89,8 @@ function formatDatum(iso: string) {
         </button>
         <button class="optie" data-keuze="vraag">
           <div class="optie__tekst">
-            <strong>Vraag stellen</strong>
-            <span>Nog niet zeker? Ik help je graag verder</span>
+            <strong>{modalCopy.optie_vraag_titel}</strong>
+            <span>{modalCopy.optie_vraag_omschrijving}</span>
           </div>
           <svg class="optie__pijl" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/>
@@ -261,8 +262,8 @@ function formatDatum(iso: string) {
           <polyline points="5 14 11 20 23 8"/>
         </svg>
       </div>
-      <h3>Bedankt voor je aanmelding</h3>
-      <p>We nemen zo snel mogelijk contact met je op, uiterlijk binnen 2 werkdagen.</p>
+      <h3>{modalCopy.bevestiging_titel}</h3>
+      <p>{modalCopy.bevestiging_tekst}</p>
       <button class="btn btn--primary modal__close-btn">Sluiten</button>
     </div>
 
@@ -279,8 +280,12 @@ function formatDatum(iso: string) {
   let huidigKeuze = '';
   let huidigStap  = 1;
 
+  // Stap 1 komt uit de CMS (zie inschrijven.json) — titleEl bevat op dit
+  // punt nog de server-gerenderde tekst, dus die lezen we hier uit i.p.v.
+  // de titel nogmaals hard te coderen (en zo per ongeluk de CMS-tekst te
+  // overschrijven zodra het venster opent en terug naar stap 1 springt).
   const titels: Record<string, string> = {
-    '1':         'Hoe kan ik je helpen?',
+    '1':         titleEl.textContent ?? '',
     '2-cursus':  'Welke cursus?',
     '2-sessie':  'Welke dienst?',
     '3':         'Jouw gegevens',

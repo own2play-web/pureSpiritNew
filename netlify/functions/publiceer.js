@@ -1,4 +1,12 @@
-exports.handler = async () => {
+exports.handler = async (event, context) => {
+  // Alleen ingelogde (Netlify Identity) gebruikers mogen dev naar main
+  // publiceren. Netlify vult context.clientContext.user alleen als de
+  // request een geldig Identity-JWT meestuurt (Authorization: Bearer ...) —
+  // zie publiceer.astro, dat token haalt via netlifyIdentity user.jwt().
+  if (!context.clientContext || !context.clientContext.user) {
+    return { statusCode: 401, body: JSON.stringify({ fout: 'Niet ingelogd. Log in via /admin/ om te publiceren.' }) };
+  }
+
   const token = process.env.GITHUB_TOKEN;
   const owner = 'own2play-web';
   const repo  = 'pureSpiritNew';

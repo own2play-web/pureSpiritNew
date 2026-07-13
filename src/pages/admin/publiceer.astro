@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Publiceer website – Pure Spirit</title>
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -84,6 +85,66 @@
       font-size: 0.9rem;
     }
     .terug:hover { text-decoration: underline; }
+
+    /* ── Bevestig-overlay ────────────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 74, 97, 0.45);
+      padding: 1.5rem;
+    }
+    .overlay[hidden] { display: none; }
+
+    .bevestig-kaart {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .bevestig-kaart h2 {
+      font-size: 1.3rem;
+      color: #1a4a61;
+      margin-bottom: 1rem;
+    }
+
+    .bevestig-kaart p {
+      text-align: left;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .bevestig-kaart p:last-of-type { margin-bottom: 1.5rem; }
+
+    .bevestig-kaart a {
+      color: #246482;
+      font-weight: 700;
+    }
+
+    .bevestig-knoppen {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .bevestig-knoppen button { width: auto; flex: 1; font-size: 0.95rem; padding: 0.75rem 1rem; }
+
+    #bevestig-annuleer {
+      background: #eef2f5;
+      color: #1a4a61;
+    }
+    #bevestig-annuleer:hover:not(:disabled) { background: #dde5ea; }
+
+    #bevestig-ga-door {
+      background: #b45309;
+    }
+    #bevestig-ga-door:hover:not(:disabled) { background: #8a3f06; }
   </style>
 </head>
 <body>
@@ -95,19 +156,97 @@
       Dit duurt ongeveer 1–2 minuten.
     </p>
 
-    <button id="publiceer-btn" onclick="publiceer()">
+    <button id="publiceer-btn" onclick="vraagBevestiging()" disabled>
       Publiceer website
     </button>
+
+    <div id="login-nodig" hidden>
+      <p>Je bent niet (meer) ingelogd. Log in om te kunnen publiceren.</p>
+      <button id="login-btn" type="button">Inloggen</button>
+    </div>
 
     <div id="status" class="status"></div>
 
     <a href="/admin/" class="terug">← Terug naar beheer</a>
   </div>
 
-  <script>
+  <div id="bevestig-overlay" class="overlay" hidden>
+    <div class="bevestig-kaart">
+      <h2>Weet je het zeker?</h2>
+      <p>
+        Deze knop zet alles wat momenteel op de testomgeving staat direct live
+        op de echte website (purespirit-oss.nl). Dit gebeurt meteen en kan niet
+        via deze knop worden teruggedraaid.
+      </p>
+      <p>
+        Controleer daarom eerst of alles er goed uitziet op de testomgeving:<br />
+        <a href="https://purespiritnew.thijsvgeel.workers.dev/" target="_blank" rel="noopener">
+          purespiritnew.thijsvgeel.workers.dev
+        </a>
+      </p>
+      <p>Zie je daar alles kloppen? Klik dan hieronder op "Ja, publiceer".</p>
+      <div class="bevestig-knoppen">
+        <button id="bevestig-annuleer" type="button">Annuleren</button>
+        <button id="bevestig-ga-door" type="button">Ja, publiceer</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const btn            = document.getElementById('publiceer-btn');
+    const loginNodig     = document.getElementById('login-nodig');
+    const loginBtn       = document.getElementById('login-btn');
+    const status         = document.getElementById('status');
+    const bevestigOverlay = document.getElementById('bevestig-overlay');
+    const bevestigAnnuleer = document.getElementById('bevestig-annuleer');
+    const bevestigGaDoor   = document.getElementById('bevestig-ga-door');
+
+    function toonIngelogd() {
+      loginNodig.hidden = true;
+      btn.hidden    = false;
+      btn.disabled  = false;
+    }
+
+    function toonUitgelogd() {
+      btn.hidden         = true;
+      loginNodig.hidden  = false;
+    }
+
+    // Alleen ingelogde (Netlify Identity) gebruikers mogen publiceren — de
+    // knop blijft verborgen/disabled tot we dat hebben bevestigd, zodat er
+    // geen moment is waarop iemand zonder sessie toch kan klikken.
+    netlifyIdentity.on('init',   user => user ? toonIngelogd() : toonUitgelogd());
+    netlifyIdentity.on('login',  () => { toonIngelogd(); netlifyIdentity.close(); });
+    netlifyIdentity.on('logout', toonUitgelogd);
+    netlifyIdentity.init();
+
+    loginBtn?.addEventListener('click', () => netlifyIdentity.open('login'));
+
+    // Publiceren is onomkeerbaar (via deze knop) en gaat direct naar de
+    // live site — vandaar eerst een bevestigingsvenster i.p.v. de publicatie
+    // meteen bij de eerste klik te starten. Pas de "Ja, publiceer"-knop
+    // daarin start de echte actie.
+    function vraagBevestiging() {
+      const user = netlifyIdentity.currentUser();
+      if (!user) { netlifyIdentity.open('login'); return; }
+      bevestigOverlay.hidden = false;
+    }
+
+    bevestigAnnuleer?.addEventListener('click', () => { bevestigOverlay.hidden = true; });
+    bevestigGaDoor?.addEventListener('click', () => {
+      bevestigOverlay.hidden = true;
+      publiceer();
+    });
+    bevestigOverlay?.addEventListener('click', e => {
+      if (e.target === bevestigOverlay) bevestigOverlay.hidden = true;
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !bevestigOverlay.hidden) bevestigOverlay.hidden = true;
+    });
+
     async function publiceer() {
-      const btn    = document.getElementById('publiceer-btn');
-      const status = document.getElementById('status');
+      const user = netlifyIdentity.currentUser();
+      if (!user) { netlifyIdentity.open('login'); return; }
 
       btn.disabled  = true;
       btn.textContent = 'Bezig met publiceren…';
@@ -115,7 +254,11 @@
       status.textContent = '⏳ Wijzigingen worden verwerkt…';
 
       try {
-        const res  = await fetch('/.netlify/functions/publiceer', { method: 'POST' });
+        const jwt = await user.jwt();
+        const res  = await fetch('/.netlify/functions/publiceer', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${jwt}` },
+        });
         const data = await res.json();
 
         if (res.ok && data.ok) {

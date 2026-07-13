@@ -39,18 +39,19 @@ for (const cursus of cursussen) {
 const nu = new Date();
 nu.setHours(0, 0, 0, 0);
 
-const maandSet = new Set<string>();
-for (const datum of Object.keys(dagMap)) {
-  if (new Date(datum) >= nu) {
-    const d = new Date(datum);
-    maandSet.add(`${d.getFullYear()}-${d.getMonth()}`);
-  }
+// Altijd een vaste, doorlopende reeks van 12 maanden vanaf nu — niet
+// afhankelijk van waar de laatste geplande sessie valt. Zo blijft de
+// kalender een voorspelbaar vol jaar tonen (en verdwijnt geen maand zomaar
+// als die toevallig leeg is), met "Toon meer maanden" (4 in beeld, 8 erbij
+// op desktop) om de rest open te klappen.
+const kalenderMaanden: { jaar: number; maand: number }[] = [];
+let j = nu.getFullYear();
+let m = nu.getMonth();
+for (let i = 0; i < 12; i++) {
+  kalenderMaanden.push({ jaar: j, maand: m });
+  m++;
+  if (m > 11) { m = 0; j++; }
 }
-maandSet.add(`${nu.getFullYear()}-${nu.getMonth()}`);
-
-const kalenderMaanden = Array.from(maandSet)
-  .map(s => { const [y, m] = s.split('-'); return { jaar: +y, maand: +m }; })
-  .sort((a, b) => a.jaar !== b.jaar ? a.jaar - b.jaar : a.maand - b.maand);
 
 const maandNamen = ['Januari','Februari','Maart','April','Mei','Juni',
                     'Juli','Augustus','September','Oktober','November','December'];

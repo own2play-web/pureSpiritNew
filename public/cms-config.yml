@@ -202,6 +202,30 @@ collections:
         name: navigatie
         file: src/data/navigatie.json
         fields:
+          - label: "Header – Menu"
+            name: header_navigatie
+            widget: list
+            label_singular: Menu-item
+            summary: "{{fields.label}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL,   name: href,  widget: string }
+              - label: "Submenu-groepen (optioneel, voor een uitklapmenu)"
+                name: groepen
+                widget: list
+                required: false
+                label_singular: Groep
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: Groepnaam, name: label, widget: string }
+                  - label: Links
+                    name: items
+                    widget: list
+                    label_singular: Link
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL,   name: href,  widget: string }
           - { label: "Header – Knop tekst", name: header_cta_label, widget: string }
           - { label: "Header – Knop URL",   name: header_cta_url,   widget: string }
           - { label: "Footer – Beschrijving", name: footer_beschrijving, widget: text }
@@ -324,4 +348,19 @@ collections:
                 label_singular: Lesdag
                 hint: "Voeg de data toe, te beginnen met de startdatum"
                 field: { label: Datum, name: datum, widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
+
+      # Inschrijf-venster (de pop-up die opent via "Inschrijven"/"Schrijf je in")
+      - label: "Inschrijf-venster"
+        name: inschrijven_modal
+        file: src/data/inschrijven.json
+        fields:
+          - { label: "Stap 1 – Titel", name: stap1_titel, widget: string, hint: "Titel bovenaan als het venster opent." }
+          - { label: "Optie 'Cursus of workshop' – Titel",       name: optie_cursus_titel,        widget: string }
+          - { label: "Optie 'Cursus of workshop' – Omschrijving", name: optie_cursus_omschrijving, widget: string }
+          - { label: "Optie 'Individuele afspraak' – Titel",       name: optie_sessie_titel,        widget: string }
+          - { label: "Optie 'Individuele afspraak' – Omschrijving", name: optie_sessie_omschrijving, widget: string }
+          - { label: "Optie 'Vraag stellen' – Titel",       name: optie_vraag_titel,        widget: string }
+          - { label: "Optie 'Vraag stellen' – Omschrijving", name: optie_vraag_omschrijving, widget: string }
+          - { label: "Bevestiging – Titel", name: bevestiging_titel, widget: string, hint: "Getoond nadat iemand het formulier heeft verstuurd." }
+          - { label: "Bevestiging – Tekst", name: bevestiging_tekst, widget: text }
 
