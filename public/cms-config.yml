@@ -139,6 +139,108 @@ collections:
           - { label: Waarde, name: waarde, widget: string }
       - { label: Inhoud, name: body, widget: markdown }
 
+  # ─── Over mij ──────────────────────────────────────────────────────────────
+  - name: over_mij
+    label: Over mij
+    files:
+      - label: Over mij
+        name: over
+        file: src/data/over.json
+        fields:
+          - label: Werkwijze
+            name: werkwijze
+            widget: list
+            label_singular: Item
+            summary: "{{fields.titel}}"
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+          - label: Kernwaarden
+            name: waarden
+            widget: list
+            label_singular: Waarde
+            summary: "{{fields.woord}}"
+            fields:
+              - { label: Woord,  name: woord,  widget: string }
+              - { label: Uitleg, name: uitleg, widget: string }
+
+  # ─── Tarieven ──────────────────────────────────────────────────────────────
+  - name: tarieven
+    label: Tarieven
+    files:
+      - label: Tarieven
+        name: tarieven
+        file: src/data/tarieven.json
+        fields:
+          - { label: Aankondiging (bovenaan pagina), name: aankondiging, widget: string, required: false, hint: "Bijv. 'Per 1 januari 2026 worden de tarieven aangepast.'" }
+          - { label: Tabel-titel, name: tabel_titel, widget: string, default: "Overzicht tarieven" }
+          - { label: Tabel-ondertitel, name: tabel_ondertitel, widget: string, required: false }
+          - label: Tariefgroepen
+            name: groepen
+            widget: list
+            label_singular: Groep
+            summary: "{{fields.naam}}"
+            fields:
+              - { label: Groepnaam, name: naam, widget: string }
+              - label: Rijen
+                name: rijen
+                widget: list
+                label_singular: Rij
+                summary: "{{fields.label}}: {{fields.waarde}}"
+                fields:
+                  - { label: Omschrijving, name: label, widget: string }
+                  - { label: "Prijs / waarde", name: waarde, widget: string, hint: "Bijv. '€ 75,–' of '+ 15 min.'" }
+          - label: Tekst-secties (linkerkolom)
+            name: secties
+            widget: list
+            label_singular: Sectie
+            summary: "{{fields.titel}}"
+            hint: "Gebruik **vetgedrukt** voor prijzen in de tekst."
+            fields:
+              - { label: Titel, name: titel, widget: string }
+              - { label: Tekst, name: tekst, widget: markdown }
+
+  # ─── Agenda ────────────────────────────────────────────────────────────────
+  - name: agenda
+    label: Agenda
+    files:
+      - label: Agenda
+        name: agenda
+        file: src/data/agenda.json
+        fields:
+          - label: Cursussen
+            name: cursussen
+            widget: list
+            label_singular: Cursus
+            summary: "{{fields.titel}} – start {{fields.data}}"
+            fields:
+              - { label: Naam cursus,   name: titel,      widget: string }
+              - { label: Activiteit,    name: activiteit, widget: select, options: [Meditatie, HSP, Prikkels], required: false, hint: "Bepaalt de kleur in de kalender en de filter. HSP en Prikkels zijn altijd voor volwassenen." }
+              - { label: Leeftijd,      name: leeftijd,   widget: select, options: [Volwassenen, "Jong volwassenen", Jongeren, Kinderen], required: false }
+              - { label: Vorm,          name: vorm,       widget: select, options: [Cursus, Workshop], required: false, hint: "Alleen zichtbaar in de details, telt niet mee voor de kalenderkleur of filter." }
+              - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
+              - { label: Locatie,       name: locatie,    widget: string, default: Oss }
+              - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }
+              - { label: Aantal bijeenkomsten, name: bijeenkomsten, widget: number, required: false }
+              - { label: Doelgroep,     name: doelgroep,  widget: string, required: false, hint: "Bijv. '12 – 19 jaar' of 'Vanaf 7 jaar'. Vervangt 'Max. plaatsen' in de kaart als dit is ingevuld." }
+              - { label: Max. plaatsen, name: max_plaatsen, widget: number, required: false }
+              - label: Status
+                name: status
+                widget: select
+                options:
+                  - { label: "Inschrijving open",         value: open       }
+                  - { label: "Start bij voldoende animo", value: animo      }
+                  - { label: "Volgeboekt",                value: volgeboekt }
+                  - { label: "Gesloten",                  value: gesloten   }
+                default: open
+              - { label: Beschrijving,  name: beschrijving, widget: text, required: false }
+              - label: Lesdagen
+                name: data
+                widget: list
+                label_singular: Lesdag
+                hint: "Voeg de data toe, te beginnen met de startdatum"
+                field: { label: Datum, name: datum, widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
+
   # ─── Instellingen ──────────────────────────────────────────────────────────
   - name: instellingen
     label: Instellingen
@@ -247,28 +349,6 @@ collections:
               - { label: Label, name: label, widget: string }
               - { label: URL,   name: href,  widget: string }
 
-      # Over mij
-      - label: Over mij
-        name: over
-        file: src/data/over.json
-        fields:
-          - label: Werkwijze
-            name: werkwijze
-            widget: list
-            label_singular: Item
-            summary: "{{fields.titel}}"
-            fields:
-              - { label: Titel, name: titel, widget: string }
-              - { label: Tekst, name: tekst, widget: text }
-          - label: Kernwaarden
-            name: waarden
-            widget: list
-            label_singular: Waarde
-            summary: "{{fields.woord}}"
-            fields:
-              - { label: Woord,  name: woord,  widget: string }
-              - { label: Uitleg, name: uitleg, widget: string }
-
       # FAQ
       - label: Veelgestelde vragen
         name: faq
@@ -280,77 +360,6 @@ collections:
             fields:
               - { label: Vraag,    name: vraag,    widget: string }
               - { label: Antwoord, name: antwoord, widget: text }
-
-      # Tarieven
-      - label: Tarieven
-        name: tarieven
-        file: src/data/tarieven.json
-        fields:
-          - { label: Aankondiging (bovenaan pagina), name: aankondiging, widget: string, required: false, hint: "Bijv. 'Per 1 januari 2026 worden de tarieven aangepast.'" }
-          - { label: Tabel-titel, name: tabel_titel, widget: string, default: "Overzicht tarieven" }
-          - { label: Tabel-ondertitel, name: tabel_ondertitel, widget: string, required: false }
-          - label: Tariefgroepen
-            name: groepen
-            widget: list
-            label_singular: Groep
-            summary: "{{fields.naam}}"
-            fields:
-              - { label: Groepnaam, name: naam, widget: string }
-              - label: Rijen
-                name: rijen
-                widget: list
-                label_singular: Rij
-                summary: "{{fields.label}}: {{fields.waarde}}"
-                fields:
-                  - { label: Omschrijving, name: label, widget: string }
-                  - { label: "Prijs / waarde", name: waarde, widget: string, hint: "Bijv. '€ 75,–' of '+ 15 min.'" }
-          - label: Tekst-secties (linkerkolom)
-            name: secties
-            widget: list
-            label_singular: Sectie
-            summary: "{{fields.titel}}"
-            hint: "Gebruik **vetgedrukt** voor prijzen in de tekst."
-            fields:
-              - { label: Titel, name: titel, widget: string }
-              - { label: Tekst, name: tekst, widget: markdown }
-
-      # Agenda
-      - label: Agenda
-        name: agenda
-        file: src/data/agenda.json
-        fields:
-          - label: Cursussen
-            name: cursussen
-            widget: list
-            label_singular: Cursus
-            summary: "{{fields.titel}} – start {{fields.data}}"
-            fields:
-              - { label: Naam cursus,   name: titel,      widget: string }
-              - { label: Activiteit,    name: activiteit, widget: select, options: [Meditatie, HSP, Prikkels], required: false, hint: "Bepaalt de kleur in de kalender en de filter. HSP en Prikkels zijn altijd voor volwassenen." }
-              - { label: Leeftijd,      name: leeftijd,   widget: select, options: [Volwassenen, "Jong volwassenen", Jongeren, Kinderen], required: false }
-              - { label: Vorm,          name: vorm,       widget: select, options: [Cursus, Workshop], required: false, hint: "Alleen zichtbaar in de details, telt niet mee voor de kalenderkleur of filter." }
-              - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
-              - { label: Locatie,       name: locatie,    widget: string, default: Oss }
-              - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }
-              - { label: Aantal bijeenkomsten, name: bijeenkomsten, widget: number, required: false }
-              - { label: Doelgroep,     name: doelgroep,  widget: string, required: false, hint: "Bijv. '12 – 19 jaar' of 'Vanaf 7 jaar'. Vervangt 'Max. plaatsen' in de kaart als dit is ingevuld." }
-              - { label: Max. plaatsen, name: max_plaatsen, widget: number, required: false }
-              - label: Status
-                name: status
-                widget: select
-                options:
-                  - { label: "Inschrijving open",         value: open       }
-                  - { label: "Start bij voldoende animo", value: animo      }
-                  - { label: "Volgeboekt",                value: volgeboekt }
-                  - { label: "Gesloten",                  value: gesloten   }
-                default: open
-              - { label: Beschrijving,  name: beschrijving, widget: text, required: false }
-              - label: Lesdagen
-                name: data
-                widget: list
-                label_singular: Lesdag
-                hint: "Voeg de data toe, te beginnen met de startdatum"
-                field: { label: Datum, name: datum, widget: datetime, format: YYYY-MM-DD, date_format: DD-MM-YYYY, time_format: false }
 
       # Inschrijf-venster (de pop-up die opent via "Inschrijven"/"Schrijf je in")
       - label: "Inschrijf-venster"
