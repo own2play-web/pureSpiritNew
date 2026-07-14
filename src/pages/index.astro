@@ -63,6 +63,7 @@ const testimonials = allErvaringen
 
 // Homepage data
 const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
+const hspAlineas   = homepage.hsp_tekst.split('\n\n').filter(Boolean);
 ---
 
 <BaseLayout
@@ -112,30 +113,18 @@ const sasjaAlineas = homepage.sasja_tekst.split('\n\n').filter(Boolean);
     <div class="container">
       <div class="hsp-grid">
         <div>
-          <h2>Begeleiding voor hooggevoelige mensen</h2>
+          <h2>{homepage.hsp_titel}</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
-          <p>
-            Een HSP'er is meer dan gemiddeld gevoelig voor indrukken en prikkels
-            en merkt meer signalen en details op dan anderen. Dat kan heel zwaar zijn.
-          </p>
-          <p>
-            Pure Spirit begeleidt volwassenen, jongeren en kinderen die hooggevoelig zijn.
-            Dit kan individueel of in groepsverband. De oefeningen helpen je jezelf beter
-            af te schermen voor prikkels van buitenaf, zodat je weer in je eigen kracht komt.
-          </p>
-          <p>
-            Hooggevoeligheid bij kinderen wordt ook wel HSK (HoogSensitief Kind) genoemd.
-            Herkenbare kenmerken zijn angsten, problemen met het zelfvertrouwen, een druk hoofd
-            en moeilijk kunnen inslapen.
-          </p>
-          <a href="/activiteiten/begeleiding-hsp/" class="btn btn--outline" style="margin-top: var(--space-4);">Meer over HSP-begeleiding</a>
+          {hspAlineas.map((alinea) => (
+            <p>{alinea}</p>
+          ))}
+          <a href={homepage.hsp_cta_url} class="btn btn--outline" style="margin-top: var(--space-4);">{homepage.hsp_cta_label}</a>
         </div>
         <div class="hsp-quote">
           <blockquote>
-            "Je kind zien worstelen met het dagelijks leven doet pijn. We gaan samen
-            kijken hoe we deze worsteling kunnen verzachten of zelfs verhelpen."
+            "{homepage.hsp_quote}"
           </blockquote>
-          <p class="text-muted" style="font-size: var(--text-sm); margin-top: var(--space-3);">— Sasja van Geel, Pure Spirit</p>
+          <p class="text-muted" style="font-size: var(--text-sm); margin-top: var(--space-3);">— {homepage.hsp_quote_auteur}</p>
         </div>
       </div>
     </div>

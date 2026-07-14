@@ -261,6 +261,12 @@ collections:
           - { label: "Actueel – Bericht",    name: actueel_bericht,  widget: string }
           - { label: "Actueel – Link tekst", name: actueel_link_tekst, widget: string, required: false }
           - { label: "Actueel – Link URL",   name: actueel_link_url,   widget: string, required: false }
+          - { label: "HSP – Titel",          name: hsp_titel,          widget: string }
+          - { label: "HSP – Tekst",          name: hsp_tekst,          widget: text, hint: "Gebruik een lege regel tussen alinea's" }
+          - { label: "HSP – Knop tekst",     name: hsp_cta_label,      widget: string }
+          - { label: "HSP – Knop URL",       name: hsp_cta_url,        widget: string }
+          - { label: "HSP – Citaat",         name: hsp_quote,          widget: text }
+          - { label: "HSP – Citaat auteur",  name: hsp_quote_auteur,   widget: string, hint: "Zonder streepje ervoor, dat wordt automatisch toegevoegd." }
           - { label: "Sasja – Sectietitel",  name: sasja_titel,      widget: string }
           - { label: "Sasja – Tekst",        name: sasja_tekst,      widget: text, hint: "Gebruik een lege regel tussen alinea's" }
           - { label: "Sasja – Foto",         name: sasja_foto,       widget: image }
