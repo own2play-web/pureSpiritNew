@@ -332,6 +332,8 @@ collections:
               - { label: Tijdstip,      name: tijdstip,   widget: string, required: false, hint: "Bijv. 19:30 – 21:00" }
               - { label: Locatie,       name: locatie,    widget: string, default: Oss }
               - { label: Prijs,         name: prijs,      widget: string, required: false, hint: "Bijv. € 22,50 of Cursus (6 lessen)" }
+              - { label: Aantal bijeenkomsten, name: bijeenkomsten, widget: number, required: false }
+              - { label: Doelgroep,     name: doelgroep,  widget: string, required: false, hint: "Bijv. '12 – 19 jaar' of 'Vanaf 7 jaar'. Vervangt 'Max. plaatsen' in de kaart als dit is ingevuld." }
               - { label: Max. plaatsen, name: max_plaatsen, widget: number, required: false }
               - label: Status
                 name: status
