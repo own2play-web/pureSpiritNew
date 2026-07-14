@@ -157,7 +157,7 @@ const hspAlineas   = homepage.hsp_tekst.split('\n\n').filter(Boolean);
           <img src={homepage.sasja_foto} alt="Sasja van Geel – Pure Spirit Oss" class="sasja-photo" style={`--positie-mobiel: ${homepage.sasja_foto_positie_mobiel ?? 'center top'}`} />
         </div>
         <div class="about-text">
-          <span class="about-eyebrow">Wie ben ik?</span>
+          <span class="about-eyebrow">{homepage.sasja_eyebrow}</span>
           <h2>{homepage.sasja_titel}</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
           {sasjaAlineas.map((alinea, i) => (

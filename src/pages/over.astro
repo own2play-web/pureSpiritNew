@@ -28,8 +28,8 @@ const { werkwijze, waarden } = over;
           />
         </div>
         <div class="over-tekst">
-          <span class="eyebrow">Wie ben ik?</span>
-          <h2>Mijn verhaal</h2>
+          <span class="eyebrow">{homepage.sasja_eyebrow}</span>
+          <h2>{over.verhaal_titel}</h2>
           <hr class="divider" style="margin: var(--space-4) 0 var(--space-6);" />
           {alineas.map((alinea, i) => (
             <p class={i === 0 ? 'lead' : ''}>{alinea}</p>

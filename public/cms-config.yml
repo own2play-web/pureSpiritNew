@@ -147,6 +147,7 @@ collections:
         name: over
         file: src/data/over.json
         fields:
+          - { label: "Verhaal – Titel", name: verhaal_titel, widget: string, hint: "Titel boven het persoonlijke verhaal (de tekst zelf staat bij Homepagina, want die wordt ook op de homepage getoond)." }
           - label: Werkwijze
             name: werkwijze
             widget: list
@@ -267,6 +268,7 @@ collections:
           - { label: "HSP – Knop URL",       name: hsp_cta_url,        widget: string }
           - { label: "HSP – Citaat",         name: hsp_quote,          widget: text }
           - { label: "HSP – Citaat auteur",  name: hsp_quote_auteur,   widget: string, hint: "Zonder streepje ervoor, dat wordt automatisch toegevoegd." }
+          - { label: "Sasja – Eyebrow",      name: sasja_eyebrow,    widget: string, hint: "Klein label boven de titel. Wordt zowel op de homepage als op de 'Over mij'-pagina gebruikt." }
           - { label: "Sasja – Sectietitel",  name: sasja_titel,      widget: string }
           - { label: "Sasja – Tekst",        name: sasja_tekst,      widget: text, hint: "Gebruik een lege regel tussen alinea's" }
           - { label: "Sasja – Foto",         name: sasja_foto,       widget: image }
