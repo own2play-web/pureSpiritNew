@@ -17,6 +17,10 @@ collections:
     label_singular: Nieuwsbericht
     folder: src/content/nieuws
     create: true
+    # Zonder dit valt Decap terug op "title" als identifier-veld, dat hier
+    # niet bestaat (wij noemen het "titel") — resultaat: de slug wordt een
+    # onleesbare aaneenschakeling van alle velden i.p.v. de titel.
+    identifier_field: titel
     slug: "{{slug}}"
     sortable_fields: ['datum', 'titel', 'categorie']
     view_filters:
@@ -56,6 +60,7 @@ collections:
     label_singular: Ervaring
     folder: src/content/ervaringen
     create: true
+    identifier_field: auteur
     slug: "{{slug}}"
     sortable_fields: ['volgorde', 'dienst', 'uitgelicht']
     view_filters:
@@ -75,6 +80,7 @@ collections:
     label_singular: Activiteit
     folder: src/content/diensten
     create: false
+    identifier_field: titel
     slug: "{{slug}}"
     fields:
       - { label: Titel,            name: titel,            widget: string }
@@ -101,6 +107,7 @@ collections:
     label_singular: Meditatiecursus
     folder: src/content/meditatie
     create: true
+    identifier_field: titel
     slug: "{{slug}}"
     fields:
       - { label: Titel,            name: titel,            widget: string }
@@ -123,6 +130,7 @@ collections:
     label_singular: Workshop
     folder: src/content/workshops
     create: true
+    identifier_field: titel
     slug: "{{slug}}"
     fields:
       - { label: Titel,            name: titel,            widget: string }

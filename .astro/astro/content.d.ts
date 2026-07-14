@@ -2594,6 +2594,13 @@ declare module 'astro:content' {
   collection: "nieuws";
   data: InferEntrySchema<"nieuws">
 } & { render(): Render[".md"] };
+"test.md": {
+	id: "test.md";
+  slug: "test";
+  body: string;
+  collection: "nieuws";
+  data: InferEntrySchema<"nieuws">
+} & { render(): Render[".md"] };
 "thema-avond-hoogsensitief-kind.md": {
 	id: "thema-avond-hoogsensitief-kind.md";
   slug: "thema-avond-hoogsensitief-kind";

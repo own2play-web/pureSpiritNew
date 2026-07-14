@@ -4,7 +4,14 @@ const nieuws = defineCollection({
   type: 'content',
   schema: z.object({
     titel:        z.string(),
-    datum:        z.string(),
+    // Decap's datetime-widget schrijft de datum soms ongequote weg in de
+    // frontmatter (bv. `datum: 2026-07-14` i.p.v. `datum: "2026-07-14"`),
+    // waardoor YAML het inleest als een native date i.p.v. een string. Beide
+    // vormen accepteren en altijd naar YYYY-MM-DD normaliseren, i.p.v. te
+    // vertrouwen op hoe de CMS het toevallig serialiseert.
+    datum: z.union([z.string(), z.date()]).transform(v =>
+      v instanceof Date ? v.toISOString().slice(0, 10) : v
+    ),
     categorie:    z.string().optional(),
     // Optioneel: zonder handmatige samenvatting valt de nieuwslijst terug op
     // een afgekapte versie van de inhoud (zie src/lib/nieuwsExcerpt.ts).
