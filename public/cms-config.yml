@@ -337,9 +337,10 @@ collections:
                 name: status
                 widget: select
                 options:
-                  - { label: "Inschrijving open",         value: open     }
-                  - { label: "Start bij voldoende animo", value: animo    }
-                  - { label: "Gesloten",                  value: gesloten }
+                  - { label: "Inschrijving open",         value: open       }
+                  - { label: "Start bij voldoende animo", value: animo      }
+                  - { label: "Volgeboekt",                value: volgeboekt }
+                  - { label: "Gesloten",                  value: gesloten   }
                 default: open
               - { label: Beschrijving,  name: beschrijving, widget: text, required: false }
               - label: Lesdagen

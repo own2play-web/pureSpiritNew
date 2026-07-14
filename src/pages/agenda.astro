@@ -244,6 +244,9 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                             <p class="animo-toelichting">Start bij voldoende animo</p>
                           </div>
                         )}
+                        {status === 'volgeboekt' && (
+                          <span class="btn btn--muted">Volgeboekt</span>
+                        )}
                         {status === 'gesloten' && (
                           <span class="btn btn--muted">Gesloten</span>
                         )}
@@ -264,7 +267,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
           </div>
           <ul class="cursus-lijst">
             {lopend.map(cursus => {
-              const { titel, activiteit, leeftijd, vorm, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, beschrijving, data } = cursus as any;
+              const { titel, activiteit, leeftijd, vorm, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, beschrijving, data } = cursus as any;
               const startDatum  = data[0];
               const startD      = new Date(startDatum);
               const overigData  = data.filter((d: string) => d !== startDatum && new Date(d) >= vandaag);
@@ -336,15 +339,19 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                     )}
                   </div>
                   <div class="cursus-actie">
-                    <button
-                      type="button"
-                      class="btn btn--outline"
-                      data-open-modal="inschrijven"
-                      data-cursus-titel={titel}
-                      data-cursus-datum={formatDatum(startDatum)}
-                      data-cursus-status="lopend"
-                      data-cursus-vorm={vorm}
-                    >Controleer beschikbaarheid</button>
+                    {status === 'volgeboekt' ? (
+                      <span class="btn btn--muted">Volgeboekt</span>
+                    ) : (
+                      <button
+                        type="button"
+                        class="btn btn--outline"
+                        data-open-modal="inschrijven"
+                        data-cursus-titel={titel}
+                        data-cursus-datum={formatDatum(startDatum)}
+                        data-cursus-status="lopend"
+                        data-cursus-vorm={vorm}
+                      >Controleer beschikbaarheid</button>
+                    )}
                   </div>
                 </li>
               );
