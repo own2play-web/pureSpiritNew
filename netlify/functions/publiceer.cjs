@@ -5,9 +5,21 @@ const jwt = require('jsonwebtoken');
 // worden. Een installation access token wordt hier telkens opnieuw en
 // automatisch opgehaald (geldig ~1 uur, nooit handmatig te verlengen); alleen
 // de App's private key hoeft (zelden) vervangen te worden, niet dit token.
+// De private key staat als base64 in de env var i.p.v. de rauwe PEM-tekst —
+// sommige UI's (waaronder Netlify's "secret, per context"-invoerveld) lijken
+// meerdere regels in één waarde niet betrouwbaar te bewaren, wat de PEM
+// onherkenbaar maakt. Base64 is altijd één regel, dus daar is dat probleem
+// niet. Blijft ook rauwe PEM (met "-----BEGIN") accepteren voor het geval
+// iemand het toch zo instelt.
+function leesPrivateKey() {
+  const raw = process.env.GITHUB_APP_PRIVATE_KEY || '';
+  if (raw.includes('BEGIN')) return raw.replace(/\\n/g, '\n');
+  return Buffer.from(raw, 'base64').toString('utf8');
+}
+
 async function haalInstallationToken() {
   const appId          = process.env.GITHUB_APP_ID;
-  const privateKey     = (process.env.GITHUB_APP_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  const privateKey     = leesPrivateKey();
   const installationId = process.env.GITHUB_APP_INSTALLATION_ID;
 
   if (!appId || !privateKey || !installationId) {
