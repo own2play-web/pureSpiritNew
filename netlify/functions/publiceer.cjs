@@ -80,8 +80,30 @@ exports.handler = async (event, context) => {
     return { statusCode: 500, body: JSON.stringify({ fout: 'Kon dev branch niet ophalen', detail: err }) };
   }
 
-  const { object } = await devRes.json();
-  const devSha = object.sha;
+  const { object: devObject } = await devRes.json();
+  const devSha = devObject.sha;
+
+  // Haal de huidige SHA van main op — alleen om te kunnen zeggen of er
+  // straks daadwerkelijk iets verandert. Geen enkel bestaand pad hieronder
+  // hangt hiervan af (de PATCH gebeurt hierna nog steeds op dezelfde manier);
+  // dit voegt alleen een onderscheid toe in wat we terugmelden.
+  const mainRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/ref/heads/main`, {
+    headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'PureSpirit-Deploy' },
+  });
+
+  if (!mainRes.ok) {
+    const err = await mainRes.text();
+    return { statusCode: 500, body: JSON.stringify({ fout: 'Kon main branch niet ophalen', detail: err }) };
+  }
+
+  const { object: mainObject } = await mainRes.json();
+
+  if (mainObject.sha === devSha) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ ok: true, veranderd: false, bericht: 'Alles is al up-to-date — niets nieuws om te publiceren.' }),
+    };
+  }
 
   // Update main naar dezelfde SHA (fast-forward merge)
   const updateRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/main`, {
@@ -101,6 +123,6 @@ exports.handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ ok: true, bericht: 'Website wordt gepubliceerd!' }),
+    body: JSON.stringify({ ok: true, veranderd: true, bericht: 'Website wordt gepubliceerd!' }),
   };
 };

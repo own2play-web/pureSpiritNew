@@ -75,6 +75,7 @@
 
     .status--bezig  { background: #e6f2f7; color: #246482; display: block; }
     .status--succes { background: #d1f0e8; color: #0d5c42; display: block; }
+    .status--info   { background: #e6f2f7; color: #246482; display: block; }
     .status--fout   { background: #fee2e2; color: #9b1c1c; display: block; }
 
     .terug {
@@ -261,10 +262,15 @@
         });
         const data = await res.json();
 
-        if (res.ok && data.ok) {
+        if (res.ok && data.ok && data.veranderd) {
           status.className = 'status status--succes';
           status.textContent = '✅ Gelukt! De website wordt nu bijgewerkt (duurt ~1–2 minuten).';
           btn.textContent = 'Gepubliceerd!';
+        } else if (res.ok && data.ok) {
+          status.className = 'status status--info';
+          status.textContent = 'ℹ️ ' + (data.bericht || 'Alles is al up-to-date — niets nieuws om te publiceren.');
+          btn.disabled  = false;
+          btn.textContent = 'Publiceer website';
         } else {
           throw new Error(data.fout || 'Onbekende fout');
         }
