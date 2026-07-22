@@ -1,3 +1,44 @@
+const jwt = require('jsonwebtoken');
+
+// GitHub App-authenticatie i.p.v. een fine-grained personal access token —
+// die laatste liep steeds na (te) korte tijd af en moest handmatig ververst
+// worden. Een installation access token wordt hier telkens opnieuw en
+// automatisch opgehaald (geldig ~1 uur, nooit handmatig te verlengen); alleen
+// de App's private key hoeft (zelden) vervangen te worden, niet dit token.
+async function haalInstallationToken() {
+  const appId          = process.env.GITHUB_APP_ID;
+  const privateKey     = (process.env.GITHUB_APP_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  const installationId = process.env.GITHUB_APP_INSTALLATION_ID;
+
+  if (!appId || !privateKey || !installationId) {
+    throw new Error('GitHub App niet correct ingesteld (GITHUB_APP_ID / GITHUB_APP_PRIVATE_KEY / GITHUB_APP_INSTALLATION_ID ontbreekt)');
+  }
+
+  const nu = Math.floor(Date.now() / 1000);
+  const appJwt = jwt.sign(
+    { iat: nu - 60, exp: nu + 600, iss: appId }, // max 10 min geldig, iat 60s terug voor klok-drift
+    privateKey,
+    { algorithm: 'RS256' }
+  );
+
+  const res = await fetch(`https://api.github.com/app/installations/${installationId}/access_tokens`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${appJwt}`,
+      Accept: 'application/vnd.github+json',
+      'User-Agent': 'PureSpirit-Deploy',
+    },
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Kon geen installation token ophalen: ${err}`);
+  }
+
+  const { token } = await res.json();
+  return token;
+}
+
 exports.handler = async (event, context) => {
   // Alleen ingelogde (Netlify Identity) gebruikers mogen dev naar main
   // publiceren. Netlify vult context.clientContext.user alleen als de
@@ -7,12 +48,14 @@ exports.handler = async (event, context) => {
     return { statusCode: 401, body: JSON.stringify({ fout: 'Niet ingelogd. Log in via /admin/ om te publiceren.' }) };
   }
 
-  const token = process.env.GITHUB_TOKEN;
   const owner = 'own2play-web';
   const repo  = 'pureSpiritNew';
 
-  if (!token) {
-    return { statusCode: 500, body: JSON.stringify({ fout: 'GITHUB_TOKEN niet ingesteld' }) };
+  let token;
+  try {
+    token = await haalInstallationToken();
+  } catch (e) {
+    return { statusCode: 500, body: JSON.stringify({ fout: e.message }) };
   }
 
   // Haal de huidige SHA van dev op
