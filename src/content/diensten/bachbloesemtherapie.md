@@ -24,7 +24,7 @@ sidebar_items:
 
 Het uitgangspunt van Bach is dat een ziekte in de meeste gevallen ontstaat door een onbalans in het lichaam. Deze onbalans wordt veroorzaakt door een bepaalde gemoedstoestand zoals Bach dit noemt. Voorbeelden hiervan zijn angst, onzekerheid, controle houden, een laag zelfbeeld of perfectionisme.
 
-Jarenlangen zijn wereldwijd zeer goede resultaten bereikt met de BachBloesemtherapie.g
+Jarenlang al zijn wereldwijd zeer goede resultaten bereikt met de BachBloesemtherapie. 
 
 De therapie is eenvoudig en puur.\
 De Bachremedies kunnen prima gebruikt worden in combinatie met andere medicatie en ze hebben geen bijwerkingen.
@@ -44,4 +44,4 @@ De eerste afspraak, inclusief intakegesprek, duurt bij volwassenen ongeveer ande
 
 Bachbloesemtherapie is geschikt voor alle leeftijden..
 
-Bij kinderen wordt in overleg met de ouders de aanpak besproken, zodat deze zo goed mogelijk aansluit bij de wensen van de ouders en het voor het kind zo min mogelijk belastend is. Vaak vinden kinderen het na de eerste afspraak het zelfs leuk om te komen. In sommige situaties kan er echter ook voor gekozen worden om het flesje samen te stellen zonder dat het kind in de praktijk hoeft te komen.
+Bij kinderen wordt in overleg met de ouders de aanpak besproken, zodat deze zo goed mogelijk aansluit bij de wensen van de ouders en het voor het kind zo min mogelijk belastend is. Vaak vinden kinderen na de eerste afspraak het zelfs leuk om te komen. In sommige situaties kan er echter ook voor gekozen worden om het flesje samen te stellen zonder dat het kind in de praktijk hoeft te komen.
