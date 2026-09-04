@@ -24,7 +24,7 @@ sidebar_items:
 
 Het uitgangspunt van Bach is dat een ziekte in de meeste gevallen ontstaat door een onbalans in het lichaam. Deze onbalans wordt veroorzaakt door een bepaalde gemoedstoestand zoals Bach dit noemt. Voorbeelden hiervan zijn angst, onzekerheid, controle houden, een laag zelfbeeld of perfectionisme.
 
-In al die jaren zijn wereldwijd zeer goede resultaten bereikt met de BachBloesemtherapie.
+Jarenlangen zijn wereldwijd zeer goede resultaten bereikt met de BachBloesemtherapie.g
 
 De therapie is eenvoudig en puur.\
 De Bachremedies kunnen prima gebruikt worden in combinatie met andere medicatie en ze hebben geen bijwerkingen.
