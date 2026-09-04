@@ -98,9 +98,9 @@ const hspAlineas   = homepage.hsp_tekst.split('\n\n').filter(Boolean);
   <section class="section">
     <div class="container">
       <div class="section__header">
-        <h2>Onze activiteiten</h2>
+        <h2>{homepage.activiteiten_titel}</h2>
         <hr class="divider" />
-        <p class="lead">Voor alle leeftijden: kinderen, jongeren en volwassenen. Altijd praktisch en op jouw maat.</p>
+        <p class="lead">{homepage.activiteiten_subtitel}</p>
       </div>
       <div class="grid grid--3">
         {services.map(s => <ServiceCard {...s} />)}

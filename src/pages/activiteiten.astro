@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { getCollection } from 'astro:content';
+import activiteitenData from '../data/activiteiten.json';
 
 // Alle activiteiten in één vaste volgorde: de 1-op-1 activiteiten komen uit
 // de content collection (CMS-bewerkbaar, gesorteerd op volgorde), Meditatie
@@ -44,9 +45,9 @@ const activiteiten = [
   <section class="section">
     <div class="container">
       <div class="section__header">
-        <h2>Alle activiteiten</h2>
+        <h2>{activiteitenData.titel}</h2>
         <hr class="divider" />
-        <p class="lead">Voor alle leeftijden: kinderen, jongeren en volwassenen. Altijd praktisch en op jouw maat.</p>
+        <p class="lead">{activiteitenData.subtitel}</p>
       </div>
       <div class="grid grid--3">
         {activiteiten.map(s => <ServiceCard {...s} />)}

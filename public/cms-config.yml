@@ -209,6 +209,17 @@ collections:
               - { label: Titel, name: titel, widget: string }
               - { label: Tekst, name: tekst, widget: markdown }
 
+  # ─── Activiteiten overzicht ────────────────────────────────────────────────
+  - name: activiteiten_overzicht
+    label: "Activiteiten overzicht"
+    files:
+      - label: "Activiteiten overzicht"
+        name: activiteiten
+        file: src/data/activiteiten.json
+        fields:
+          - { label: Titel,    name: titel,    widget: string, hint: "Titel boven het overzicht op /activiteiten/." }
+          - { label: Subtitel, name: subtitel, widget: text }
+
   # ─── Agenda ────────────────────────────────────────────────────────────────
   - name: agenda
     label: Agenda
@@ -270,6 +281,8 @@ collections:
           - { label: "Actueel – Bericht",    name: actueel_bericht,  widget: string }
           - { label: "Actueel – Link tekst", name: actueel_link_tekst, widget: string, required: false }
           - { label: "Actueel – Link URL",   name: actueel_link_url,   widget: string, required: false }
+          - { label: "Activiteiten – Titel",    name: activiteiten_titel,    widget: string, hint: "Titel boven de activiteiten-tegels op de homepage." }
+          - { label: "Activiteiten – Subtitel", name: activiteiten_subtitel, widget: text }
           - { label: "HSP – Titel",          name: hsp_titel,          widget: string }
           - { label: "HSP – Tekst",          name: hsp_tekst,          widget: text, hint: "Gebruik een lege regel tussen alinea's" }
           - { label: "HSP – Knop tekst",     name: hsp_cta_label,      widget: string }
