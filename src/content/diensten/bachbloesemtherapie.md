@@ -42,6 +42,6 @@ De eerste afspraak, inclusief intakegesprek, duurt bij volwassenen ongeveer ande
 
 ## Voor wie?
 
-Bachbloesemtherapie is geschikt voor alle leeftijden..
+Bachbloesemtherapie is geschikt voor alle leeftijden.
 
-Bij kinderen wordt in overleg mmet de ouders de aanpak besproken, zodat deze zo goed mogelijk aansluit bij de wensen van de ouders en het voor het kind zo min mogelijk belastend is. Vaak vinden kinderen na de eerste afspraak het zelfs leuk om te komen. In sommige situaties kan er echter ook voor gekozen worden om het flesje samen te stellen zonder dat het kind in de praktijk hoeft te komen.
+Bij kinderen wordt in overleg met de ouders de aanpak besproken, zodat deze zo goed mogelijk aansluit bij de wensen van de ouders en het voor het kind zo min mogelijk belastend is. Vaak vinden kinderen na de eerste afspraak het zelfs leuk om te komen. In sommige situaties kan er echter ook voor gekozen worden om het flesje samen te stellen zonder dat het kind in de praktijk hoeft te komen.

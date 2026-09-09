@@ -11,6 +11,15 @@
   <title>Pure Spirit – Content beheer</title>
   <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <link href="/cms-config.yml" type="text/yaml" rel="cms-config-url" />
+  <style>
+    /* Bekende, nooit-opgeloste bug in Netlify/Decap CMS: de cursor "springt"
+       soms naar het einde van de tekst tijdens het typen in de tekst-editor
+       (widget: markdown), waardoor letters op de verkeerde plek terechtkomen.
+       Zie o.a. https://github.com/decaporg/decap-cms/issues/6867 */
+    [data-slate-editor] {
+      -webkit-user-modify: read-write !important;
+    }
+  </style>
 </head>
 <body>
   <a id="publiceer-link" href="/admin/publiceer/" hidden style="
