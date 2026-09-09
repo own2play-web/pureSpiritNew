@@ -33,7 +33,7 @@ Ze is heel geschikt voor hooggevoelige mensen.
 
 ## Goede resultaten
 
-Goede resultaten kunnen al in zeer korte tijd bereikt worden. In de meeste situaties zijn 3 a 4 afspraken, met hiertussen telkens een maand, al voldoende om een goede balans te bereiken. Het traject is dus kort.\
+Goede rresultaten kunnen al in zeer korte tijd bereikt worden. In de meeste situaties zijn 3 a 4 afspraken, met hiertussen telkens een maand, al voldoende om een goede balans te bereiken. Het traject is dus kort.\
 We werken op maat. Dus wil je meer begeleiding of bijvoorbeeld HSP coaching gecombineerd erbij dan is dat natuurlijk altijd mogelijk.
 
 Het flesje BachBloesemremedie wordt tijdens een consult op maat voor jou samengesteld. Een consult vindt afhankelijk van jouw wens plaats in de praktijk in Oss, telefonisch of via Skype.
