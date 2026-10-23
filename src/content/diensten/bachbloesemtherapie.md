@@ -4,8 +4,8 @@ volgorde: 1
 icon: 🌸
 vorm: solo
 samenvatting: "Een natuurlijke methode om weer balans te brengen. Zeer geschikt
-  bij overprikkeling, vermoeidheid, angsten en andere emotionele klachten.
-  Zonder bijwerkingen. Geschikt voor alle leeftijden. "
+  bij bijvoorbeeld overprikkeling, vermoeidheid, angsten en andere emotionele
+  klachten. Zonder bijwerkingen. Geschikt voor alle leeftijden. "
 meta_description: Bachbloesemtherapie bij Pure Spirit Oss. Natuurlijke
   bloesemremedies voor emotioneel evenwicht, zonder bijwerkingen.
 sidebar_items:
@@ -17,7 +17,7 @@ sidebar_items:
     waarde: Eens per maand
   - label: Bijwerkingen
     waarde: Geen
-  - label: Combineerbaar met medicatie
+  - label: Combineerbaar met de meeste medicatie
     waarde: Ja
 ---
 ## Eenvoudig en puur
