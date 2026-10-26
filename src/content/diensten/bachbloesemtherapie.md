@@ -27,13 +27,13 @@ Het uitgangspunt van Bach is dat een ziekte in de meeste gevallen ontstaat door 
 Jarenlang zijn er al wereldwijd zeer goede resultaten bereikt met de BachBloesemtherapie.
 
 De therapie is eenvoudig en puur.\
-De Bachremedies kunnen prima gebruikt worden in combinatie met andere medicatie en ze hebben geen bijwerkingen.
+De Bachremedies kunnen prima gebruikt worden in combinatie met de meeste medicatie en ze hebben geen bijwerkingen.
 
 Ze is heel geschikt voor hooggevoelige mensen.
 
 ## Goede resultaten
 
-Goede rresultaten kunnen al in zeer korte tijd bereikt worden. In de meeste situaties zijn 3 a 4 afspraken, met hiertussen telkens een maand, al voldoende om een goede balans te bereiken. Het traject is dus kort.\
+Goede resultaten kunnen al in zeer korte tijd bereikt worden. In de meeste situaties zijn 3 a 4 afspraken, met hiertussen telkens een maand, al voldoende om een goede balans te bereiken. Het traject is dus kort.\
 We werken op maat. Dus wil je meer begeleiding of bijvoorbeeld HSP coaching gecombineerd erbij dan is dat natuurlijk altijd mogelijk.
 
 Het flesje BachBloesemremedie wordt tijdens een consult op maat voor jou samengesteld. Een consult vindt afhankelijk van jouw wens plaats in de praktijk in Oss, telefonisch of via Skype.
