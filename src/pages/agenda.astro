@@ -118,7 +118,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
   <section class="section">
     <div class="container">
       {alleKomend.length > 0 && (
-        <AgendaKalender cursussen={komend} />
+        <AgendaKalender cursussen={agendaData.cursussen} />
       )}
 
       {(alleActiviteiten.length > 0 || alleLeeftijden.length > 0) && (
