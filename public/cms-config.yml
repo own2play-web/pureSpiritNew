@@ -320,13 +320,13 @@ collections:
           - { label: Telefoonnummer,   name: telefoon,  widget: string }
           - { label: E-mailadres,      name: email,     widget: string }
           - { label: KVK-nummer,       name: kvk,       widget: string }
-          - label: Openingstijden
+          - label: "Afspraaktijden (dagen en tijden waarop afspraken mogelijk zijn)"
             name: openingstijden
             widget: list
             fields:
               - { label: Dag,  name: dag,  widget: string }
               - { label: Tijd, name: tijd, widget: string }
-          - { label: Opmerking openingstijden, name: openingstijden_opmerking, widget: string, required: false }
+          - { label: "Opmerking bij afspraaktijden", name: openingstijden_opmerking, widget: string, required: false }
           - { label: Facebook URL,   name: facebook,  widget: string, required: false }
           - { label: Instagram URL,  name: instagram, widget: string, required: false }
 

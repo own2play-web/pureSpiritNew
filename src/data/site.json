@@ -12,7 +12,7 @@
     { "dag": "Zaterdag", "tijd": "Gesloten" },
     { "dag": "Zondag", "tijd": "Gesloten" }
   ],
-  "openingstijden_opmerking": "Geopend op afspraak",
+  "openingstijden_opmerking": "Je kunt alleen op afspraak langskomen.",
   "facebook": "https://www.facebook.com/purespiritoss/",
   "instagram": ""
 }

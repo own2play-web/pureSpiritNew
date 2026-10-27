@@ -43,11 +43,11 @@ const currentYear = new Date().getFullYear();
         <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
       </address>
       <p class="footer__hours">
-        <strong>Openingstijden</strong><br />
+        <strong>Afspraken mogelijk</strong><br />
         {site.openingstijden.map(o => (
           <>{o.dag}: {o.tijd}<br /></>
         ))}
-        <em>({site.openingstijden_opmerking})</em>
+        <em>{site.openingstijden_opmerking}</em>
       </p>
     </div>
   </div>
