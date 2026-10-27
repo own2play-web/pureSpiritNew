@@ -58,9 +58,22 @@ const jsonLd = {
     addressLocality: site.stad,
     addressCountry: 'NL',
   },
-  openingHoursSpecification: [
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '21:30' },
-  ],
+  // Bewust geen openingHoursSpecification: er is geen inloop, alleen op
+  // afspraak. Google zou daarmee "nu geopend" kunnen tonen. Deze tijden zijn
+  // het moment waarop je een afspraak kunt plannen.
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'afspraken',
+    telephone: site.telefoon,
+    email: site.email,
+    availableLanguage: 'nl',
+    hoursAvailable: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'],
+      opens: '09:00',
+      closes: '21:30',
+    },
+  },
   priceRange: '€€',
 };
 ---
