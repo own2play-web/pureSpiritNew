@@ -7,17 +7,28 @@ import { getCollection } from 'astro:content';
 const vandaag = new Date();
 vandaag.setHours(0, 0, 0, 0);
 
-// Koppelt een agenda-cursusnaam aan de bijbehorende activiteitenpagina, zodat
-// elke agendakaart een "Meer info"-link naar de volledige beschrijving kan
-// tonen. Matcht op agenda_titel (indien ingevuld) of anders titel — zelfde
-// koppeling als VolgendeDatum.astro, maar dan omgekeerd.
+// Elke agendakaart linkt via een in de CMS gekozen pagina (meditatie_pagina of
+// workshop_pagina, de slug) naar de volledige beschrijving — geen koppeling
+// meer op naam. Een bewust niet-gekoppelde cursus toont gewoon geen link; een
+// verwijderde of onjuiste verwijzing geeft een waarschuwing tijdens de build.
 const [alleMeditatie, alleWorkshops] = await Promise.all([
   getCollection('meditatie'),
   getCollection('workshops'),
 ]);
-const activiteitLink = new Map<string, string>();
-for (const c of alleMeditatie) activiteitLink.set(c.data.agenda_titel || c.data.titel, `/activiteiten/meditatie/${c.slug}/`);
-for (const w of alleWorkshops) activiteitLink.set(w.data.agenda_titel || w.data.titel, `/activiteiten/workshops/${w.slug}/`);
+const meditatieSlugs = new Set(alleMeditatie.map(c => c.slug));
+const workshopSlugs  = new Set(alleWorkshops.map(w => w.slug));
+
+function paginaLink(c: { titel: string; meditatie_pagina?: string; workshop_pagina?: string }): string | undefined {
+  if (c.meditatie_pagina) {
+    if (meditatieSlugs.has(c.meditatie_pagina)) return `/activiteiten/meditatie/${c.meditatie_pagina}/`;
+    console.warn(`[agenda] "${c.titel}": meditatiepagina "${c.meditatie_pagina}" bestaat niet meer, geen "Lees meer"-link.`);
+  }
+  if (c.workshop_pagina) {
+    if (workshopSlugs.has(c.workshop_pagina)) return `/activiteiten/workshops/${c.workshop_pagina}/`;
+    console.warn(`[agenda] "${c.titel}": workshoppagina "${c.workshop_pagina}" bestaat niet meer, geen "Lees meer"-link.`);
+  }
+  return undefined;
+}
 
 const maandNamen = ['januari','februari','maart','april','mei','juni',
                     'juli','augustus','september','oktober','november','december'];
@@ -148,6 +159,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
               <ul class="cursus-lijst">
                 {cursussen.map(cursus => {
                   const { titel, activiteit, leeftijd, vorm, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, beschrijving, data } = cursus as any;
+                  const paginaUrl = paginaLink(cursus as any);
                   const startDatum  = data[0];
                   const overigData  = data.filter((d: string) => d !== startDatum && new Date(d) >= vandaag);
                   const startD      = new Date(startDatum);
@@ -165,8 +177,8 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                           {vorm && <span class:list={['badge', typekleur[vorm] ?? 'badge--overig']}>{vorm}</span>}
                         </div>
                         {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
-                        {activiteitLink.has(titel) && (
-                          <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
+                        {paginaUrl && (
+                          <a href={paginaUrl} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                         )}
                         <ul class="cursus-meta">
                           {tijdstip && tijdstip !== 'Nader te bepalen' && (
@@ -268,6 +280,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
           <ul class="cursus-lijst">
             {lopend.map(cursus => {
               const { titel, activiteit, leeftijd, vorm, tijdstip, locatie, prijs, bijeenkomsten, doelgroep, max_plaatsen, status, beschrijving, data } = cursus as any;
+                  const paginaUrl = paginaLink(cursus as any);
               const startDatum  = data[0];
               const startD      = new Date(startDatum);
               const overigData  = data.filter((d: string) => d !== startDatum && new Date(d) >= vandaag);
@@ -285,8 +298,8 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                       {vorm && <span class:list={['badge', typekleur[vorm] ?? 'badge--overig']}>{vorm}</span>}
                     </div>
                     {beschrijving && <p class="cursus-beschrijving">{beschrijving}</p>}
-                    {activiteitLink.has(titel) && (
-                      <a href={activiteitLink.get(titel)} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
+                    {paginaUrl && (
+                      <a href={paginaUrl} class="cursus-lees-meer">Lees meer over deze {vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                     )}
                     <ul class="cursus-meta">
                       {tijdstip && tijdstip !== 'Nader te bepalen' && (
@@ -368,6 +381,7 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
           <div class="binnenkort-grid">
             {binnenkort.map(c => {
               const bc = c as any;
+              const paginaUrl = paginaLink(bc);
               return (
                 <div class="binnenkort-kaart" data-activiteit={bc.activiteit ?? ''} data-leeftijd={bc.leeftijd ?? ''}>
                   <div class="binnenkort-kaart__top">
@@ -377,8 +391,8 @@ const alleLeeftijden = ['Kinderen', 'Jongeren', 'Jong volwassenen', 'Volwassenen
                     {bc.vorm && <span class:list={['badge', typekleur[bc.vorm] ?? 'badge--overig']}>{bc.vorm}</span>}
                   </div>
                   <p class="binnenkort-kaart__beschrijving">{bc.beschrijving}</p>
-                  {activiteitLink.has(bc.titel) && (
-                    <a href={activiteitLink.get(bc.titel)} class="cursus-lees-meer">Lees meer over deze {bc.vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
+                  {paginaUrl && (
+                    <a href={paginaUrl} class="cursus-lees-meer">Lees meer over deze {bc.vorm === 'Workshop' ? 'workshop' : 'cursus'} →</a>
                   )}
                   <ul class="cursus-meta binnenkort-kaart__meta">
                     {bc.bijeenkomsten && (

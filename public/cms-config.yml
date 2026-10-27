@@ -111,7 +111,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: Titel,            name: titel,            widget: string }
-      - { label: "Titel in de agenda", name: agenda_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven afwijkt van de cursusnaam in de Agenda." }
+      - { label: "Korte titel (tarieven)", name: korte_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven te lang is voor de tarieventabel." }
       - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
       - { label: Samenvatting,     name: samenvatting,     widget: text }
       - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
@@ -134,7 +134,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: Titel,            name: titel,            widget: string }
-      - { label: "Titel in de agenda", name: agenda_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven afwijkt van de cursusnaam in de Agenda." }
+      - { label: "Korte titel (tarieven)", name: korte_titel, widget: string, required: false, hint: "Alleen invullen als de titel hierboven te lang is voor de tarieventabel." }
       - { label: Volgorde,         name: volgorde,         widget: number, default: 99 }
       - { label: Samenvatting,     name: samenvatting,     widget: text }
       - { label: Meta-omschrijving, name: meta_description, widget: string, required: false }
@@ -235,6 +235,8 @@ collections:
             summary: "{{fields.titel}} – start {{fields.data}}"
             fields:
               - { label: Naam cursus,   name: titel,      widget: string }
+              - { label: "Meditatie-pagina", name: meditatie_pagina, widget: relation, collection: meditatie, search_fields: [titel], value_field: "{{slug}}", display_fields: [titel], required: false, hint: "Kies de meditatiepagina voor de 'Lees meer'-link. Vul óf dit óf Workshop-pagina in, of laat beide leeg als er geen pagina is." }
+              - { label: "Workshop-pagina",  name: workshop_pagina,  widget: relation, collection: workshops,  search_fields: [titel], value_field: "{{slug}}", display_fields: [titel], required: false, hint: "Kies de workshoppagina voor de 'Lees meer'-link." }
               - { label: Activiteit,    name: activiteit, widget: select, options: [Meditatie, HSP, Prikkels], required: false, hint: "Bepaalt de kleur in de kalender en de filter. HSP en Prikkels zijn altijd voor volwassenen." }
               - { label: Leeftijd,      name: leeftijd,   widget: select, options: [Volwassenen, "Jong volwassenen", Jongeren, Kinderen], required: false }
               - { label: Vorm,          name: vorm,       widget: select, options: [Cursus, Workshop], required: false, hint: "Alleen zichtbaar in de details, telt niet mee voor de kalenderkleur of filter." }

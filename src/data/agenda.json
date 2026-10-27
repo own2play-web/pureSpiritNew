@@ -21,7 +21,8 @@
       "vorm": "Cursus",
       "categorie": "Volwassenen",
       "tijdstip": "19:30 – 20:30",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "meditatie-voor-iedereen"
     },
     {
       "activiteit": "Meditatie",
@@ -44,7 +45,8 @@
       "vorm": "Cursus",
       "categorie": "Volwassenen",
       "tijdstip": "19:30 – 21:00",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "meditatie-extra"
     },
     {
       "activiteit": "HSP",
@@ -63,7 +65,8 @@
       "vorm": "Workshop",
       "categorie": "Volwassenen",
       "tijdstip": "19:30 – 21:30",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "workshop_pagina": "ben-ik-hsp"
     },
     {
       "activiteit": "Meditatie",
@@ -87,7 +90,8 @@
       "categorie": "Jongeren",
       "tijdstip": "19:30 – 20:30",
       "doelgroep": "12 – 19 jaar",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "meditatie-voor-jongeren"
     },
     {
       "activiteit": "Meditatie",
@@ -111,7 +115,8 @@
       "categorie": "Jongeren",
       "tijdstip": "19:30 – 21:00",
       "doelgroep": "20 – 27 jaar",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "meditatie-voor-jong-volwassenen"
     },
     {
       "activiteit": "Meditatie",
@@ -127,7 +132,8 @@
       "vorm": "Cursus",
       "categorie": "Volwassenen",
       "tijdstip": "19:30 – 21:00",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "eenvoudig-leren-mediteren"
     },
     {
       "activiteit": "Prikkels",
@@ -143,7 +149,8 @@
       "vorm": "Workshop",
       "categorie": "Volwassenen",
       "tijdstip": "19:30 – 22:00",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "workshop_pagina": "beter-omgaan-met-prikkels"
     },
     {
       "activiteit": "Meditatie",
@@ -160,7 +167,8 @@
       "categorie": "Kinderen",
       "tijdstip": "Nader te bepalen",
       "doelgroep": "Vanaf 7 jaar",
-      "max_plaatsen": 6
+      "max_plaatsen": 6,
+      "meditatie_pagina": "meditatie-voor-kinderen"
     },
     {
       "activiteit": "Meditatie",

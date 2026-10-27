@@ -1,17 +1,17 @@
 ---
-// Toont de eerstvolgende geplande datum voor een cursus/workshop, gekoppeld
-// op titel aan src/data/agenda.json. Onderaan een workshop/meditatie-pagina,
-// zodat de datum altijd overeenkomt met de agenda (één bron van waarheid,
-// geen los ingetypte datum die kan verouderen).
+// Toont de eerstvolgende start van een nog niet gestarte groep voor deze
+// meditatie-/workshoppagina. De koppeling loopt via meditatie_pagina /
+// workshop_pagina op de agenda-items (src/data/agenda.json): één bron van
+// waarheid, geen koppeling op naam en geen los ingetypte datum.
 import agendaData from '../data/agenda.json';
 
 interface Props {
-  titel: string;
-  /** Alleen nodig als de paginatitel afwijkt van de cursusnaam in de agenda. */
-  agendaTitel?: string;
+  /** Slug van deze pagina, zoals gekozen in de agenda. */
+  slug: string;
+  soort: 'meditatie' | 'workshop';
 }
 
-const { titel, agendaTitel } = Astro.props;
+const { slug, soort } = Astro.props;
 
 function slugify(s: string) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -23,11 +23,15 @@ const maandNamen = ['januari','februari','maart','april','mei','juni',
 const vandaag = new Date();
 vandaag.setHours(0, 0, 0, 0);
 
-const cursus = agendaData.cursussen.find(c => c.titel === (agendaTitel || titel));
 // Alleen de startdatum van een nog niet gestarte groep telt: voor wie wil
 // instappen is een vervolgles of een lopende cursus geen "volgende keer".
-const startDatum = cursus?.data[0];
-const volgende = startDatum && new Date(startDatum) >= vandaag ? startDatum : undefined;
+// Meerdere groepen van dezelfde pagina: de eerstvolgende start wint.
+const veld = soort === 'meditatie' ? 'meditatie_pagina' : 'workshop_pagina';
+const groepen = (agendaData.cursussen as any[])
+  .filter(c => c[veld] === slug && c.data[0] && new Date(c.data[0]) >= vandaag)
+  .sort((a, b) => new Date(a.data[0]).getTime() - new Date(b.data[0]).getTime());
+const cursus = groepen[0];
+const volgende: string | undefined = cursus?.data[0];
 
 function formatDatum(datumStr: string) {
   const d = new Date(datumStr);

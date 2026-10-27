@@ -20,12 +20,12 @@ function renderTekst(tekst: string): string[] {
 // (bv. "(6 lessen)"), dat maakte de tabel te vol. In plaats daarvan staat
 // het één keer bij de groepstitel ("volledige cursus").
 //
-// Titel: agenda_titel (indien ingevuld) i.p.v. de volledige paginatitel —
-// zelfde veld als VolgendeDatum/agenda gebruiken, hier puur om een lange
-// titel (bv. "Ben ik HSP? En hoe ga ik daar dan mee om...") kort te houden.
-function prijsRij(items: { data: { titel: string; agenda_titel?: string; sidebar_items?: { label: string; waarde: string }[] } }[]) {
+// Titel: korte_titel (indien ingevuld) i.p.v. de volledige paginatitel, om
+// een lange titel (bv. "Ben ik HSP? En hoe ga ik daar dan mee om...") kort
+// te houden.
+function prijsRij(items: { data: { titel: string; korte_titel?: string; sidebar_items?: { label: string; waarde: string }[] } }[]) {
   return items.map(item => ({
-    label:  item.data.agenda_titel || item.data.titel,
+    label:  item.data.korte_titel || item.data.titel,
     waarde: item.data.sidebar_items?.find(f => f.label === 'Prijs')?.waarde ?? 'Op aanvraag',
   }));
 }

@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { cursus } = Astro.props;
 const { Content } = await cursus.render();
-const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = cursus.data;
+const { titel, samenvatting, meta_description, sidebar_items } = cursus.data;
 ---
 
 <BaseLayout title={titel} description={meta_description || samenvatting}>
@@ -67,7 +67,7 @@ const { titel, agenda_titel, samenvatting, meta_description, sidebar_items } = c
 
   <section class="section section--alt no-reveal">
     <div class="container container--narrow">
-      <VolgendeDatum titel={titel} agendaTitel={agenda_titel} />
+      <VolgendeDatum slug={cursus.slug} soort="meditatie" />
     </div>
   </section>
 </BaseLayout>

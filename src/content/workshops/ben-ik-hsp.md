@@ -1,6 +1,6 @@
 ---
 titel: "Ben ik HSP? En hoe ga ik daar dan mee om..."
-agenda_titel: "Ben ik HSP?"
+korte_titel: "Ben ik HSP?"
 volgorde: 1
 samenvatting: "Vraag je je wel eens af of jij hooggevoelig bent? Deze workshop leert je wat hooggevoeligheid is en hoe je er positief mee om kunt gaan."
 meta_description: "Workshop 'Ben ik HSP?' bij Pure Spirit Oss — ontdek wat hooggevoeligheid is en hoe je er positief mee om kunt gaan."

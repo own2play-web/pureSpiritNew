@@ -40,10 +40,8 @@ const diensten = defineCollection({
 
 const activiteitVeld = {
   titel:            z.string(),
-  // Alleen invullen als de paginatitel afwijkt van de cursusnaam in de
-  // Agenda (bv. een uitgebreidere titel) — anders vindt de "eerstvolgende
-  // datum"-widget geen match en valt hij terug op "nog geen datum gepland".
-  agenda_titel:     z.string().optional(),
+  // Kortere naam voor de tarieventabel als de paginatitel te lang is.
+  korte_titel:      z.string().optional(),
   volgorde:         z.number().default(99),
   samenvatting:     z.string(),
   meta_description: z.string().optional(),
