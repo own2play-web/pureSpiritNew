@@ -6,25 +6,49 @@ import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 import site from '../data/site.json';
 
+// Pre-release: staat sitebreed op noindex. Zet op false bij de publieke
+// lancering (en pas public/robots.txt aan, zie de go-live checklist).
+const PRE_RELEASE = true;
+
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  /** Altijd uit de index houden, ook na de lancering (bv. bedankpagina's). */
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+  /** Extra schema.org-blokken voor deze pagina (Article, FAQPage, ...). */
+  jsonLdExtra?: object[];
 }
 
 const {
   title,
   description = 'Pure Spirit – Bachbloesemtherapie, Meditatie, Coaching, Begeleiding HSP en Persoonlijke Ontwikkeling in Oss.',
   image = '/uploads/pure-spirit-logo-95px-hoog.png',
+  noindex = false,
+  ogType = 'website',
+  jsonLdExtra = [],
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Google kapt omschrijvingen af rond 155-160 tekens; liever zelf netjes op een
+// woordgrens afkappen dan midden in een zin.
+function kapAf(tekst: string, max = 155) {
+  if (tekst.length <= max) return tekst;
+  const stuk = tekst.slice(0, max - 1);
+  return `${stuk.slice(0, stuk.lastIndexOf(' ') > 0 ? stuk.lastIndexOf(' ') : max - 1)}…`;
+}
+const metaDescription = kapAf(description);
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: site.naam,
-  url: 'https://www.purespirit-oss.nl',
+  url: new URL('/', Astro.site).href,
+  logo: new URL('/uploads/pure-spirit-logo-95px-hoog.png', Astro.site).href,
+  image: new URL(image, Astro.site).href,
+  sameAs: [site.facebook, site.instagram].filter(Boolean),
   telephone: site.telefoon,
   email: site.email,
   address: {
@@ -63,10 +87,9 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Pure Spirit Oss</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
 
-    <!-- Pre-release: niet indexeren -->
-    <meta name="robots" content="noindex, nofollow" />
+    {(PRE_RELEASE || noindex) && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="canonical" href={canonicalURL} />
 
@@ -81,17 +104,23 @@ const jsonLd = {
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" /></noscript>
 
     <!-- Open Graph -->
-    <meta property="og:type"        content="website" />
+    <meta property="og:type"        content={ogType} />
+    <meta property="og:locale"      content="nl_NL" />
+    <meta property="og:site_name"   content="Pure Spirit Oss" />
     <meta property="og:url"         content={canonicalURL} />
     <meta property="og:title"       content={`${title} | Pure Spirit Oss`} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:image"       content={new URL(image, Astro.site)} />
+    <meta name="twitter:card"       content="summary" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/uploads/pure-spirit-logo-95px-hoog.png" />
 
     <!-- LocalBusiness structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {jsonLdExtra.map(blok => (
+      <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...blok })} />
+    ))}
 
     <!-- Netlify Identity (verplicht voor CMS redirect) -->
     <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>

@@ -20,9 +20,20 @@ const formatted = new Date(post.data.datum).toLocaleDateString('nl-NL', {
   month: 'long',
   year: 'numeric',
 });
+
+const excerpt = nieuwsExcerpt(post.data.samenvatting, post.body);
+const artikelSchema = {
+  '@type': 'Article',
+  headline: post.data.titel,
+  description: excerpt,
+  datePublished: new Date(post.data.datum).toISOString(),
+  author: { '@type': 'Person', name: post.data.auteur || 'Sasja van Geel' },
+  publisher: { '@type': 'Organization', name: 'Pure Spirit Oss' },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
 ---
 
-<BaseLayout title={post.data.titel} description={nieuwsExcerpt(post.data.samenvatting, post.body)}>
+<BaseLayout title={post.data.titel} description={excerpt} ogType="article" jsonLdExtra={[artikelSchema]}>
   <article class="news-article">
     <header class="news-article__header">
       <div class="container page-hero__inner">

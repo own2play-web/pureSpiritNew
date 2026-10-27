@@ -54,6 +54,15 @@ const faqItems = faqData.items.map(item => ({
   answer:   item.antwoord,
 }));
 
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(i => ({
+    '@type': 'Question',
+    name: i.question,
+    acceptedAnswer: { '@type': 'Answer', text: i.answer },
+  })),
+};
+
 // Ervaringen uit content collection — uitgelicht op homepage
 const allErvaringen = await getCollection('ervaringen');
 const testimonials = allErvaringen
@@ -67,7 +76,8 @@ const hspAlineas   = homepage.hsp_tekst.split('\n\n').filter(Boolean);
 ---
 
 <BaseLayout
-  title="Welkom"
+  title="Bachbloesemtherapie, meditatie en HSP-begeleiding"
+  jsonLdExtra={[faqSchema]}
   description="Pure Spirit in Oss biedt Bachbloesemtherapie, Meditatie, Coaching, Begeleiding HSP en Persoonlijke Ontwikkeling. Praktisch, niet-zweverig en op maat."
 >
   <!-- Hero -->

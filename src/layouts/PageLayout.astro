@@ -5,6 +5,8 @@ import HeroVisual from '../components/HeroVisual.astro';
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
+  jsonLdExtra?: object[];
   hero?: boolean;
   heroTitle?: string;
   heroSubtitle?: string;
@@ -16,10 +18,10 @@ interface Props {
   heroIcon?: 'lotus' | 'lotusbloem' | 'lotusbloei' | 'spastenen' | 'groep' | 'bloesem' | 'pad' | 'beek' | 'profiel' | 'hart' | 'kalender' | 'citaat' | 'kompas' | 'muntstuk';
 }
 
-const { title, description, hero = true, heroTitle, heroSubtitle, heroIcon = 'lotus' } = Astro.props;
+const { title, description, noindex, jsonLdExtra, hero = true, heroTitle, heroSubtitle, heroIcon = 'lotus' } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={noindex} jsonLdExtra={jsonLdExtra}>
   {hero && (
     <section class="page-hero">
       <div class="container page-hero__inner">

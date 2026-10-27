@@ -3,7 +3,9 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({
+    filter: page => !page.includes('/admin/') && !page.includes('/contact/bedankt/'),
+  })],
   site: 'https://www.purespirit-oss.nl',
   // Oude losstaande dienst-paginas dupliceerden content die ook (CMS-
   // bewerkbaar) in de content collections staat, op een aparte URL. Niets

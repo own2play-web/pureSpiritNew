@@ -7,6 +7,15 @@ const faqItems = faqData.items.map(item => ({
   question: item.vraag,
   answer:   item.antwoord,
 }));
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(i => ({
+    '@type': 'Question',
+    name: i.question,
+    acceptedAnswer: { '@type': 'Answer', text: i.answer },
+  })),
+};
 ---
 
 <PageLayout
@@ -14,6 +23,7 @@ const faqItems = faqData.items.map(item => ({
   heroTitle="Veelgestelde vragen"
   heroSubtitle="Antwoorden op de meest gestelde vragen over Pure Spirit."
   description="Veelgestelde vragen over Pure Spirit Oss: vergoedingen, groepsgrootte, begeleiding voor kinderen en meer."
+  jsonLdExtra={[faqSchema]}
 >
   <section class="section">
     <div class="container container--narrow">
