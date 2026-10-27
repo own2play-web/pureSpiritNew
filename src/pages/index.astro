@@ -8,12 +8,14 @@ import FAQ from '../components/FAQ.astro';
 import CtaBottom from '../components/CtaBottom.astro';
 import { getCollection } from 'astro:content';
 import { nieuwsExcerpt } from '../lib/nieuwsExcerpt';
+import { archiefSlugs } from '../lib/nieuwsArchief';
 import homepage from '../data/homepage.json';
 import faqData from '../data/faq.json';
 import site from '../data/site.json';
 
 // Nieuws
 const allNieuws = await getCollection('nieuws');
+const archiefBerichten = archiefSlugs(allNieuws.map(b => ({ slug: b.slug, titel: b.data.titel, datum: b.data.datum })));
 const latestNieuws = allNieuws
   .sort((a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime())
   .slice(0, 3);
@@ -208,6 +210,7 @@ const hspAlineas   = homepage.hsp_tekst.split('\n\n').filter(Boolean);
               excerpt={nieuwsExcerpt(post.data.samenvatting, post.body)}
               href={`/nieuws/${post.slug}/`}
               category={post.data.categorie}
+              archief={archiefBerichten.has(post.slug)}
             />
           ))}
         </div>

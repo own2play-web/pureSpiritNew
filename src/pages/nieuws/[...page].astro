@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import { getCollection } from 'astro:content';
 import { nieuwsExcerpt } from '../../lib/nieuwsExcerpt';
+import { archiefSlugs } from '../../lib/nieuwsArchief';
 
 export async function getStaticPaths({ paginate }) {
   const allNieuws = await getCollection('nieuws');
@@ -13,6 +14,9 @@ export async function getStaticPaths({ paginate }) {
 }
 
 const { page } = Astro.props;
+
+const alleBerichten = await getCollection('nieuws');
+const archiefBerichten = archiefSlugs(alleBerichten.map(b => ({ slug: b.slug, titel: b.data.titel, datum: b.data.datum })));
 
 // Bepaal welke paginanummers getoond worden (met ellipsis)
 type PageItem = { type: 'page'; num: number } | { type: 'ellipsis'; key: string };
@@ -45,6 +49,7 @@ for (let i = 1; i <= page.lastPage; i++) {
             excerpt={nieuwsExcerpt(post.data.samenvatting, post.body)}
             href={`/nieuws/${post.slug}/`}
             category={post.data.categorie}
+            archief={archiefBerichten.has(post.slug)}
           />
         ))}
       </div>

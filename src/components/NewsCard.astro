@@ -1,13 +1,16 @@
 ---
+import ArchiefBadge from './ArchiefBadge.astro';
+
 interface Props {
   title: string;
   date: string;
   excerpt: string;
   href: string;
   category?: string;
+  archief?: boolean;
 }
 
-const { title, date, excerpt, href, category } = Astro.props;
+const { title, date, excerpt, href, category, archief = false } = Astro.props;
 
 const formatted = new Date(date).toLocaleDateString('nl-NL', {
   day: 'numeric',
@@ -20,6 +23,7 @@ const formatted = new Date(date).toLocaleDateString('nl-NL', {
   <div class="news-card__meta">
     {category && <span class="news-card__cat">{category}</span>}
     <time datetime={date} class="news-card__date">{formatted}</time>
+    {archief && <ArchiefBadge />}
   </div>
   <h3 class="news-card__title">
     <a href={href}>{title}</a>

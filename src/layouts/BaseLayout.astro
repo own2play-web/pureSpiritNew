@@ -102,7 +102,9 @@ const jsonLd = {
     <title>{title} | Pure Spirit Oss</title>
     <meta name="description" content={metaDescription} />
 
-    {(PRE_RELEASE || noindex) && <meta name="robots" content="noindex, nofollow" />}
+    {PRE_RELEASE
+      ? <meta name="robots" content="noindex, nofollow" />
+      : noindex && <meta name="robots" content="noindex, follow" />}
 
     <link rel="canonical" href={canonicalURL} />
 

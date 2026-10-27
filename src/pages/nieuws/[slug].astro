@@ -2,7 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HeroVisual from '../../components/HeroVisual.astro';
 import { getCollection } from 'astro:content';
+import ArchiefBadge from '../../components/ArchiefBadge.astro';
 import { nieuwsExcerpt } from '../../lib/nieuwsExcerpt';
+import { archiefSlugs } from '../../lib/nieuwsArchief';
 
 export async function getStaticPaths() {
   const posts = await getCollection('nieuws');
@@ -14,6 +16,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const alleBerichten = await getCollection('nieuws');
+const isArchief = archiefSlugs(alleBerichten.map(b => ({ slug: b.slug, titel: b.data.titel, datum: b.data.datum }))).has(post.slug);
 
 const formatted = new Date(post.data.datum).toLocaleDateString('nl-NL', {
   day: 'numeric',
@@ -33,7 +37,7 @@ const artikelSchema = {
 };
 ---
 
-<BaseLayout title={post.data.titel} description={excerpt} ogType="article" jsonLdExtra={[artikelSchema]}>
+<BaseLayout title={post.data.titel} description={excerpt} ogType="article" noindex={isArchief} jsonLdExtra={[artikelSchema]}>
   <article class="news-article">
     <header class="news-article__header">
       <div class="container page-hero__inner">
@@ -41,6 +45,7 @@ const artikelSchema = {
           <div class="news-article__meta">
             {post.data.categorie && <span class="cat">{post.data.categorie}</span>}
             <time datetime={post.data.datum}>{formatted}</time>
+            {isArchief && <ArchiefBadge />}
           </div>
           <h1>{post.data.titel}</h1>
         </div>

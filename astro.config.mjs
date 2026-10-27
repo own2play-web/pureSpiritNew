@@ -1,10 +1,28 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import { readdirSync, readFileSync } from 'node:fs';
+import { archiefSlugs } from './src/lib/nieuwsArchief.ts';
+
+// Archief-nieuwsberichten (zie src/lib/nieuwsArchief.ts) horen niet in de
+// sitemap, ze staan op noindex. De config kan geen content collection laden,
+// dus titel en datum worden direct uit de bestanden gelezen.
+const nieuwMap = new URL('./src/content/nieuws/', import.meta.url);
+const berichten = readdirSync(nieuwMap)
+  .filter(f => f.endsWith('.md'))
+  .map(f => {
+    const kop = readFileSync(new URL(f, nieuwMap), 'utf8').replace(/\r\n/g, '\n').split('\n---')[0];
+    const veld = naam => (kop.match(new RegExp(`^${naam}:\\s*"?([^"\\n]*)"?\\s*$`, 'm')) || [])[1] ?? '';
+    return { slug: f.replace(/\.md$/, ''), titel: veld('titel'), datum: veld('datum') };
+  });
+const archief = archiefSlugs(berichten);
 
 export default defineConfig({
   integrations: [mdx(), sitemap({
-    filter: page => !page.includes('/admin/') && !page.includes('/contact/bedankt/'),
+    filter: page =>
+      !page.includes('/admin/') &&
+      !page.includes('/contact/bedankt/') &&
+      ![...archief].some(slug => page.endsWith(`/nieuws/${slug}/`)),
   })],
   site: 'https://www.purespirit-oss.nl',
   // Oude losstaande dienst-paginas dupliceerden content die ook (CMS-
