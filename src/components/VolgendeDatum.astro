@@ -24,7 +24,10 @@ const vandaag = new Date();
 vandaag.setHours(0, 0, 0, 0);
 
 const cursus = agendaData.cursussen.find(c => c.titel === (agendaTitel || titel));
-const volgende = cursus?.data.find(d => new Date(d) >= vandaag);
+// Alleen de startdatum van een nog niet gestarte groep telt: voor wie wil
+// instappen is een vervolgles of een lopende cursus geen "volgende keer".
+const startDatum = cursus?.data[0];
+const volgende = startDatum && new Date(startDatum) >= vandaag ? startDatum : undefined;
 
 function formatDatum(datumStr: string) {
   const d = new Date(datumStr);
@@ -37,13 +40,13 @@ const cursusId = cursus ? `cursus-${slugify(cursus.titel)}` : '';
 <div class="volgende-datum">
   {volgende ? (
     <>
-      <p class="volgende-datum__label">Eerstvolgende keer</p>
+      <p class="volgende-datum__label">Eerstvolgende start</p>
       <p class="volgende-datum__datum">{formatDatum(volgende)}{cursus?.tijdstip && cursus.tijdstip !== 'Nader te bepalen' ? ` · ${cursus.tijdstip}` : ''}</p>
       <a href={`/agenda/#${cursusId}`} class="btn btn--outline">Bekijk in de agenda</a>
     </>
   ) : (
     <>
-      <p class="volgende-datum__label">Nog geen datum gepland</p>
+      <p class="volgende-datum__label">Nog geen nieuwe groep gepland</p>
       <p class="volgende-datum__toelichting">Neem contact op voor de mogelijkheden of om je interesse aan te geven.</p>
       <a href="/contact/" class="btn btn--outline">Neem contact op</a>
     </>
